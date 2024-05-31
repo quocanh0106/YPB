@@ -1,0 +1,80 @@
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width,initial-scale=1" name="viewport">
+    <meta content="" name="theme-color">
+    <link rel="canonical" href="{{ canonical_url }}">
+    <link crossorigin href="https://cdn.shopify.com" rel="preconnect">
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: '32', height: '32' }}">
+    {%- endif -%}
+
+    <title>
+      {{ page_title }}
+      {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+      {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+    </title>
+
+    {% if page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {% endif %}
+
+    {% style %}
+      :root {
+        {% if settings.type_font == 'shopify' %}
+          --font-heading: {{ settings.type_heading_font.family }};
+          --font-body: {{ settings.type_body_font.family }};  
+        {% else %}
+          --font-heading: "Grandstander", cursive;
+          --font-body: "Grandstander";  
+        {% endif %}
+        --page-width: {{ settings.page_width | plus: 100 | append: 'px' }};
+        --page-width-secondary: {{ settings.page_width_secondary | plus: 100 | append: 'px' }};
+        --color-primary: {{ settings.color_primary }};
+        --color-secondary: {{ settings.color_secondary }};
+        --color-body: {{ settings.color_body_text }};
+        --color-subtext: {{ settings.color_subtext }};
+        --color-border: {{ settings.color_border }};
+        --color-background: {{ settings.color_background }};
+        --color-error: {{ settings.color_error }};
+        --color-warning: {{ settings.color_warning }};
+        --color-success: {{ settings.color_success }};
+        --color-sale: {{ settings.sale_label_bg }};
+        --color-hot: {{ settings.hot_label_bg }};
+        --color-sold-out: {{ settings.sold_out_badge_color }};
+        --color-new: {{ settings.new_label_bg }};
+      }
+    {% endstyle %}
+    <link rel="preload" href="{{ 'theme.css' | asset_url }}" as="style"/>
+    <link rel="stylesheet" href="{{ 'theme.css' | asset_url }}" />
+
+    {%- capture header_scripts -%}
+      {{ content_for_header }}
+    {%- endcapture -%}
+
+    {%- render 'header-scripts', content: header_scripts, unload_apps: false, remove_apps: remove_apps -%}
+
+  </head>
+
+  <body id="{{ page_title | handle }}" class="template-{{ template.name | handle }}">
+    <a class="sr-only" href="#MainContent" id="top">{{ "accessibility.skip_to_text" | t }}</a>
+
+    {% section 'announcement-bar' %}
+
+    {% section 'header' %}
+
+    <div class="!block padding-header transition-all duration-200"></div>
+
+    <main id="MainContent">
+      {{ content_for_layout }}
+    </main>
+
+    {% section 'footer' %}
+
+    <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
+  </body>
+</html>

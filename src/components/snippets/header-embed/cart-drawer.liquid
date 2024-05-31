@@ -1,0 +1,17 @@
+{% if template != 'cart' %}
+  <cart-drawer class="cart-drawer before:fixed before:w-full before:h-full before:bg-black before:bg-opacity-20 before:top-0 before:left-0 before:z-20 before:transition-all before:invisible before:opacity-0" id="cart-drawer">
+    <div class="cart-drawer-wrapper transition-all shadow-popup max-w-[343px] w-full h-full md:max-w-[507px] overflow-auto bg-background fixed top-0 right-0 z-30 invisible opacity-0 -translate-x-10">
+      <div class="cart-drawer-header flex justify-between mb-4 lg:mb-6 pt-8 px-4 lg:pt-8 lg:px-8">
+        <span class="block text-h3 font-extrabold font-heading text-primary">
+          Your Cart
+        </span>
+        <button class="close w-8 h-8 flex rounded-full items-center justify-center bg-primary hover:bg-primary text-background transition-all">
+          {% render 'icon-close', class: 'w-4.5 h-4.5' %}
+        </button>
+      </div>
+      <div class="cart-drawer-body flex flex-col h-full max-h-[calc(100%_-_82px)] lg:max-h-[calc(100%_-_88px)]">
+
+      </div>
+    </div>
+  </cart-drawer>
+{% endif %}
