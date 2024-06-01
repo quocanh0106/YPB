@@ -1,0 +1,159 @@
+{%- style -%}
+  [data-section-id="{{ section.id }}"] {
+    background: {{ section.settings.background_color }};
+    padding-top: {{ section.settings.padding_top_mb }}px;
+    padding-bottom: {{ section.settings.padding_bottom_mb }}px;
+  }
+  @media(min-width: 1025px) {
+    [data-section-id="{{ section.id }}"] {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- if template contains 'collection' -%}
+  {%- if collection.description != blank and current_page == 1 -%}
+    <div data-section-id="{{ section.id }}" class="bg-background">
+      <div class="page-width">
+        <div class="drop-caps relative max-h-[360px] lg:max-h-[640px] bg-background px-8 lg:px-16 overflow-y-scroll transition-all duration-500 scroll-brighter rounded-l-2xl rounded-r-md
+        before:content-empty before:top-0 before:left-0 before:sticky before:block before:pt-8 before:lg:pt-16 before:bg-background
+        after:content-empty after:bottom-[-1px] after:left-0 after:sticky after:block after:pt-8 after:lg:pt-16 after:bg-background">
+          <div>
+            {{ collection.description }}
+          </div>
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+{%- else -%}
+  <div data-section-id="{{ section.id }}" class="bg-background">
+    <div class="page-width">
+      <div class="drop-caps relative max-h-[360px] lg:max-h-[640px] bg-background px-8 lg:px-16 overflow-y-auto transition-all duration-500 scroll-brighter rounded-l-2xl rounded-r-md
+      before:content-empty before:top-0 before:left-0 before:sticky before:block before:pt-8 before:lg:pt-16 before:bg-background
+      after:content-empty after:bottom-[-1px] after:left-0 after:sticky after:block after:pt-8 after:lg:pt-16 after:bg-background">
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when 'heading' -%}
+              <h2 data-block-id="{{ block.id }}">
+                {{ block.settings.heading }}
+              </h2>
+            {%- when 'text' -%}
+              <div>
+                {{ block.settings.text }}
+              </div>
+          {%- endcase -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+  {
+    "name": "t:sections.drop-caps.name",
+    "tag": "section",
+    "class": "section",
+    "settings": [
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "select",
+        "id": "content_alignment",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          }, {
+            "value": "center",
+            "label": "Center"
+          }, {
+            "value": "right",
+            "label": "Right"
+          }
+        ],
+        "default": "center",
+        "label": "Content alignment"
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 200,
+        "step": 2,
+        "unit": "px",
+        "label": "Padding top section desktop",
+        "default": 72
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 200,
+        "step": 4,
+        "unit": "px",
+        "label": "Padding bottom section desktop",
+        "default": 72
+      }, {
+        "type": "range",
+        "id": "padding_top_mb",
+        "min": 0,
+        "max": 200,
+        "step": 2,
+        "unit": "px",
+        "label": "Padding top section mobile",
+        "default": 24
+      }, {
+        "type": "range",
+        "id": "padding_bottom_mb",
+        "min": 0,
+        "max": 200,
+        "step": 2,
+        "unit": "px",
+        "label": "Padding bottom section mobile",
+        "default": 32
+      }
+    ],
+    "blocks": [
+      {
+        "type": "heading",
+        "name": "t:sections.drop-caps.blocks.heading.name",
+        "settings": [
+          {
+            "type": "richtext",
+            "id": "heading",
+            "default": "<p>Talk about your brand</p>",
+            "label": "t:sections.drop-caps.blocks.heading.settings.heading.label"
+          }
+        ]
+      }, {
+        "type": "text",
+        "name": "t:sections.drop-caps.blocks.text.name",
+        "settings": [
+          {
+            "type": "richtext",
+            "id": "text",
+            "default": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>",
+            "label": "t:sections.drop-caps.blocks.text.settings.text.label"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "t:sections.drop-caps.presets.name",
+        "blocks": [
+          {
+            "type": "heading"
+          }, {
+            "type": "text"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

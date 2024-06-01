@@ -1,10 +1,314 @@
 [
   {
-    "name": "theme_info",
-    "theme_name": "Tinytheme",
-    "theme_version": "1.0.0",
+    "name": "Youth Privilege Blank",
+    "theme_name": "YPB",
+    "theme_version": "2.0.0",
     "theme_author": "Anden",
-    "theme_documentation_url": "https:\/\/facebook\/quocanh1699\/",
-    "theme_support_url": "https:\/\/facebook\/quocanh1699\/"
+    "theme_documentation_url": "https:\/\/facebook\/quocanh16999\/",
+    "theme_support_url": "https:\/\/facebook\/quocanh16999\/"
+  },
+  {
+    "name": "Favicon",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon image",
+        "info": "Will be scaled down to 32 x 32px"
+      }
+    ]
+  },
+  {
+    "name": "General settings",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Logo"
+      },
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo image"
+      },
+      {
+        "type": "range",
+        "id": "logo_width",
+        "min": 50,
+        "max": 150,
+        "step": 1,
+        "default": 134,
+        "unit": "px",
+        "label": "Custom logo width"
+      },
+      {
+        "type": "image_picker",
+        "id": "logo_mb",
+        "label": "Logo image"
+      },
+      {
+        "type": "range",
+        "id": "logo_width_mb",
+        "min": 50,
+        "max": 150,
+        "step": 1,
+        "default": 77,
+        "unit": "px",
+        "label": "Custom logo width"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "select",
+        "id": "type_font",
+        "default": "default",
+        "label": "Type font",
+        "options": [
+          {
+            "value": "default",
+            "label": "Font default"
+          },
+          {
+            "value": "shopify",
+            "label": "Shopify Fonts"
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "Heading font"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_heading_font_light",
+        "default": "neue_plak_n3",
+        "label": "Font heading light"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_heading_font",
+        "default": "neue_plak_n4",
+        "label": "Font heading normal"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_heading_font_medium",
+        "default": "neue_plak_n4",
+        "label": "Font heading medium"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_heading_font_semibold",
+        "default": "neue_plak_n6",
+        "label": "Font heading semibold"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_heading_font_bold",
+        "default": "neue_plak_n7",
+        "label": "Font heading bold"
+      },
+      {
+        "type": "header",
+        "content": "Body font"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_body_font_light",
+        "default": "neue_plak_n3",
+        "label": "Font body light"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_body_font",
+        "default": "neue_plak_n4",
+        "label": "Font body normal"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_body_font_medium",
+        "default": "neue_plak_n4",
+        "label": "Font body medium"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_body_font_semibold",
+        "default": "neue_plak_n6",
+        "label": "Font body semibold"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_body_font_bold",
+        "default": "neue_plak_n7",
+        "label": "Font body bold"
+      }
+    ]
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_primary",
+        "label": "Color primary",
+        "default": "#182238"
+      },
+      {
+        "type": "color",
+        "id": "color_secondary",
+        "label": "Color secondary",
+        "default": "#FFD100"
+      },
+      {
+        "type": "color",
+        "id": "color_body_text",
+        "label": "Color body text",
+        "default": "#515D70"
+      },
+      {
+        "type": "color",
+        "id": "color_subtext",
+        "label": "Color sub text",
+        "default": "#8D97A8"
+      },
+      {
+        "type": "color",
+        "id": "color_border",
+        "label": "Color border",
+        "default": "#E6EAF0"
+      },
+      {
+        "type": "color",
+        "id": "color_background",
+        "label": "Color background",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "header",
+        "content": "Message notifycation"
+      },
+      {
+        "type": "color",
+        "id": "color_error",
+        "label": "Error",
+        "default": "#FF5454"
+      },
+      {
+        "type": "color",
+        "id": "color_warning",
+        "label": "Warning",
+        "default": "#FFD100"
+      },
+      {
+        "type": "color",
+        "id": "color_success",
+        "label": "Success",
+        "default": "#007484"
+      },
+      {
+        "type": "header",
+        "content": "Card badge"
+      },
+      {
+        "type": "color",
+        "id": "sale_label_bg",
+        "label": "Sale label background color",
+        "default": "#FF5454"
+      },
+      {
+        "type": "color",
+        "id": "sold_out_badge_color",
+        "label": "Sold out background color",
+        "default": "rgba(228, 231, 237, 0.24)"
+      },
+      {
+        "type": "color",
+        "id": "hot_label_bg",
+        "label": "Best seller label background color",
+        "default": "#FF5454",
+        "info": "Show if product tags contain 'Best seller'"
+      },
+      {
+        "type": "color",
+        "id": "new_label_bg",
+        "label": "New label background color",
+        "default": "#1E6CF6"
+      }
+    ]
+  },
+  {
+    "name": "Layout",
+    "settings": [
+      {
+        "type": "range",
+        "id": "page_width",
+        "min": 920,
+        "max": 1920,
+        "step": 10,
+        "default": 1320,
+        "unit": "px",
+        "label": "Page width"
+      },
+      {
+        "type": "range",
+        "id": "page_width_secondary",
+        "min": 876,
+        "max": 1024,
+        "step": 4,
+        "default": 876,
+        "unit": "px",
+        "label": "Page width secondary"
+      }
+    ]
+  },
+  {
+    "name": "Shipping",
+    "settings": [
+      {
+        "type": "number",
+        "id": "deliveryTime",
+        "label": "Delivery days",
+        "default": 7
+      }
+    ]
+  },
+  {
+    "name": "Social media",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Social accounts"
+      },
+      {
+        "type": "text",
+        "id": "social_facebook_link",
+        "label": "Facebook",
+        "info": "https://facebook.com/auros",
+        "default": "https://facebook.com/auros"
+      },
+      {
+        "type": "text",
+        "id": "social_instagram_link",
+        "label": "Instagram",
+        "info": "http://instagram.com/auros",
+        "default": "https://instagram.com/auros"
+      },
+      {
+        "type": "text",
+        "id": "social_tiktok_link",
+        "label": "TikTok",
+        "info": "https://tiktok.com/@auros",
+        "default": "https://tiktok.com/@auros"
+      },
+      {
+        "type": "text",
+        "id": "social_youtube_link",
+        "label": "YouTube",
+        "info": "https://www.youtube.com/auros",
+        "default": "https://www.youtube.com/auros"
+      }
+    ]
   }
 ]

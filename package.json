@@ -1,5 +1,5 @@
 {
-  "name": "Youth Privilege Blank",
+  "name": "YPB",
   "version": "1.0.0",
   "description": "Webpack with Shopify CLI, tailwindcss, preact, cypress testing and more",
   "main": "webpack.config.js",
@@ -7,7 +7,7 @@
     "build": "webpack",
     "webpack": "yarn install && webpack --watch --progress",
     "deploy": "cd dist && shopify theme push",
-    "deployIgnore": "cd dist && shopify theme push --ignore templates/*.json templates/metaobject/*.json templates/customers/*.json config/settings_data.json",
+    "deployIgnore": "cd dist && shopify theme push --ignore templates/*.json templates/metaobject/*.json templates/customers/*.json",
     "serve": "cd dist && shopify theme serve",
     "fetch": "cd src && cd components && shopify theme pull --only templates/*.json",
     "cy": "cypress open",

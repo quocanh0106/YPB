@@ -1,0 +1,296 @@
+{% if settings.country == 'US' %}
+  {% assign word = 'Personalized' %}
+  {% assign replaceWord = 'Custom' %}
+  {% assign word1 = 'personalized' %}
+  {% assign replaceWord1 = 'custom' %}
+{% elsif settings.country == 'UK' %}
+  {% assign word = 'Personalised' %}
+  {% assign replaceWord = 'Custom' %}
+  {% assign word1 = 'personalised' %}
+  {% assign replaceWord1 = 'custom' %}
+{% elsif settings.country == 'DE' %}
+  {% assign word = '' %}
+  {% assign replaceWord = '' %}
+  {% assign word1 = '' %}
+  {% assign replaceWord1 = '' %}
+{% elsif settings.country == 'FR' %}
+  {% assign word = '' %}
+  {% assign replaceWord = '' %}
+  {% assign word1 = '' %}
+  {% assign replaceWord1 = '' %}
+{% endif %}
+
+<menu-drawer class="block fixed lg:static z-20 w-full h-full top-0 left-0 invisible lg:visible lg:before:content-none lg:translate-x-0 lg:bg-none 
+                        before:content-empty before:bg-overlay before:top-0 before:left-0 before:absolute before:w-full before:h-full 
+                        before:transition-all before:duration-500 before:backdrop-blur-sm" id="menu-drawer">
+  <div class="megamenu duration-500 lg:duration-0 -translate-x-full lg:translate-x-0 flex flex-col lg:block w-3/4 lg:w-full h-full bg-background relative py-10 px-6 pr-4 lg:p-0 ">
+    <ul class="flex flex-col lg:flex-row items-start justify-start w-full h-full lg:h-fit lg:items-center transition-all lg:justify-center bg-background lg:bg-background relative pr-2 lg:pr-0">
+      <li class="lg:hidden block mb-10">
+        {%- if settings.logo_mb != blank -%}
+          {%- assign logo_mb_alt = settings.logo_mb.alt | default: shop.name | escape -%}
+          <img srcset="{%- if settings.logo_mb.width >= 100 -%}{{ settings.logo_mb | img_url: '100x' }} 100w,{%- endif -%}
+          {%- if settings.logo_mb.width >= 120 -%}{{ settings.logo_mb | img_url: '120x' }} 120w,{%- endif -%}
+          {%- if settings.logo_mb.width >= 140 -%}{{ settings.logo_mb | img_url: '140x' }} 140w,{%- endif -%}
+          {%- if settings.logo_mb.width >= 160 -%}{{ settings.logo_mb | img_url: '160x' }} 160w,{%- endif -%}
+          {%- if settings.logo_mb.width >= 180 -%}{{ settings.logo_mb | img_url: '180x' }} 180w,{%- endif -%}
+          {%- if settings.logo_mb.width >= 200 -%}{{ settings.logo_mb | img_url: '200x' }} 200w,{%- endif -%}
+          {{ settings.logo_mb | img_url: 'master' }} {{ settings.logo_mb_width }}w" 
+          src="{{ settings.logo_mb | image_url: width: 163 }}" 
+          sizes="163px" 
+          width="163" 
+          loading="lazy" 
+          class="block lg:hidden"
+          height="{{ 163 | divided_by: settings.logo_mb.aspect_ratio }}" 
+          alt="{{ logo_mb_alt }}">
+        {%- else -%}
+          <span class="h3">{{ shop.name }}</span>
+        {%- endif -%}
+
+        <span class="close-menu bg-background absolute top-1 -right-9 w-10 h-10 flex justify-center items-center rounded-full translate-x-full z-30 cursor-pointer">
+          {% render 'icon-close', class: "w-6 h-6" %}
+        </span>
+      </li>
+      {% for block in section.blocks %}
+        {% liquid
+            assign megamenu = '' 
+            assign link = linklists[block.settings.menu]
+            assign megamenu = megamenu | append: link_handle | append: " "
+            assign temp = 12 | divided_by: dropdownWidth
+            assign colMenuClass = 12 
+            if colMenuClass <= 0 
+              assign colMenuClass = 12 
+            endif 
+            assign blockid = block.id
+            if block.settings.title_img_mega_menu != blank
+              assign title_img_mega_menu = block.settings.title_img_mega_menu
+            endif
+            if block.settings.banner_image != blank
+              assign banner_image = block.settings.banner_image
+            else 
+              assign banner_image = false
+            endif
+        %}
+        <li class="flex h-fit lg:h-full group parent-menu-effect hover:!opacity-100 w-full lg:w-fit mb-4 lg:mb-0">
+          <div class="summary-head flex items-center justify-between w-full">
+            {% assign handleCollection0 = block.settings.url | split: '/' | last %}
+            {% if collections[handleCollection0] %}
+              {% assign titleCollection0 = collections[handleCollection0].title | replace: word, replaceWord | replace: word1, replaceWord1 %}
+            {% else %}
+              {% assign titleCollection0 = block.settings.title | split: '[' | first | replace: word, replaceWord | replace: word1, replaceWord1 %}
+            {% endif %}
+            <a
+              href="{% if block.settings.url != blank %}{{ block.settings.url }}{% else %}#{% endif %}"
+              class="{{ block.settings.title | split: '[' | first |  downcase | replace: ' ', '_' }} flex relative items-center text-base leading-4 lg:p-3 lg:px-4 text-primary hover:text-secondary font-normal capitalize no-underline font-body gap-1"
+              title="{{ titleCollection0 }}">
+              <span class="before:!hidden before:lg:!block before:!-bottom-3 before:!h-0.5 before:bg-secondary lg:leading-4 group-hover:before:w-full">
+                {{ block.settings.title | split: '[' | first }}
+              </span>
+              {% render 'special-icon', menu: block.settings.title %}
+              {% if link.links != blank %}
+                {% render 'icon-down', class: 'hidden lg:block ml-1.5 w-5 h-5' %}
+              {% endif %}
+            </a>
+            {% if link.links != blank %}
+              {% render 'icon-right', class: 'lg:hidden w-5 h-5' %}
+            {% endif %}
+          </div>
+          {% if link.links != blank %}
+            <div class="details-head lg:pt-8 lg:pb-12 -translate-x-full lg:translate-x-0 absolute top-0 left-0 lg:top-full z-20 text-left list-none block invisible opacity-0 text-sm w-full h-[calc(100vh_-_80px)] lg:h-fit bg-background group-hover:lg:visible group-hover:lg:opacity-100 transition-all transition-menu lg:shadow-megamenu">
+              <div class="page-width-desktop z-20 bg-background !px-0 lg:!px-12.5 flex flex-col lg:flex-row h-full lg:justify-between overflow-x-hidden lg:overflow-auto lg:h-max lg:max-h-menudt relative">
+                <div class="back lg:hidden flex items-center w-full text-primary hover:text-secondary transition-all mb-12.5 pr-2 lg:pr-0 z-0">
+                  <span class="inline-block pr-1.5">{% render 'icon-prev', class: "w-5 h-5" %}</span>
+                  <span class="text-base leading-4 font-normal capitalize">{{ 'sections.header.back' | t }}</span>
+                </div>
+                <div class="grid grid-cols-1 pr-2 gap-5 w-full h-fit overflow-auto static lg:overflow-unset lg:pb-0 lg:px-8 z-20 bg-background {% if banner_image %} lg:grid-cols-3 lg:max-w-3/4 lg:pr-2 {% else %} lg:grid-cols-4{% endif %}">
+                  
+                  <span-link href="{% if block.settings.url != blank %}{{ block.settings.url }}{% else %}#{% endif %}"
+                    class="{{ block.settings.title | replace: ' ', '_' }} lg:hidden flex relative items-center text-base leading-4 lg:p-3 lg:px-4 text-primary hover:text-secondary font-bold font-heading capitalize no-underline gap-1 mb-1 cursor-pointer transition-all"
+                    title="{{ titleCollection0 }}">
+                    <span class="before:!hidden before:lg:!block before:!-bottom-3 before:!h-0.5 before:bg-secondary lg:leading-4 group-hover:before:w-full">
+                      {{ block.settings.title | split: '[' | first }}
+                    </span>
+                    {% render 'special-icon', menu: block.settings.title %}
+                  </span-link>
+                  {% for child_link in link.links %}
+                    <div class="flex lg:block w-full menu-group hover:!opacity-100 transition-all">
+                      {% liquid
+                        assign child_list_handle = child_link.title | handle 
+                        assign hasChild = false 
+                        if linklists[child_list_handle] and linklists[child_list_handle].links.size > 0 
+                          assign hasChild = true 
+                        endif
+                      %}
+                      {% assign handleCollection1 = child_link.url | split: '/' | last %}
+                      {% if collections[handleCollection1] %}
+                        {% assign titleCollection1 = collections[handleCollection1].title | replace: word, replaceWord | replace: word1, replaceWord1 %}
+                      {% else %}
+                        {% assign titleCollection1 = child_link.title | split: '[' | first | replace: word, replaceWord | replace: word1, replaceWord1 %}
+                      {% endif %}
+                      <div class="summary-head w-full flex items-center justify-between gap-x-2.5 text-primary hover:text-secondary transition-all">
+                        <a href="{{ child_link.url }}" title="{{ titleCollection1 }}"
+                          class="{{ child_link.title | split: '[' | first | downcase | replace: ' ', '_' }} font-normal capitalize lg:font-medium lg:uppercase text-primary hover:text-secondary text-sm leading-4 font-body">
+                          {{ child_link.title | split: '[' | first }}
+                        </a>
+                        {% if hasChild %}
+                          {% render 'icon-right', class: 'w-5 h-5 lg:hidden' %}
+                        {% endif %}
+                      </div>
+                      {% if hasChild %}
+                        <ul class="details-head scrollbar-thin -translate-x-full lg:translate-x-0 absolute lg:mt-3 lg:static w-full h-[calc(100vh_-_80px)] lg:h-fit bg-background top-0 right-0 transition-all z-50 overflow-hidden">
+                          <li class="back lg:hidden flex items-center w-full mb-12.5">
+                            <span class="inline-block pr-1.5">{% render 'icon-prev', class: "w-5 h-5" %}</span>
+                            <span class="text-base leading-4 font-normal capitalize flex items-center gap-1">
+                              {{ block.settings.title | split: '[' | first }}
+                              {% if block.settings.title contains '[' %}
+                                {% if icon == 'pine' %}
+                                  {% render 'icon-pine', class: 'w-4 h-4' %}
+                                {% endif %}
+                              {% endif %}
+                            </span>
+                          </li>
+                          <li class="lg:hidden w-full pb-6">
+                            <span-link href="{% if block.settings.url != blank %}{{ block.settings.url }}{% else %}#{% endif %}" title="{{ titleCollection0 }}"
+                                       class="text-base font-bold text-primary font-heading hover:text-secondary capitalize">
+                              {{ child_link.title | split: '[' | first }}
+                            </span-link>
+                          </li>
+                          <li class="pr-2 lg:pr-0 h-[calc(100%_-_108px)] lg:h-fit overflow-auto lg:overflow-unset lg:pb-[1px]">
+                          {% for grandchild_link in child_link.links %}
+                            <div class="{% unless forloop.last %}mb-5 lg:mb-3{% endunless %}">
+                              {% if grandchild_link.links.size > 0 %}
+                              <accordion-toggle class="block menu-dropdown">
+                                <div class="summary w-full lg:w-fit flex items-center justify-between gap-2 lg:min-w-[165px]">
+                              {% endif %}
+                                {% assign handleCollection2 = grandchild_link.url | split: '/' | last %}
+                                {% if collections[handleCollection1] %}
+                                  {% assign titleCollection2 = collections[handleCollection2].title | replace: word, replaceWord | replace: word1, replaceWord1 %}
+                                {% else %}
+                                  {% assign titleCollection2 = grandchild_link.title | split: '[' | first | replace: word, replaceWord | replace: word1, replaceWord1 %}
+                                {% endif %}
+                                  {% if grandchild_link.url != '#' %}
+                                    <a
+                                      href="{{ grandchild_link.url }}"
+                                      class="{{ grandchild_link.title | split: '[' | first | downcase | replace: ' ', '_' }} block w-fit font-normal text-sm leading-4 font-body capitalize transition-all text-primary hover:text-secondary lg:text-primary hover:lg:text-secondary"
+                                      title="{{ titleCollection2 }}">
+                                      <span>
+                                        {{ grandchild_link.title | split: '[' | first }}
+                                        {%- if grandchild_link.title contains '[' -%}
+                                          <span class="label-menu bg-background" {% if grandchild_link.title contains '(' %}style="background: {{ grandchild_link.title | split: '(' | last | split: ')' | first }}"{% endif %}>{{ grandchild_link.title | split: '[' | last | split: ']' | first }}</span>
+                                        {%- endif -%}
+                                      </span>
+                                    </a>
+                                  {% else %}
+                                    <span class="block w-fit font-normal text-sm leading-4 font-body capitalize transition-all text-primary hover:text-secondary lg:text-primary hover:lg:text-secondary">
+                                      {{ grandchild_link.title | split: '[' | first }}
+                                      {%- if grandchild_link.title contains '[' -%}
+                                        <span class="label-menu bg-background" {% if grandchild_link.title contains '(' %}style="background: {{ grandchild_link.title | split: '(' | last | split: ')' | first }}"{% endif %}>{{ grandchild_link.title | split: '[' | last | split: ']' | first }}</span>
+                                      {%- endif -%}
+                                    </span>
+                                  {% endif %}
+                                {% if grandchild_link.links.size > 0 %}
+                                  {% render 'icon-up', class: 'w-4 h-4 icon-minus' %}
+                                  {% render 'icon-down', class: 'w-4 h-4 icon-add' %}
+                                </div>
+                                {% endif %}
+                                {% if grandchild_link.links.size > 0 %}
+                                  <ul class="details grid gap-y-2 pl-3 border-l-2 border-primary-opacity-80 leading-none">
+                                    {% for lastchild_link in grandchild_link.links %}
+                                      <li>
+                                        {% assign handleCollection3 = lastchild_link.url | split: '/' | last %}
+                                        {% if collections[handleCollection1] %}
+                                          {% assign titleCollection3 = collections[handleCollection3].title | replace: word, replaceWord | replace: word1, replaceWord1 %}
+                                        {% else %}
+                                          {% assign titleCollection3 = lastchild_link.title | split: '[' | first | replace: word, replaceWord | replace: word1, replaceWord1 %}
+                                        {% endif %}
+                                        <a href="{{ lastchild_link.url }}" title="{{ titleCollection3 }}" class="{{ lastchild_link.title | split: '[' | first | downcase | replace: ' ', '_' }} text-sm leading-5 font-light text-primary hover:text-secondary lg:text-primary hover:lg:text-secondary">
+                                          {{ lastchild_link.title | split: '[' | first }}
+                                          {%- if lastchild_link.title contains '[' -%}
+                                            <span class="label-menu bg-background" {% if lastchild_link.title contains '(' %}style="background: {{ grandchild_link.title | split: '(' | last | split: ')' | first }}"{% endif %}>{{ grandchild_link.title | split: '[' | last | split: ']' | first }}</span>
+                                          {%- endif -%}
+                                        </a>
+                                      </li>
+                                    {% endfor %}
+                                  </ul>
+                                {% endif %}
+                              {% if grandchild_link.links.size > 0 %}
+                              </accordion-toggle>
+                              {% endif %}
+                            </div>
+                          {% endfor %}
+                          </li>
+                        </ul>
+                      {% endif %}
+                    </div>
+                  {% endfor %}
+                </div>
+                {% if banner_image %}
+                  <img src="{{ banner_image | image_url: width: banner_image.width }}"
+                       class="block w-full h-fit object-cover lg:max-w-1/4 lg:pl-2 mt-16 lg:mt-0 pr-2 lg:pr-0 z-0"  
+                       alt="{{ banner_image | split: "/" | last | replace: "-", " " | split: "." | first }}" 
+                       loading="lazy" 
+                       width="{{ banner_image.width }}" 
+                       height="{{ banner_image.height }}">
+                {% endif %}
+              </div>
+            </div>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+    <div class="lg:hidden w-full flex-none mt-9 pr-2">
+      <div class="w-full mt-auto mb-12">
+        
+        <span-link class="flex items-center gap-x-2 text-primary hover:text-secondary text-sm leading-5 cursor-pointer font-light transition-all mb-2" href="{% if section.settings.link_help != blank %}{{section.settings.link_help}}{% else %}#{% endif %}">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <g clip-path="url(#clip0_12861_92185)">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M2.5652 2.56593C3.69953 1.43162 5.26784 0.729248 6.99935 0.729248C8.73086 0.729248 10.2992 1.43162 11.4335 2.56593L11.1241 2.87529L11.4335 2.56593C12.5678 3.70026 13.2702 5.26857 13.2702 7.00008C13.2702 8.73159 12.5678 10.2999 11.4335 11.4342C10.2992 12.5685 8.73086 13.2709 6.99935 13.2709C5.26784 13.2709 3.69953 12.5685 2.5652 11.4342L2.87456 11.1249L2.5652 11.4342C1.43088 10.2999 0.728516 8.73159 0.728516 7.00008C0.728516 5.26857 1.43088 3.70027 2.5652 2.56593L2.5652 2.56593ZM6.99935 1.60425C5.50922 1.60425 4.16086 2.20772 3.18391 3.18465C2.20698 4.1616 1.60352 5.50996 1.60352 7.00008C1.60352 8.49021 2.20699 9.83856 3.18392 10.8155C4.16087 11.7924 5.50923 12.3959 6.99935 12.3959C8.48947 12.3959 9.83783 11.7924 10.8148 10.8155C11.7917 9.83856 12.3952 8.4902 12.3952 7.00008C12.3952 5.50996 11.7917 4.1616 10.8148 3.18465C9.83783 2.20772 8.48947 1.60425 6.99935 1.60425Z" fill="currentColor"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M4.8125 5.43237C4.8125 4.22425 5.79188 3.24487 7 3.24487C8.20812 3.24487 9.1875 4.22425 9.1875 5.43237C9.1875 6.49067 8.43598 7.37343 7.4375 7.57612V8.34904C7.4375 8.59066 7.24162 8.78654 7 8.78654C6.75838 8.78654 6.5625 8.59066 6.5625 8.34904V7.18237C6.5625 6.94075 6.75838 6.74487 7 6.74487C7.72487 6.74487 8.3125 6.15724 8.3125 5.43237C8.3125 4.7075 7.72487 4.11987 7 4.11987C6.27513 4.11987 5.6875 4.7075 5.6875 5.43237C5.6875 5.674 5.49162 5.86987 5.25 5.86987C5.00838 5.86987 4.8125 5.674 4.8125 5.43237Z" fill="currentColor"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M7.00065 10.974C7.40335 10.974 7.72982 10.6475 7.72982 10.2448C7.72982 9.84209 7.40335 9.51562 7.00065 9.51562C6.59795 9.51562 6.27148 9.84209 6.27148 10.2448C6.27148 10.6475 6.59795 10.974 7.00065 10.974Z" fill="currentColor"/>
+            </g>
+            <defs>
+              <clipPath id="clip0_12861_92185">
+                <rect width="14" height="14" fill="white"/>
+              </clipPath>
+            </defs>
+          </svg>
+          {{ 'sections.header.help_center' | t }}
+        </span-link>
+        <span-link class="flex items-center gap-x-2 text-primary hover:text-secondary text-sm leading-5 cursor-pointer font-light transition-all mb-2" href="{% if section.settings.link_tracking != blank %}{{section.settings.link_tracking}}{% else %}#{% endif %}">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M1.3125 2.625C1.3125 1.90013 1.90013 1.3125 2.625 1.3125H11.375C12.0999 1.3125 12.6875 1.90013 12.6875 2.625V7C12.6875 7.24162 12.4916 7.4375 12.25 7.4375C12.0084 7.4375 11.8125 7.24162 11.8125 7V2.625C11.8125 2.38337 11.6166 2.1875 11.375 2.1875H2.625C2.38338 2.1875 2.1875 2.38338 2.1875 2.625V11.375C2.1875 11.6166 2.38337 11.8125 2.625 11.8125H7C7.24162 11.8125 7.4375 12.0084 7.4375 12.25C7.4375 12.4916 7.24162 12.6875 7 12.6875H2.625C1.90013 12.6875 1.3125 12.0999 1.3125 11.375V2.625Z" fill="currentColor"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M9.33398 8.02075C8.60911 8.02075 8.02148 8.60838 8.02148 9.33325C8.02148 10.0581 8.60911 10.6458 9.33398 10.6458C10.0589 10.6458 10.6465 10.0581 10.6465 9.33325C10.6465 8.60838 10.0589 8.02075 9.33398 8.02075ZM7.14648 9.33325C7.14648 8.12513 8.12586 7.14575 9.33398 7.14575C10.5421 7.14575 11.5215 8.12513 11.5215 9.33325C11.5215 10.5414 10.5421 11.5208 9.33398 11.5208C8.12586 11.5208 7.14648 10.5414 7.14648 9.33325Z" fill="currentColor"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M10.4494 10.2267C10.6003 10.038 10.8757 10.0074 11.0643 10.1584L12.5227 11.3251C12.7113 11.476 12.7419 11.7513 12.591 11.94C12.4401 12.1287 12.1647 12.1593 11.9761 12.0083L10.5177 10.8416C10.3291 10.6907 10.2985 10.4154 10.4494 10.2267Z" fill="currentColor"/>
+          </svg>
+          {{ 'sections.header.order' | t }}
+        </span-link>
+        <a class="flex items-center gap-x-2 text-primary hover:text-secondary text-sm leading-5 font-light" href="{% if section.settings.link_blog != blank %}{{section.settings.link_blog}}{% else %}#{% endif %}">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M1.02148 2.04175C1.02148 1.80012 1.21736 1.60425 1.45898 1.60425H4.66732C6.19761 1.60425 7.43815 2.84479 7.43815 4.37508V12.2501C7.43815 12.4917 7.24228 12.6876 7.00065 12.6876C6.75903 12.6876 6.56315 12.4917 6.56315 12.2501C6.56315 11.5252 5.97552 10.9376 5.25065 10.9376H1.45898C1.21736 10.9376 1.02148 10.7417 1.02148 10.5001V2.04175ZM6.56315 10.4999V4.37508C6.56315 3.32804 5.71436 2.47925 4.66732 2.47925H1.89648V10.0626H5.25065C5.7431 10.0626 6.19755 10.2253 6.56315 10.4999Z" fill="currentColor"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M6.5625 4.37508C6.5625 2.84479 7.80304 1.60425 9.33333 1.60425H12.5417C12.7833 1.60425 12.9792 1.80012 12.9792 2.04175V10.5001C12.9792 10.7417 12.7833 10.9376 12.5417 10.9376H8.75C8.02513 10.9376 7.4375 11.5252 7.4375 12.2501C7.4375 12.4917 7.24162 12.6876 7 12.6876C6.75838 12.6876 6.5625 12.4917 6.5625 12.2501V4.37508ZM7.4375 10.4999C7.8031 10.2253 8.25755 10.0626 8.75 10.0626H12.1042V2.47925H9.33333C8.28629 2.47925 7.4375 3.32804 7.4375 4.37508V10.4999Z" fill="currentColor"/>
+          </svg>
+          {{ 'sections.header.blog' | t }}
+        </a>
+      </div>
+      {%- if section.settings.payment_enable == true -%}
+        <div class="w-full">
+          <ul class="flex items-center gap-x-2" role="list">
+            {%- assign enabled_payment_types = "american_express,apple_pay,master,paypal,visa" | remove: ' ' | split: ',' -%}
+            {% for type in enabled_payment_types %}
+              {% if type == 'american_express' %}
+                <li>
+                  {% render 'icon-amex-border', class: 'w-auto h-6' %}
+                </li>
+              {% else %}
+                <li>
+                  {%- assign first_svg = type | payment_type_svg_tag: class: 'w-auto h-6' | split: '<title' | first -%}
+                  {%- assign last_svg = type | payment_type_svg_tag: class: 'w-auto h-6' | split: '</title>' | last -%}
+                  {{- first_svg -}}{{- last_svg -}}
+                </li>
+              {% endif %}
+            {%- endfor -%}
+          </ul>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</menu-drawer>

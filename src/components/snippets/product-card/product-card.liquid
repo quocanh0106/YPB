@@ -1,20 +1,72 @@
-
-
-<div class="group relative">
-  <a href="{{ product.url }}">
-      <div class="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-medium overflow-hidden lg:h-80 lg:aspect-none">
-        <img src="{{ product.featured_image | image_url: width: '240' }}" lazy alt="{{ product.featured_image.alt }}" class="w-full h-full object-center object-cover lg:w-full lg:h-full hover:scale-[105%] transition-all">
-      </div>
-      <div class="mt-4 flex justify-between">
-        <div>
-          <h3 class="text-sm text-headerColor font-medium">
-            {{ product.title }}
-          </h3>
-          <p class="mt-1 text-sm text-copyColor">{{ product.vendor }}</p>
-        </div>
-        <p class="text-sm font-medium text-headerColor">{{ product.price | money }}</p>
-      </div>
-
-      
-  </a>
-</div>
+{% if heading == blank %}
+  {% assign heading = 'h3' %}
+{% endif %}
+{% unless lazy_load %}
+  {% assign lazy_load = 'lazy' %}
+{% endunless %}
+{%- if product and product != empty -%}
+  {% assign averageRating = product.metafields.judgeme.badge | split: "data-average-rating='" | last | split: "'" | first | plus: 0 %}
+  {% assign numberRating = product.metafields.judgeme.badge | split: "data-number-of-reviews='" | last | split: "'" | first | plus: 0 %}
+  <div class="card-wrapper product-card-wrapper" data-handle="{{ product.handle }}">
+    {%- if product.featured_media -%}
+      <div class="relative block group overflow-hidden rounded-lg" title="{{ product.title }}">
+        <img
+          srcset="
+          {%- if product.featured_media.width >= 165 -%}
+            {{ product.featured_media | image_url: width: 165 }} 165w,{%- endif -%}
+          {%- if product.featured_media.width >= 360 -%}
+            {{ product.featured_media | image_url: width: 360 }} 360w,{%- endif -%}
+          {%- if product.featured_media.width >= 533 -%}
+            {{ product.featured_media | image_url: width: 533 }} 533w,{%- endif -%}
+          {%- if product.featured_media.width >= 720 -%}
+            {{ product.featured_media | image_url: width: 720 }} 720w,{%- endif -%}
+          {%- if product.featured_media.width >= 940 -%}
+            {{ product.featured_media | image_url: width: 940 }} 940w,{%- endif -%}
+          {%- if product.featured_media.width >= 1066 -%}
+            {{ product.featured_media | image_url: width: 1066 }} 1066w,{%- endif -%}"
+          src="{{ product.featured_media | image_url: width: 533 }}"
+          sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 130 | divided_by: 4 }}px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
+          alt="{{ product.featured_media | split: "/" | last | replace: "-", " " | split: "." | first }}"
+          class="block {% if product.media[1] != null %} top-0 left-0 group-hover:absolute group-hover:opacity-0 group-hover:invisible{% else %}group-hover:scale-105{% endif %} transition-all duration-300 bg-image-placeholder bg-no-repeat bg-cover bg-center text-transparent"
+          loading="{{ lazy_load }}"
+          width="512"
+          height="{{ 512 | divided_by: product.featured_media.aspect_ratio }}">
+        <span class="!hidden absolute bottom-10 right-[6px] lg:bottom-15 lg:right-4 flex justify-center items-center bg-background w-7 h-7 lg:w-9 lg:h-9 rounded-full overflow-hidden shadow-card cursor-pointer" title="{{ 'products.product.shop_now' | t }}">
+          {% render 'icon-customize', class: "w-4 h-4 lg:w-6 lg:h-6" %} 
+          <span class="hidden">{{- 'products.product.shop_now' | t -}}</span>
+        </span>
+        <wishlist-button class="absolute bottom-[6px] right-[6px] lg:bottom-4 lg:right-4 flex justify-center items-center bg-background w-7 h-7 lg:w-9 lg:h-9 rounded-full overflow-hidden shadow-card cursor-pointer" data-product-handle="{{ product.handle }}">
+          {% render 'icon-wishlist', class: "w-4 h-4 lg:w-6 lg:h-6" %}
+          {% render 'icon-wishlist-2', class: "active w-4 h-4 lg:w-6 lg:h-6" %}
+        </wishlist-button>
+        {% if numberRating > 0 %}
+          <div class="rating text-primary font-semibold font-heading text-xs leading-none flex gap-1 items-center absolute top-2 right-2.5 lg:top-3 lg:right-4">
+            {{ averageRating }} {% render 'icon-star', class: "w-3 h-3 text-primary" %}
+          </div>
+        {% endif %} 
+        {% render 'product-badges', product: product, collection: collections, class: ' gap-[6px] absolute top-2 left-2' %}
+      <div>
+    {%- endif -%}
+    <div class="relative mt-1.5">
+      {% render 'price', product: product, use_variant: true %}
+      <{{ heading }}><a href="{{ product.url | split: '?' | first }}" class="text-primary hover:text-primary font-body font-light text-sm lg:text-base !leading-6 mb-1 lg:mb-1.5 tracking-[0] truncate-line one-line overflow-hidden break-all">{{ product.title | escape }}</a></{{ heading }}>
+      <span class="block uppercase text-xxs lg:text-xs leading-6 tracking-[0] text-primary mb-1 font-normal">{{ product.type }}</span>
+      {% render 'product-shipping', product: product, freeship_placeholder: freeship_placeholder %}
+    </div>
+  </div>
+{%- else -%}
+  <div class="card-wrapper product-card-wrapper">
+    <div class="relative block group overflow-hidden">
+      {%- if placeholder_image -%}
+        {{ placeholder_image | placeholder_svg_tag: 'block group-hover:scale-105 w-full h-fit transition-all' }}
+      {%- else -%}
+        {{ 'product-apparel-2' | placeholder_svg_tag: 'block group-hover:scale-105 w-full h-fit transition-all' }}
+      {%- endif -%}
+    </div>
+    <div class="relative mt-1.5">
+      {% render 'price' %}
+      <h3><a role="link" aria-disabled="true" class="text-primary hover:text-primary font-body font-light text-sm lg:text-base !leading-6 mb-1 lg:mb-1.5 tracking-[0] truncate-line one-line overflow-hidden break-all">{{ 'products.product.example_product_title' | t }}</a></h3>
+      <div class="block uppercase text-xxs lg:text-xs leading-6 tracking-[0] text-primary mb-1 font-normal">{{ 'products.product.product_type' | t }}</div>
+    </div>
+  </div>
+{%- endif -%}

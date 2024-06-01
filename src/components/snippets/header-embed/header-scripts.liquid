@@ -1,10 +1,3 @@
-{%- comment -%}
-  Parameters
-  * content
-  * unload_apps
-  * remove_apps
-{%- endcomment -%}
-
 {%- assign script_tag_start = '<script>' -%}
 {%- assign script_defer_tag_start = '<script defer>' -%}
 {%- assign script_tag_end = '</script>' -%}
@@ -19,12 +12,11 @@
 {%- if unload_apps -%}
   {%- for script in content_split -%}
     {% unless turnoff %}
-      {% unless script contains "preview_bar" or script contains "formbuilder" or script contains "recomaticapp" %}
-        {%- if script contains async_load_function -%}
-          {%- assign script_content = script | split: old_assignment_statement_end | first | split: old_assignment_statement_start | last -%}
-          {%- assign script_content_split = script_content | split: old_assignment_statement_delimiter -%}
-          {%- capture new_script_content -%}
-            {%- if remove_apps -%}
+      {%- if script contains async_load_function -%}
+        {%- assign script_content = script | split: old_assignment_statement_end | first | split: old_assignment_statement_start | last -%}
+        {%- assign script_content_split = script_content | split: old_assignment_statement_delimiter -%}
+        {%- capture new_script_content -%}
+          {%- if remove_apps -%}
               {%- for content_item in script_content_split -%}
                 {%- for app_item in remove_apps_split -%}
                   {%- if content_item contains app_item -%}
@@ -33,18 +25,17 @@
                   {{- content_item | append: old_assignment_statement_delimiter -}}
                 {%- endfor -%}
               {%- endfor -%}
-            {%- else -%}
-              {{- script_content -}}
-            {%- endif -%}
-          {%- endcapture -%}
-          {{- new_script_content | prepend: new_assignment_statement_start | prepend: script_tag_start | append: old_assignment_statement_end | append: script_tag_end -}}
-        {%- else -%}
-          {%- if script contains script_tag_end -%}
-            {{- script_defer_tag_start -}}
+          {%- else -%}
+            {{- script_content -}}
           {%- endif -%}
-          {{- script | replace: 'async', 'defer' -}}
+        {%- endcapture -%}
+        {{- new_script_content | prepend: new_assignment_statement_start | prepend: script_tag_start | append: old_assignment_statement_end | append: script_tag_end -}}
+      {%- else -%}
+        {%- if script contains script_tag_end -%}
+          {{- script_defer_tag_start -}}
         {%- endif -%}
-      {% endunless %}
+        {{- script | replace: 'async', 'defer' -}}
+      {%- endif -%}
     {% endunless %}
   {%- endfor -%}
 {%- else -%}
