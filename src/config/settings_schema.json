@@ -1,6 +1,6 @@
 [
   {
-    "name": "Youth Privilege Blank",
+    "name": "theme_info",
     "theme_name": "YPB",
     "theme_version": "2.0.0",
     "theme_author": "Anden",
@@ -243,23 +243,33 @@
     "settings": [
       {
         "type": "range",
-        "id": "page_width",
-        "min": 920,
-        "max": 1920,
-        "step": 10,
-        "default": 1320,
+        "id": "padding_desktop",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "default": 12,
         "unit": "px",
-        "label": "Page width"
+        "label": "Padding desktop"
       },
       {
         "type": "range",
-        "id": "page_width_secondary",
-        "min": 876,
-        "max": 1024,
-        "step": 4,
-        "default": 876,
+        "id": "padding_tablet",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "default": 12,
         "unit": "px",
-        "label": "Page width secondary"
+        "label": "Padding tablet"
+      },      
+      {
+        "type": "range",
+        "id": "padding_mobile",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "default": 12,
+        "unit": "px",
+        "label": "Padding mobile"
       }
     ]
   },

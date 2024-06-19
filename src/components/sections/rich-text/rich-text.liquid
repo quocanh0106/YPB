@@ -31,7 +31,7 @@
 
 {% schema %}
   {
-    "name": "t:sections.rich-text.name",
+    "name": "Rich text",
     "tag": "section",
     "class": "section",
     "settings": [
@@ -41,17 +41,17 @@
         "options": [
           {
             "value": "left",
-            "label": "t:sections.rich-text.settings.desktop_content_position.options__1.label"
+            "label": "Left"
           }, {
             "value": "center",
-            "label": "t:sections.rich-text.settings.desktop_content_position.options__2.label"
+            "label": "Center"
           }, {
             "value": "right",
-            "label": "t:sections.rich-text.settings.desktop_content_position.options__3.label"
+            "label": "Right"
           }
         ],
         "default": "center",
-        "label": "t:sections.rich-text.settings.desktop_content_position.label"
+        "label": "Desktop content position"
       },
       {
         "type": "select",
@@ -59,17 +59,17 @@
         "options": [
           {
             "value": "left",
-            "label": "t:sections.rich-text.settings.content_alignment.options__1.label"
+            "label": "Left"
           }, {
             "value": "center",
-            "label": "t:sections.rich-text.settings.content_alignment.options__2.label"
+            "label": "Center"
           }, {
             "value": "right",
-            "label": "t:sections.rich-text.settings.content_alignment.options__3.label"
+            "label": "Right"
           }
         ],
         "default": "center",
-        "label": "t:sections.rich-text.settings.content_alignment.label"
+        "label": "Content alignment"
       },
       {
         "type": "color",
@@ -124,33 +124,33 @@
     "blocks": [
       {
         "type": "heading",
-        "name": "t:sections.rich-text.blocks.heading.name",
+        "name": "Heading",
         "limit": 3,
         "settings": [
           {
             "type": "richtext",
             "id": "heading",
             "default": "<p>Talk about your brand</p>",
-            "label": "t:sections.rich-text.blocks.heading.settings.heading.label"
+            "label": "Heading"
           }
         ]
       }, {
         "type": "text",
-        "name": "t:sections.rich-text.blocks.text.name",
+        "name": "Text",
         "limit": 3,
         "settings": [
           {
             "type": "richtext",
             "id": "text",
             "default": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>",
-            "label": "t:sections.rich-text.blocks.text.settings.text.label"
+            "label": "Text"
           }
         ]
       }
     ],
     "presets": [
       {
-        "name": "t:sections.rich-text.presets.name",
+        "name": "Rich text",
         "blocks": [
           {
             "type": "heading"

@@ -20,11 +20,11 @@ body {
 }
 
 .page-width {
-  @apply mx-auto px-4 md:px-7.5 lg:px-12.5;
+  @apply mx-auto px-container-mobile md:px-container-tablet lg:px-container-desktop;
 }
 
 .page-width-desktop {
-  @apply mx-auto md:px-7.5 lg:px-12.5;
+  @apply mx-auto md:px-container-tablet lg:px-container-desktop;
 }
 
 /***** Heading ******/

@@ -32,8 +32,9 @@
           --font-heading: "Grandstander", cursive;
           --font-body: "Grandstander";  
         {% endif %}
-        --page-width: {{ settings.page_width | plus: 100 | append: 'px' }};
-        --page-width-secondary: {{ settings.page_width_secondary | plus: 100 | append: 'px' }};
+        --container-pading-desktop: {{ settings.padding_desktop | append: 'px' }};
+        --container-pading-tablet: {{ settings.padding_tablet | append: 'px' }};
+        --container-pading-mobile: {{ settings.padding_mobile | append: 'px' }};
         --color-primary: {{ settings.color_primary }};
         --color-secondary: {{ settings.color_secondary }};
         --color-body: {{ settings.color_body_text }};
@@ -49,6 +50,46 @@
         --color-new: {{ settings.new_label_bg }};
       }
     {% endstyle %}
+
+    <script>
+      window.shopUrl = '{{ request.origin }}';
+      window.routes = {
+        cart_add_url: '{{ routes.cart_add_url }}',
+        cart_change_url: '{{ routes.cart_change_url }}',
+        cart_update_url: '{{ routes.cart_update_url }}',
+        cart_url: '{{ routes.cart_url }}',
+        cart_ajax_url: '{{ routes.cart_url | append: '?view=ajax' }}',
+        predictive_search_url: '{{ routes.predictive_search_url }}',
+        account: '{{ routes.account_url }}',
+        accountLogout: '{{ routes.account_logout_url }}'
+      };
+      window.form = {
+        email: `{{ 'general.form.email' | t }}`,
+        username: `{{ 'general.form.username' | t }}`,
+        body: `{{ 'general.form.body' | t }}`,
+        phone: `{{ 'general.form.phone' | t }}`,
+        default: `{{ 'general.form.default' | t }}`
+      }
+      window.cartStrings = {
+        error: `{{ 'sections.cart.cart_error' | t }}`,
+        quantityError: `{{ 'sections.cart.cart_quantity_error_html' | t: quantity: '[quantity]' }}`
+      };
+      window.count = {
+        item: `{{ 'wishlist.item' | t }}`,
+        items: `{{ 'wishlist.items' | t }}`
+      };
+      window.variantStrings = {
+        addToCart: `{{ 'products.product.add_to_cart' | t }}`,
+        soldOut: `{{ 'products.product.sold_out' | t }}`,
+        unavailable: `{{ 'products.product.unavailable' | t }}`
+      };
+
+      window.accessibilityStrings = {
+        imageAvailable: `{{ 'products.product.media.image_available' | t: index: '[index]' }}`,
+        shareSuccess: `{{ 'general.share.success_message' | t }}`
+      };
+    </script>
+
     <link rel="preload" href="{{ 'theme.css' | asset_url }}" as="style"/>
     <link rel="stylesheet" href="{{ 'theme.css' | asset_url }}" />
 

@@ -1,4 +1,10 @@
-<div class="page-width flex bg-background justify-between items-center py-3 lg:py-0 h-12 lg:h-auto lg:min-h-[70px]">
+<div class="page-width flex bg-background justify-between items-center py-3 lg:py-0 h-46px lg:h-auto lg:min-h-[46px]">
+  {% if section.blocks.size > 0 %}
+    {% render 'megamenu' %}
+    <modal-opener class="inline-block lg:hidden cursor-pointer menu-drawer-out-search hover:text-primary text-primary" data-id="#menu-drawer">
+      {% render 'icon-hamburger' %}
+    </modal-opener>
+  {% endif %}
   <div class="flex items-center gap-x-10">
     <a href="{{ routes.root_url }}" class="hidden lg:inline-block no-underline relative before:absolute before:top-0 before:left-0 before:w-full before:h-12 before:-translate-y-2.5" title="{{ shop.name }}" style="max-width: {{ settings.logo_width }}px;">
       {%- if settings.logo != blank -%}
@@ -42,32 +48,10 @@
         <span class="h3">{{ shop.name }}</span>
       {%- endif -%}
     </a>
-    {%- if section.settings.minimenu -%}
-      <menu-drawer>
-        <ul class="hidden lg:flex item-center gap-x-4 m-0 p-0">
-          {%- for link in section.settings.minimenu.links -%}
-            <li class="list-none">
-              {% if link.url contains 'help-center' or link.url contains 'centre-daides' or link.url contains 'hilfe-center' %}
-                <span-link href="{{ link.url }}" class="font-light cursor-pointer text-sm leading-5 text-primary hover:text-primary">
-                  {{ link.title }}
-                </span-link>
-              {% else %}
-                <a href="{{ link.url }}" class="font-light text-sm leading-5 text-primary hover:text-primary" title="{{ link.title }}">
-                  {{ link.title }}
-                </a>
-              {% endif %}
-            </li>
-          {%- endfor -%}
-        </ul>
-      </menu-drawer>
-    {%- endif -%}
   </div>
   <div class="flex items-center gap-x-4 m-0 p-0 justify-end max-w-2/5 w-full">
     <predictive-search class="flex justify-end lg:justify-start w-full">
       <form action="{{ routes.search_url }}" method="get" role="search" class="absolute opacity-0 invisible bg-background shadow-search lg:shadow-none flex items-center gap-3 top-full left-0 h-16 px-4 pt-2 pb-3 md:px-7.5 lg:p-0 z-10 transition-all lg:!opacity-100 lg:!visible lg:static lg:max-w-[360px] lg:h-10 w-full lg:overflow-hidden">
-        <modal-opener class="inline-block lg:hidden cursor-pointer menu-drawer-in-search" data-id="#menu-drawer">
-          {% render 'icon-hamburger' %}
-        </modal-opener>
         <div class="relative w-full center h-full lg:h-auto">
           <input class="bg-[#f2f2f2] placeholder:!text-primary !border-none w-full h-full lg:h-auto pl-14 pr-8 !rounded-circle lg:overflow-hidden appearance-none !outline-none !shadow-none !ring-transparent"
             id="Search-In-Modal-1"
@@ -147,83 +131,24 @@
         </div>
       </a>
     {% endif %}
-
-    <modal-opener class="inline-block lg:hidden cursor-pointer menu-drawer-out-search hover:text-primary text-primary" data-id="#menu-drawer">
-      {% render 'icon-hamburger' %}
-    </modal-opener>
   </div>
 </div>
 
-{% if section.blocks.size > 0 %}
-  {% render 'megamenu' %}
-{% endif %}
+
 
 {% capture src_url %}{{ 'header.js' | asset_url }}{% endcapture %}
 {% render 'atom_script', src: src_url, priority: 'normal', type: "defer" %}
 
 {% schema %}
   {
-    "name": "t:sections.header.name",
+    "name": "Header",
     "tag": "header",
     "settings": [
-      {
-        "type": "link_list",
-        "id": "menu",
-        "default": "main-menu",
-        "label": "t:sections.header.settings.menu.label"
-      },
       {
         "type": "checkbox",
         "id": "enable_sticky_header",
         "default": true,
-        "label": "t:sections.header.settings.enable_sticky_header.label"
-      },
-      {
-        "type": "header",
-        "content": "Mini menu"
-      },
-      {
-        "type": "link_list",
-        "id": "minimenu",
-        "default": "footer",
-        "label": "t:sections.footer.blocks.link_list.settings.menu.label"
-      },
-      {
-        "type": "header",
-        "content": "Setting payment"
-      },
-      {
-        "type": "checkbox",
-        "id": "payment_enable",
-        "default": true,
-        "label": "t:sections.footer.settings.payment_enable.label"
-      },
-      {
-        "type": "header",
-        "content": "Help center"
-      },
-      {
-        "type": "url",
-        "id": "link_help",
-        "label": "Link Help center"
-      },
-      {
-        "type": "header",
-        "content": "Tracking order"
-      },
-      {
-        "type": "url",
-        "id": "link_tracking",
-        "label": "Link Tracking order"
-      },
-      {
-        "type": "header",
-        "content": "Blog"
-      },
-      {
-        "type": "url",
-        "id": "link_blog",
-        "label": "Link blog"
+        "label": "Enable sticky header"
       }
     ],
     "blocks": [

@@ -130,6 +130,9 @@ module.exports = {
         overlay: 'rgba(0,0,0,0.5)'
       },
       spacing: {
+        "container-desktop": "var(--container-pading-desktop)",
+        "container-tablet": "var(--container-pading-tablet)",
+        "container-mobile": "var(--container-pading-mobile)",
         0.5: '0.125rem',
         0.75: '0.1875rem',
         3.5: '0.875rem',
@@ -201,7 +204,6 @@ module.exports = {
         card: '2px 4px 28px 0px rgba(163, 163, 163, 0.10)'
       },
       maxWidth: {
-        container: '80.625rem',
         '1/2': '50%',
         '1/3': 'calc(100%/3)',
         '2/3': 'calc(200%/3)',

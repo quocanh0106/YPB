@@ -243,12 +243,12 @@
 
 {% schema %}
   {
-    "name": "t:sections.footer.name",
+    "name": "Footer",
     "tag": "footer",
     "blocks": [
       {
         "type": "link_list",
-        "name": "t:sections.footer.blocks.link_list.name",
+        "name": "Link list",
         "settings": [
           {
             "type": "header",
@@ -297,7 +297,7 @@
       }, 
       {
         "type": "text",
-        "name": "t:sections.footer.blocks.text.name",
+        "name": "Text",
         "settings": [
           {
             "type": "header",
@@ -348,25 +348,21 @@
           {
             "type": "text",
             "id": "email",
-            "default": "support@customchic.co.uk",
             "label": "Email"
           },
           {
             "type": "text",
             "id": "address",
-            "default": "120 Holland Rd, London W14 8BD",
             "label": "Address"
           }, 
           {
             "type": "text",
             "id": "address2",
-            "default": "120 Holland Rd, London W14 8BD",
             "label": "Address 2"
           }, 
           {
             "type": "text",
             "id": "time_work",
-            "default": "Mon - Fri 9h00 - 18h00 London Time",
             "label": "Time work"
           },
           {
@@ -377,7 +373,7 @@
             "type": "checkbox",
             "id": "show_social",
             "default": false,
-            "label": "t:sections.footer.settings.show_social.label"
+            "label": "Show social"
           }
         ]
       }

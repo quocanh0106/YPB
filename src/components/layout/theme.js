@@ -97,11 +97,11 @@ if (!customElements.get('copy-link')) {
       this.tooltip = this.querySelector('.tooltip')
       this.addEventListener('click', () => {
         navigator.clipboard.writeText(this.href);
-        if(this.tooltip) {
+        if (this.tooltip) {
           this.tooltip.innerHTML = this.tooltip.dataset.click;
-          setTimeout(()=> {
+          setTimeout(() => {
             this.tooltip.innerHTML = this.tooltip.dataset.normal;
-          },5000)
+          }, 5000)
         }
       });
     }
@@ -116,7 +116,7 @@ if (!customElements.get('slider-component')) {
       super();
       this.slider = this.querySelector('.slider-wrapper');
       this.sliderItems = this.querySelectorAll('.slider-slide');
-      if(this.dataset.loop == 'true') {
+      if (this.dataset.loop == 'true') {
         this.enableSliderLooping = true;
       } else {
         this.enableSliderLooping = false;
@@ -127,10 +127,10 @@ if (!customElements.get('slider-component')) {
       this.nextButton = this.querySelector('button[name="next"]');
       this.dots = this.querySelector('.slider-dots')
       this.seemore = this.querySelector('.truncate-section');
-      if(this.dataset.autoplay) {
+      if (this.dataset.autoplay) {
         this.autoplay = parseInt(this.dataset.autoplay);
       }
-      if(this.seemore){
+      if (this.seemore) {
         this.limit = parseInt(this.dataset.limit) - 1;
 
         this.seemore.addEventListener('click', () => {
@@ -146,7 +146,7 @@ if (!customElements.get('slider-component')) {
             }
           });
         });
-      } 
+      }
       if (!this.slider || !this.nextButton) return;
 
       this.initPages();
@@ -158,7 +158,7 @@ if (!customElements.get('slider-component')) {
       this.prevButton.addEventListener('click', this.onButtonClick.bind(this));
       this.nextButton.addEventListener('click', this.onButtonClick.bind(this));
 
-      if(this.autoplay && this.nextButton) {
+      if (this.autoplay && this.nextButton) {
         setInterval(() => {
           this.onButtonClick();
         }, this.autoplay);
@@ -175,7 +175,7 @@ if (!customElements.get('slider-component')) {
         (this.slider.clientWidth - this.sliderItemsToShow[0].offsetLeft) / this.sliderItemOffset
       );
       this.totalPages = this.sliderItemsToShow.length - this.slidesPerPage + 1;
-      if(!this.classList.contains('gallery')) {
+      if (!this.classList.contains('gallery')) {
         this.generateDots(this.totalPages);
       }
       this.update();
@@ -188,9 +188,9 @@ if (!customElements.get('slider-component')) {
 
     generateDots(totalPages) {
       let html = ''
-      for(let i = 1; i < totalPages; i++) {
+      for (let i = 1; i < totalPages; i++) {
         let active = '';
-        if(i == 1) active = 'active';
+        if (i == 1) active = 'active';
         html += `<span class="slider-dot ${active}" data-position="${i}"></span>`
       }
       this.dots.innerHTML = html;
@@ -207,7 +207,7 @@ if (!customElements.get('slider-component')) {
         this.pageTotalElement.textContent = this.totalPages;
       }
       this.updateDots(this.currentPage);
-      
+
       if (this.currentPage != previousPage) {
         this.dispatchEvent(
           new CustomEvent('slideChanged', {
@@ -218,9 +218,9 @@ if (!customElements.get('slider-component')) {
           })
         );
       }
-      if(this.getAttribute('visibility') == 'true') {
+      if (this.getAttribute('visibility') == 'true') {
         this.sliderItemsToShow.forEach((slide) => {
-          if(this.isSlideVisible(slide)) {
+          if (this.isSlideVisible(slide)) {
             slide.classList.add('slide-visible');
           } else {
             slide.classList.remove('slide-visible');
@@ -245,16 +245,16 @@ if (!customElements.get('slider-component')) {
 
     updateDots(currentPage) {
       this.dots.querySelectorAll('.slider-dot').forEach((dot) => {
-        if(dot.dataset.position == currentPage) {
+        if (dot.dataset.position == currentPage) {
           this.querySelector('.slider-dot.active')?.classList.remove('active');
           dot.classList.add('active')
         }
         dot.addEventListener('click', (event) => {
-        this.onDotClick(event, currentPage)
+          this.onDotClick(event, currentPage)
         })
       })
     }
-    
+
     isSlideVisible(element, offset = 0) {
       const lastVisibleSlide = this.slider.clientWidth + this.slider.scrollLeft - offset;
       return element.offsetLeft + element.clientWidth <= lastVisibleSlide && element.offsetLeft >= this.slider.scrollLeft;
@@ -273,7 +273,7 @@ if (!customElements.get('slider-component')) {
       const activePosition = parseInt(currentPage);
       const newActivePosition = parseInt(event.target.dataset.position)
       let to = 'next';
-      if(newActivePosition < activePosition) to = 'prev';
+      if (newActivePosition < activePosition) to = 'prev';
       const step = Math.abs(newActivePosition - activePosition) || 1;
       this.slideScrollPosition = to === 'next' ? this.slider.scrollLeft + step * this.sliderItemOffset : this.slider.scrollLeft - step * this.sliderItemOffset;
       this.setSlidePosition(this.slideScrollPosition);
@@ -311,65 +311,60 @@ if (!customElements.get('slider-component')) {
   customElements.define('slider-component', SliderComponent);
 }
 
-if (!customElements.get('search-form')) {
-  class SearchForm extends HTMLElement {
-    constructor() {
-      super();
-      this.input = this.querySelector('input[type="search"]');
-      this.form = this.querySelector('form');
-      this.resetButton = this.querySelector('button[type="reset"]');
-      this.openSearch = this.querySelector('#open-search');
-      if (this.input) {
-        this.input.form.addEventListener('reset', this.onFormReset.bind(this));
-        this.openSearch.addEventListener(
-          'click',
-          this.openSearchMobile.bind(this),
-        );
-        this.resetButton.addEventListener(
-          'click',
-          this.closeSearchMobile.bind(this),
-        );
-        this.input.addEventListener(
-          'input',
-          debounce(event => {
-            this.onChange(event);
-          }, 300).bind(this),
-        );
-      }
-    }
 
-    openSearchMobile() {
-      this.onFocus();
-      this.form.classList.remove('opacity-0', 'invisible');
-      document.body.classList.add('search-active');
-
-    }
-    closeSearchMobile() {
-      this.form.classList.add('opacity-0', 'invisible');
-      document.body.classList.remove('search-active');
-    }
-    onChange() { }
-
-    shouldResetForm() {
-      return !document.querySelector('[aria-selected="true"] a');
-    }
-
-    onFormReset(event) {
-      // Prevent default so the form reset doesn't set the value gotten from the url on page load
-      event.preventDefault();
-      if (document.body.classList.contains('sticky-header')) {
-        document.body.classList.remove('header-on-top');
-      }
-      // Don't reset if the user has selected an element on the predictive search dropdown
-      if (this.shouldResetForm()) {
-        this.input.value = '';
-      }
+class SearchForm extends HTMLElement {
+  constructor() {
+    super();
+    this.input = this.querySelector('input[type="search"]');
+    this.form = this.querySelector('form');
+    this.resetButton = this.querySelector('button[type="reset"]');
+    this.openSearch = this.querySelector('#open-search');
+    if (this.input) {
+      this.input.form.addEventListener('reset', this.onFormReset.bind(this));
+      this.openSearch.addEventListener(
+        'click',
+        this.openSearchMobile.bind(this),
+      );
+      this.resetButton.addEventListener(
+        'click',
+        this.closeSearchMobile.bind(this),
+      );
+      this.input.addEventListener(
+        'input',
+        debounce(event => {
+          this.onChange(event);
+        }, 300).bind(this),
+      );
     }
   }
+  openSearchMobile() {
+    this.onFocus();
+    this.form.classList.remove('opacity-0', 'invisible');
+    document.body.classList.add('search-active');
 
-
-  customElements.define('search-form', SearchForm);
+  }
+  closeSearchMobile() {
+    this.form.classList.add('opacity-0', 'invisible');
+    document.body.classList.remove('search-active');
+  }
+  onChange() { }
+  shouldResetForm() {
+    return !document.querySelector('[aria-selected="true"] a');
+  }
+  onFormReset(event) {
+    // Prevent default so the form reset doesn't set the value gotten from the url on page load
+    event.preventDefault();
+    if (document.body.classList.contains('sticky-header')) {
+      document.body.classList.remove('header-on-top');
+    }
+    // Don't reset if the user has selected an element on the predictive search dropdown
+    if (this.shouldResetForm()) {
+      this.input.value = '';
+    }
+  }
 }
+customElements.define('search-form', SearchForm);
+
 
 if (!customElements.get('predictive-search')) {
   class PredictiveSearch extends SearchForm {
@@ -444,7 +439,7 @@ if (!customElements.get('predictive-search')) {
         // Search term was changed from other search input, treat it as a user change
         this.onChange();
       } else {
-        if(currentSearchTerm != '') {
+        if (currentSearchTerm != '') {
           this.getSearchResults(this.searchTerm);
         } else {
           this.getSearchRecommend('empty');
@@ -456,7 +451,7 @@ if (!customElements.get('predictive-search')) {
       setTimeout(() => {
         if (!this.contains(document.activeElement)) {
           this.close();
-        } 
+        }
       });
     }
 
@@ -703,7 +698,7 @@ if (!customElements.get('scroll-to-top')) {
     constructor() {
       super();
       this.addEventListener('click', () => {
-        window.scrollTo(0,0);
+        window.scrollTo(0, 0);
       })
     }
   }
@@ -792,16 +787,16 @@ if (!customElements.get('validate-form')) {
       const emailRegex = /^[^\s@]+@[^\s@]+.[^\s@]+\.[^\s@]+$/;
       return emailRegex.test(email);
     }
-  
+
     validateName(name) {
       const nameRegex = /^[a-zA-ZÀ-ÖØ-öø-ÿ-' ]+$/;
       return nameRegex.test(name);
     }
-  
+
     validateBody(body) {
       return body.length > 0;
     }
-  
+
     validatePhoneNumber(phone) {
       const phoneRegex = /^(\+?\d+[\s\-]*)+$/;
       return phoneRegex.test(phone);
@@ -811,7 +806,7 @@ if (!customElements.get('validate-form')) {
       const errorSpan = document.createElement('span');
       errorSpan.textContent = message;
       errorSpan.classList.add('error-message');
-      
+
       const existingError = field.parentElement.querySelector('.error-message');
       if (existingError) {
         existingError.textContent = message;
