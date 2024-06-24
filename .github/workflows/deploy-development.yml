@@ -1,4 +1,4 @@
-name: Deploy to Development
+name: Deploy Preview
 
 on:
   push:
@@ -7,21 +7,20 @@ on:
 
 jobs:
   deploy:
+    name: Deploy
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
         with:
           node-version: 18
-      
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
+
+      - uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.1
-          bundler: 'latest'
-      
+          bundler: latest
+
       - name: Install Shopify CLI
         run: npm install -g @shopify/cli @shopify/theme
 
@@ -31,13 +30,9 @@ jobs:
       - name: Build theme
         run: npm run build
 
-      - name: Come to dir theme
-        run: cd dist
-
       - name: Deploy
-        working-directory: ./dist
         env:
           SHOPIFY_FLAG_STORE: 'ypb-dev.myshopify.com'
           SHOPIFY_CLI_THEME_TOKEN: shptka_47d6d45c8fe7c3156650a4c1546a902a
           SHOPIFY_CLI_TTY: 0
-        run: shopify theme push --theme 138189111469
+        run: shopify theme push --path ./dist/ --theme 138189111469
