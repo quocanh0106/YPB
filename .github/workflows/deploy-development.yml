@@ -26,8 +26,8 @@ jobs:
       - name: Install Shopify CLI
         run: npm install -g @shopify/cli
 
-      - name: Build project
-        run: npm install
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
 
       - name: Build theme
         run: npm run build
