@@ -7,6 +7,7 @@
     "build": "webpack",
     "webpack": "yarn install && webpack --watch --progress",
     "deploy": "cd dist && shopify theme push",
+    "deployDev": "cd"
     "deployIgnore": "cd dist && shopify theme push --ignore templates/*.json templates/metaobject/*.json templates/customers/*.json",
     "serve": "cd dist && shopify theme serve",
     "fetch": "cd src && cd components && shopify theme pull --only templates/*.json",

@@ -38,4 +38,4 @@ jobs:
           SHOPIFY_FLAG_STORE: 'ypb-dev.myshopify.com'
           SHOPIFY_CLI_THEME_TOKEN: shptka_47d6d45c8fe7c3156650a4c1546a902a
           SHOPIFY_CLI_TTY: 0
-        run: shopify theme push --path ./dist/ --theme 138189111469
+        run: yarn deployDev
