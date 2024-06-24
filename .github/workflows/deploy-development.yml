@@ -7,7 +7,6 @@ on:
 
 jobs:
   deploy:
-    name: Deploy
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -35,7 +34,7 @@ jobs:
       - name: Come to dir theme
         run: cd dist
 
-      - name: Deployment
+      - name: Deploy
         env:
           SHOPIFY_FLAG_STORE: 'ypb-dev.myshopify.com'
           SHOPIFY_CLI_THEME_TOKEN: shptka_47d6d45c8fe7c3156650a4c1546a902a
