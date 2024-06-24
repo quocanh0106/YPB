@@ -1,0 +1,975 @@
+<link rel="stylesheet" href="{{ 'template-product.css' | asset_url }}" />
+{% if settings.country == 'UK '%}
+  <link rel="stylesheet" href="{{ 'template-product-uk.css' | asset_url }}" />
+{% endif %}
+
+<script>
+  window.product = {{ product | json }}
+</script>
+
+<script id="product-card" type="text/html">
+  <li class="slider-slide w-full">{% render 'product-card', product: product, use_variant: true %}</li>
+</script>
+
+{%- liquid
+  assign averageRating = product.metafields.judgeme.badge | split: "data-average-rating='" | last | split: "'" | first
+  assign numberRating = product.metafields.judgeme.badge | split: "data-number-of-reviews='" | last | split: "'" | first
+  assign product_form_id = 'product-form-' | append: section.id
+
+  for collection in product.collections
+    for link in linklists['estimate-shipping'].links
+      if collection.url == link.url
+        assign collection_metafield = collection
+      endif
+    endfor
+  endfor
+
+  if collection_metafield.metafields.custom.estimate_arrival != blank
+    assign min_arrival = collection_metafield.metafields.custom.estimate_arrival | replace: ' ', '' | split: '-' | first
+    assign max_arrival = collection_metafield.metafields.custom.estimate_arrival | replace: ' ', '' | split: '-' | last
+    assign seconds3 = min_arrival | times: 24 | times: 60 | times: 60
+    assign seconds4 = max_arrival | times: 24 | times: 60 | times: 60
+  else
+    assign seconds3 = 11 | times: 24 | times: 60 | times: 60
+    assign seconds4 = 61 | times: 24 | times: 60 | times: 60
+  endif
+
+  assign duration_min = seconds3 | divided_by: 24 | divided_by: 60 | divided_by: 60
+  assign duration_max = seconds4 | divided_by: 24 | divided_by: 60 | divided_by: 60
+
+  for i in (1..duration_min)
+    assign days = 86400 | times: i
+    assign mod_date = 'now' | date: '%s' | plus: days | date: '%a'
+    if forloop.last == false
+      if mod_date == 'Sat'
+        assign seconds3 = seconds3 | plus: 86400
+      endif
+    else
+      if mod_date == 'Sat'
+        assign seconds3 = seconds3 | plus: 172800
+      endif
+    endif
+    if mod_date == 'Sun'
+      assign seconds3 = seconds3 | plus: 86400
+    endif
+  endfor
+
+  for i in (1..duration_max)
+    assign days = 86400 | times: i
+    assign mod_date = 'now' | date: '%s' | plus: days | date: '%a'
+    if mod_date == 'Sat'
+      assign seconds4 = seconds4 | plus: 86400
+    endif
+    if mod_date == 'Sun'
+      assign seconds4 = seconds4 | plus: 86400
+    endif
+  endfor
+
+  if collection_metafield.metafields.custom.order_ship != blank
+    assign min_order_ship = collection_metafield.metafields.custom.order_ship | replace: ' ', '' | split: '-' | first
+    assign max_order_ship = collection_metafield.metafields.custom.order_ship | replace: ' ', '' | split: '-' | last
+    assign seconds = min_order_ship | times: 24 | times: 60 | times: 60
+    assign seconds2 = max_order_ship | times: 24 | times: 60 | times: 60
+  else
+    assign seconds = 3 | times: 24 | times: 60 | times: 60
+    assign seconds2 = 6 | times: 24 | times: 60 | times: 60
+  endif
+  assign duration_min = seconds | divided_by: 24 | divided_by: 60 | divided_by: 60
+  assign duration_max = seconds2 | divided_by: 24 | divided_by: 60 | divided_by: 60
+
+  for i in (1..duration_min)
+    assign days_min_1 = 86400 | times: i
+    assign mod_date_min_1 = 'now' | date: '%s' | plus: days_min_1 | date: '%a'
+
+    if forloop.last == false
+      if mod_date_min_1 == 'Sat'
+        assign seconds = seconds | plus: 86400
+      endif
+    else
+      if mod_date_min_1 == 'Sat'
+        assign seconds = seconds | plus: 172800
+      endif
+    endif
+    if mod_date_min_1 == 'Sun'
+      assign seconds = seconds | plus: 86400
+    endif
+  endfor
+
+
+  for i in (1..duration_max)
+    assign days_max_1 = 86400 | times: i
+    assign mod_date_max_1 = 'now' | date: '%s' | plus: days_max_1 | date: '%a'
+
+    if forloop.last == false
+      if mod_date_max_1 == 'Sat'
+        assign seconds2 = seconds2 | plus: 86400
+      endif
+    else
+      if mod_date_max_1 == 'Sat'
+        assign seconds2 = seconds2 | plus: 172800
+      endif
+    endif
+    if mod_date_max_1 == 'Sun'
+      assign seconds2 = seconds2 | plus: 86400
+    endif
+  endfor
+-%}
+{%- assign breadcrumbs_linklist = linklists['breadcrumbs-product'] -%}
+{%- assign product_type_link = nil -%}
+{%- for link in breadcrumbs_linklist.links -%}
+  {%- assign link_title = link.title | downcase -%}
+  {%- assign product_type = product.type | downcase -%}
+  {%- if product_type != blank and link_title contains product_type -%}
+    {%- assign product_type_link = link -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{% assign collectionHandle = product_type_link.url | split: '/' | last %}
+{% assign collectionDetails = collections[collectionHandle] %}
+
+{% assign tags = product.tags | join: ', ' | downcase %}
+{% assign fullDescription = '' %}
+{% assign identity = product.id |  split: '' | last %}
+{% assign countDesc = 0 %}
+{% capture fullDescriptionResults %}
+  {% for description in shop.metaobjects.product_description.values %}
+    {% assign partDescription = true %}
+    {% if description.tags != blank %}
+      {% for tag in description.tags.value %}
+        {% assign downcaseTag = tag.tag | downcase %}
+        {% unless tags contains downcaseTag %}
+          {% assign partDescription = false %}
+        {% endunless %}
+      {% endfor %}
+    {% else %}
+      {% assign partDescription = false %}
+    {% endif %}
+    {% if description.identity.value contains 'All' or description.identity.value contains identity %}
+      {% if partDescription %}
+        {% assign countDesc = countDesc | plus: 1 %}
+        {% if description.content.value != blank %}
+          <div class="font-body text-sm leading-5 font-light text-primary mb-3 lg:mb-4">
+            {% for element in description.content.value.children %}
+              {% if element.type == "paragraph" %}
+                {% for item in element.children %}
+                  {% if item.type == 'text' %}
+                    {% if item.value %}
+                      <p{% if item.bold %} class="font-medium"{% endif %}>{{ item.value | join: ' ' }}</p>
+                    {% else %}
+                      {% for strong in item.children %}
+                        {% if strong.bold %}
+                          <strong>{{ strong.value | join: ' ' }}</strong>
+                        {% else %}
+                          {{ strong.value }}
+                        {% endif %}
+                      {% endfor %}
+                    {% endif %}
+                  {% endif %}
+                  {% if item.type == 'link' %}
+                    <a href="{{ item.url }}" target="{{ item.target }}"{% if item.bold %} class="font-medium"{% endif %} title="{{ item.title }}">
+                      {% if item.value %}
+                        {{ item.value }}
+                      {% else %}
+                        {% for strong in item.children %}
+                          {% if strong.bold %}
+                            <strong>{{ strong.value }}</strong>
+                          {% else %}
+                            {{ strong.value }}
+                          {% endif %}
+                        {% endfor %}
+                      {% endif %}
+                    </a>
+                  {% endif %}
+                {% endfor %}
+              {% endif %}
+              {% if element.type == "list" %}
+                <ul>
+                  {% for item in element.children %}
+                    {% for children in item.children %}
+                      <li{% if item.bold %} class="font-medium"{% endif %}>{{ children.value }}</li>
+                    {% endfor %}
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endif %}
+    {% endif %}
+    {% if countDesc == 3 %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
+  {% if collectionDetails.metafields.custom.product_details.value != blank %}
+    <div class="product-details">
+      {% for details in collectionDetails.metafields.custom.product_details.value %}
+        {% if details.identity.value contains 'All' or details.identity.value contains identity %}
+          {% for element in details.content.value.children %}
+            {% if element.type == "paragraph" %}
+              {% for item in element.children %}
+                {% if item.type == 'text' %}
+                  {% if item.value %}
+                    <p{% if item.bold %} class="font-medium"{% endif %}>{{ item.value | join: ' ' }}</p>
+                  {% else %}
+                    {% for strong in item.children %}
+                      {% if strong.bold %}
+                        <strong>{{ strong.value | join: ' ' }}</strong>
+                      {% else %}
+                        {{ strong.value }}
+                      {% endif %}
+                    {% endfor %}
+                  {% endif %}
+                {% endif %}
+                {% if item.type == 'link' %}
+                  <a href="{{ item.url }}" target="{{ item.target }}"{% if item.bold %} class="font-medium"{% endif %} title="{{ item.title }}">
+                    {% if item.value %}
+                      {{ item.value }}
+                    {% else %}
+                      {% for strong in item.children %}
+                        {% if strong.bold %}
+                          <strong>{{ strong.value }}</strong>
+                        {% else %}
+                          {{ strong.value }}
+                        {% endif %}
+                      {% endfor %}
+                    {% endif %}
+                  </a>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+            {% if element.type == "list" %}
+              <ul>
+                {% for item in element.children %}
+                  {% for children in item.children %}
+                    <li{% if children.bold %} class="font-medium"{% endif %}>{{ children.value }}</li>
+                  {% endfor %}
+                {% endfor %}
+              </ul>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endcapture %}
+
+<section id="MainProduct-{{ section.id }}" class="page-width" data-section="{{ section.id }}">
+  <div class="flex flex-wrap lg:flex-nowrap">
+    <div class="product-media-wrapper w-full{% if product.media.size > 0 %} lg:max-w-[calc(100%_-_492px)]{% else %} lg:max-w-full{% endif %} overflow-hidden h-fit transition-all duration-200 static lg:sticky top-4">
+      {% render 'product-media-gallery', product: product %}
+      <tabs-component class="product-infortab transition-height relative hidden lg:block{% if product.media.size > 1 %} ml-24{% endif %} mt-8">
+        <div class="tab-headings flex items-center pb-3 border-b border-solid border-primary">
+          <div class="tab-heading flex capitalize text-base xl:text-lg font-semibold leading-6 text-center items-center gap-1.5 font-heading cursor-pointer text-primary hover:text-primary transition-all lg:pr-2 xl:pr-5 border-r border-primary" data-id="{{ section.id }}-description">
+            {% render 'icon-description', class: 'w-5 h-5 flex-none lg:hidden xl:block' %}<span>{{ 'products.product.description' | t }}</span>
+          </div>
+          <div class="tab-heading flex capitalize text-base xl:text-lg font-semibold leading-6 text-center items-center gap-1.5 font-heading cursor-pointer text-primary hover:text-primary transition-all lg:px-2 xl:px-5 border-r border-primary active" data-id="{{ section.id }}-information">
+            {% render 'icon-shipping', class: 'w-5 h-5 flex-none lg:hidden xl:block' %}
+            <span>{{ 'products.product.shipping' | t }}</span>
+          </div>
+          <div class="relative flex capitalize text-base xl:text-lg font-semibold leading-6 text-center items-center gap-1.5 font-heading cursor-pointer text-primary hover:text-primary transition-all lg:pl-2 xl:pl-5" id="{{ section.id }}-review" data-id="{{ section.id }}-review">
+            {% render 'icon-message', class: 'w-5 h-5 flex-none lg:hidden xl:block' %}
+            <span>{{ 'products.product.review' | t }}</span>
+            <a href="#{{ product.id }}-review" onclick="document.querySelector('#{{ product.id }}-review').click();" class="block absolute top-0 left-0 h-full w-full" rel="nofollow">
+              <span class="text-sm leading-4 text-primary uppercase lg:hidden">{{ 'products.product.read' | t }}</span>
+            </a>
+          </div>
+          {% render 'share-social', product: product, class: ' lg:pl-2 xl:pl-5 ml-auto', hide: true %}
+        </div>
+
+        <div class="tab-detail transition-height lg:hidden product-description py-4 pb-6 text-sm leading-5 font-light text-primary " data-id="{{ section.id }}-description">
+          {% if fullDescriptionResults != blank %}
+            {{ fullDescriptionResults }}
+          {% endif %}
+          {% if product.description != blank %}
+            {{ product.description }}
+          {% endif %}
+        </div>
+        <div class="tab-detail transition-height py-6 relative" data-id="{{ section.id }}-information">
+            <div class="flex gap-2 items-center mb-3">
+              <p class="sub-title note text-sm text-primary font-light leading-5">{{ 'products.shipping_information.estimated_arrival' | t }}:</p>
+              <p class="m-0 text-base text-primary leading-6 underline font-normal">
+                {{ 'now' | date: "%s" | plus: seconds3 | date: "%b %d" }} - {{ 'now' | date: "%s" | plus: seconds4 | date: "%b %d" }}
+              </p>
+            </div>
+            <div class="icon-text grid grid-cols-3 items-start p-4 bg-background max-w-[486px] rounded">
+              <div class="icon-text-wrapper group relative w-full justify-center flex flex-col items-center text-center">
+                <div class="group relative mb-2.5 w-full before:content-empty before:lg:content-none before:border-primary before:border-dashed before:border-t-2 before:block before:w-1/2 before:right-0 before:absolute before:top-1/2 before:-translate-y-1/2 before:z-0">
+                  <span class="icon p-1.5 mx-auto bg-primary rounded-full leading-none block w-8 h-8 relative">{% render 'icon-box-delivery', class: 'w-4.5 h-4.5 inline align-middle text-center' %}</span>
+                </div>
+                <div class="date-text group">
+                  <span class="text-xs lg:text-sm text-primary font-heading font-semibold leading-4 block">
+                    {%- assign mod_today = 'now' | date: '%a' -%}
+                    {% if shop.locale == 'de' %}
+                      {% if mod_today == 'Sat' %}
+                        <span>{{ "now" | date: '%s' | plus: 172800 | date: "%d %b" }}</span>
+                      {% elsif mod_today == 'Sun' %}
+                        <span>{{ "now" | date: '%s' | plus: 86400 | date: "%d %b" }}</span>
+                      {%- else -%}
+                        <span>{{ "now" | date: "%d %b" }}</span>
+                      {% endif %}
+                    {% else %}
+                      {% if mod_today == 'Sat' %}
+                        <span>{{ "now" | date: '%s' | plus: 172800 | date: "%b %d" }}</span>
+                      {% elsif mod_today == 'Sun' %}
+                        <span>{{ "now" | date: '%s' | plus: 86400 | date: "%b %d" }}</span>
+                      {%- else -%}
+                        <span>{{ "now" | date: "%b %d" }}</span>
+                      {% endif %}
+                    {% endif %}
+                  </span>
+                  <span class="note text-xs mt-0.5 font-light leading-5 text-primary block">
+                    {{ 'products.shipping_information.order_placed' | t }}
+                  </span>
+                </div>
+                <span class="shadow-tooltip tooltip group-hover:opacity-100 group-hover:visible">{{ 'products.shipping_information.order_placed_mess' | t }}</span>
+              </div>
+              <div class="icon-text-wrapper group relative w-full justify-center flex flex-col items-center text-center">
+                <div class="group relative mb-2.5 w-full before:content-empty before:lg:content-none before:border-primary before:border-dashed before:border-t-2 before:block before:w-full left-0 before:absolute before:top-1/2 before:-translate-y-1/2 before:z-0">
+                  <span class="icon p-1.5 mx-auto bg-primary rounded-full leading-none block w-8 h-8 relative">{% render 'icon-delivery', class: 'w-4.5 h-4.5 inline align-middle text-center' %}</span>
+                </div>
+                <div class="date-text group">
+                  <span class="text-xs lg:text-sm text-primary font-heading font-semibold leading-4 block">
+                    {% if shop.locale == 'de' %}
+                      {{ 'now' | date: "%s" | plus: seconds | date: "%d" }}-{{ 'now' | date: "%s" | plus: seconds2 | date: "%d" }} {{ 'now' | date: "%s" | plus: seconds | date: "%b" }}
+                    {% else %}
+                      {{ 'now' | date: "%s" | plus: seconds | date: "%b %d" }}-{{ 'now' | date: "%s" | plus: seconds2 | date: "%d" }}
+                    {% endif %}
+                  </span>
+                  <span class="note text-xs mt-0.5 font-light leading-5 text-primary block">
+                    {{ 'products.shipping_information.order_ships' | t }}
+                  </span>
+                </div>
+                <span class="shadow-tooltip tooltip group-hover:opacity-100 group-hover:visible">{{ 'products.shipping_information.order_ships_mess' | t }}</span>
+              </div>
+              <div class="icon-text-wrapper group relative w-full justify-center flex flex-col items-center text-center">
+                {% assign datec = 'now' | date: "%s" | plus: seconds3 | date: "%b %d" %}
+                {% assign datecc = 'now' | date: "%s" | plus: seconds4 | date: "%b %d" %}
+                {% assign date = datec | append: '-' | append: datecc %}
+                <div class="group relative mb-2.5 w-full before:content-empty before:lg:content-none before:border-primary before:border-dashed before:border-t-2 before:block before:w-1/2 left-0 before:absolute before:top-1/2 before:-translate-y-1/2 before:z-0">
+                  <span class="icon p-1.5 mx-auto bg-primary rounded-full leading-none block w-8 h-8 relative">{% render 'icon-gift-box', class: 'w-4.5 h-4.5 inline align-middle text-center' %}</span>
+                </div>
+                <div class="date-text group">
+                  <span class="text-xs lg:text-sm text-primary font-heading font-semibold leading-4 block">
+                    {% if shop.locale == 'de' %}
+                      {{ 'now' | date: "%s" | plus: seconds3 | date: "%d %b" }}-{{ 'now' | date: "%s" | plus: seconds4 | date: "%d %b" }}
+                    {% else %}
+                      {{ 'now' | date: "%s" | plus: seconds3 | date: "%b %d" }}-{{ 'now' | date: "%s" | plus: seconds4 | date: "%b %d" }}
+                    {% endif %}
+                  </span>
+                  <span class="note text-xs mt-0.5 font-light leading-5 text-primary block">
+                    {{ 'products.shipping_information.delivered' | t }}
+                  </span>
+                </div>
+                <span class="shadow-tooltip tooltip group-hover:opacity-100 group-hover:visible">{{ 'products.shipping_information.delivered_mess' | t: date: date }}</span>
+              </div>
+            </div>
+            {% if section.settings.shipping_description %}
+              <div class="mt-6 shipping-description">
+                {{ section.settings.shipping_description }}
+              </div>
+            {% endif %}
+        </div>
+        <div class="tab-detail review transition-height lg:hidden py-10 pb-6 !h-auto" id="{{ section.id }}-review" data-id="{{ section.id }}-review">
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when '@app' -%}
+                {% render block %}
+            {%- endcase -%}
+          {%- endfor -%}
+        </div>
+
+      </tabs-component>
+    </div>
+    <product-infor class="block w-full{% if product.media.size > 0 %} lg:max-w-[492px] lg:pl-7.5{% endif %} mt-6 lg:mt-0" id="ProductInfo-{{ section.id }}" data-product="{{ product.handle }}" data-recently-view="{{ settings.recently_view_limit }}">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'text' -%}
+            <p class="text-sm lg:text-base leading-4 {% if block.settings.text_style == 'uppercase' %} uppercase{% elsif block.settings.text_style == 'subtitle' %} normal-case{% endif %}">
+              {{- block.settings.text -}}
+            </p>
+          {%- when 'title' -%}
+            <div class="mb-5 lg:mb-6">
+              <h1 class="text-base leading-4 lg:text-h4 lg:leading-4 font-semibold mb-2 font-heading">{{ product.title | escape }}</h1>
+              <div class="relative">
+                <a href="#{{ product.id }}-review" onclick="document.querySelector('#{{ product.id }}-review').click();" class="lg:!block absolute top-0 left-0 h-full w-full" rel="nofollow"></a>
+                {{ product.metafields.judgeme.badge | replace: '"jdgm-prev-badge', '"jdgm-prev-badge' }}
+              </div>
+            </div>
+          {%- when 'price' -%}
+            <div id="price-{{ section.id }}" role="status" {{ block.shopify_attributes }}>
+              {%- render 'price' , product: product , use_variant: true , show_badges: true , show: true -%}
+            </div>
+            <div class="h-4 mb-5 lg:mb-6 relative"><div class="absolute top-0 left-0 block w-full h-full" data-pp-message data-pp-placement="product"></div></div>
+          {%- when 'popup' -%}
+            <modal-opener class="product-popup-modal__opener no-js-hidden quick-add-hidden" data-id="#PopupModal-{{ block.id }}" {{ block.shopify_attributes }}>
+              <button id="ProductPopup-{{ block.id }}" class="product-popup-modal__button link" type="button" aria-haspopup="dialog">
+                {{ block.settings.text | default: block.settings.page.title }}
+              </button>
+            </modal-opener>
+            <a href="{{ block.settings.page.url }}" class="product-popup-modal__button link no-js">
+              {{- block.settings.text -}}
+            </a>
+          {%- when 'shipping-box' -%}
+            <div class="py-3 px-5 rounded bg-background grid gap-2 mb-4 lg:mb-6 w-fit">
+              <div class="flex gap-2 items-center">
+                <span class="flex gap-2 items-center text-primary text-sm leading-5 font-light">{% render 'icon-clock-loading' , class: 'w-5 h-5 text-primary' %} {{ 'products.product.estimated_delivery' | t }}</span>
+                <span class="text-primary text-sm leading-5 font-normal underline">{{ 'now' | date: "%s" | plus: seconds3 | date: "%b %d" }} - {{ 'now' | date: "%s" | plus: seconds4 | date: "%b %d" }}</span>
+              </div>
+              <span class="flex gap-2 items-center text-primary text-sm font-light leading-5">{% render 'icon-normal-truck' , class: 'w-5 h-5 text-primary' %}
+                <span>{{ 'products.product.shipping_caculated_html' | t }}</span>
+              </span>
+            </div>
+          {%- when 'variant_picker' -%}
+            {%- unless product.has_only_default_variant -%}
+              <variant-radios class="block border-t border-primary pt-6 scroll-m-14 lg:scroll-m-31" id="variant-radios-{{ section.id }}" data-section="{{ section.id }}" data-url="{{ product.url }}" {% if update_url == false %} data-update-url="false" {% endif %}>
+                {%- for option in product.options_with_values -%}
+                  {% assign fatherIndex = forloop.index0 %}
+                  {% if option.name == 'Product' %}
+                    {% assign activeType = option.selected_value %}
+                    <fieldset class="js product-form__input block mb-8 {% if forloop.last %}!mb-0{% endif %} selector-wrapper data-layer-{{ fatherIndex }}" data-name="Product">
+                      <legend class="form__label mb-3 flex gap-2 text-sm text-primary uppercase font-bold font-heading leading-5">{{ 'products.product.product_type' | t }}:<span class="selected-value text-primary font-light font-body">{{ option.selected_value }}</span>
+                      </legend>
+                      <div class="option-values flex flex-wrap gap-2">
+                        {%- for value in option.values -%}
+                          <input
+                            type="radio"
+                            id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+                            name="{{ option.name }}"
+                            value="{{ value | escape }}"
+                            data-index="{{ fatherIndex }}"
+                            class="absolute opacity-0 invisible option-item {% if option.selected_value == value %} selected {% endif %}"
+                            form="{{ product_form_id }}"
+                            {% if option.selected_value == value %}
+                            checked
+                            {% endif %}>
+                          <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" class="option-item font-normal text-xs lg:text-sm leading-6 lg:leading-4 min-h-[35px] lg:min-h-[36px] bg-primary text-primary border border-primary-250 p-2 flex text-center rounded items-center justify-center option-size-label min-w-12 max-w-3-col-variant w-full">
+                            {{ value }}
+                          </label>
+                        {%- endfor -%}
+                      </div>
+                    </fieldset>
+                  {% elsif option.name == 'Color' or option.name == 'Farbe' or option.name == 'Colore' or option.name == 'Couleur' %}
+                    <fieldset class="js product-form__input block mb-8 {% if forloop.last %}!mb-0{% endif %} option-color-wrapper data-layer-{{ fatherIndex }}" data-name="Color">
+                      <legend class="form__label mb-3 flex gap-2 text-sm text-primary uppercase font-bold font-heading leading-5">{{ option.name }}:
+                        <span class="selected-value text-primary font-light font-body">{{ option.selected_value | remove: '-1' | remove: '-2' | remove: '-3' | remove: '-4' | remove: '-5' }}</span>
+                        <span class="require-option capitalize font-light text-red-500 font-heading text-sm lg:text-base !leading-[20px] hidden">{{ 'products.product.require' | t }}</span>
+                        {% if forloop.index == 3 %}
+                          {% assign option1 = product.options_with_values[1].name | split: " " | last %}
+                          <span class="message-option capitalize font-light text-red-500 font-heading text-sm lg:text-base !leading-[20px] hidden">{{ 'products.product.message_option' | t: option: option1 }}</span>
+                        {% endif %}
+                      </legend>
+                      <div class="option-color flex flex-wrap gap-2">
+                        {% assign values = '' %}
+                        {%- for value in option.values -%}
+                          {%- unless values contains value -%}
+                            {%- liquid
+                              assign values = values | join: ','
+                              assign values = values | append: ',' | append: value
+                              assign values = values | split: ','
+                              assign bgColor = value | split: ' ' | first | handle
+                            -%}
+                            <input
+                              type="radio"
+                              class="absolute opacity-0 invisible option-item"
+                              id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+                              data-index="{{ fatherIndex }}"
+                              name="{{ option.name }}"
+                              value="{{ value | escape }}"
+                              form="{{ product_form_id }}"
+                              {% if option.selected_value == value %}
+                              checked{% endif %}>
+                            <label
+                              for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+                              class="color border w-10 h-10 inline-block rounded border-primary overflow-hidden option-item"
+                              data-product-id="{{ product.id }}"
+                              data-variant-id="{{ variant.id }}"
+                              data-option="{{ option.name | handleize }}"
+                              data-value="{{ value | escape }}">
+                              <span class="color w-full h-full !inline-block bg-center" style="background-color:{{ bgColor }}; background-image: url({{ value | handle | append: '.' | append: 'png' | asset_img_url: '150x' }});"></span>
+                            </label>
+                          {%- endunless -%}
+                        {%- endfor -%}
+                      </div>
+                    </fieldset>
+                  {% elsif option.name == 'Size' or option.name == 'Taille' or option.name == 'Taglia' or option.name == 'Größe' %}
+                    <fieldset class="js product-form__input block mb-8 {% if forloop.last %}!mb-0{% endif %} option-size-wrapper data-layer-{{ fatherIndex }}" data-name="Size">
+                      <div class="title-option-size mb-3 flex justify-between items-center">
+                        <legend class="form__label flex gap-2 text-sm text-primary uppercase font-bold font-heading leading-5">{{ 'products.product.size' | t }}:
+                          <span class="selected-value text-primary font-light font-body">{{ option.selected_value }}</span>
+                          <span class="require-option capitalize font-light text-red-500 font-heading text-sm lg:text-base !leading-[20px] hidden">{{ 'products.product.require' | t }}</span>
+                          {% if forloop.index == 3 %}
+                            {% assign option1 = product.options_with_values[1].name | split: " " | last %}
+                            <span class="message-option capitalize font-light text-red-500 font-heading text-sm lg:text-base !leading-[20px] hidden">{{ 'products.product.message_option' | t: option: option1 }}</span>
+                          {% endif %}
+                        </legend>
+                        <modal-opener data-id="#PopupModal-Sizeguide" data-active="{{ activeType }}" class="size-popup flex gap-2 text-sm items-center capitalize underline underline-offset-2 cursor-pointer font-semibold font-heading text-secondary hover:text-primary">{% render 'icon-ruler' %}{{ 'products.product.size_guide' | t }}</modal-opener>
+                      </div>
+                      <div class="title-option-size-bt flex flex-wrap gap-2">
+                        {%- for value in option.values -%}
+                          <input class="absolute opacity-0 invisible option-item" type="radio" id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" name="{{ option.name }}" data-index="{{ fatherIndex }}" value="{{ value | escape }}" form="{{ product_form_id }}" {% if option.selected_value == value %} checked{% endif %}>
+                          <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" class="option-item font-normal text-xs lg:text-sm leading-6 lg:leading-4 min-h-[35px] lg:min-h-[36px] bg-primary text-primary border border-primary-250 p-2 flex text-center rounded items-center justify-center option-size-label min-w-12 max-w-6-col-variant w-full ">
+                            {{ value }}
+                          </label>
+                        {%- endfor -%}
+                      </div>
+                    </fieldset>
+                  {% else %}
+                    <fieldset class="js product-form__input block mb-8 {% if forloop.last %}!mb-0{% endif %} selector-wrapper data-layer-{{ fatherIndex }}">
+                      <legend class="form__label mb-3 flex gap-2 text-sm text-primary uppercase font-bold font-heading leading-5">{{ option.name }}:
+                        <span class="selected-value text-primary font-light font-body">{{ option.selected_value }}</span>
+                        {% unless forloop.first %}<span class="require-option capitalize font-light text-red-500 font-heading text-sm lg:text-base !leading-[20px] hidden">{{ 'products.product.require' | t }}</span>{% endunless %}
+                        {% if forloop.index == 3 %}
+                          {% assign option1 = product.options_with_values[1].name | split: " " | last %}
+                          <span class="message-option capitalize font-light text-red-500 font-heading text-sm lg:text-base !leading-[20px] hidden">{{ 'products.product.message_option' | t: option: option1 }}</span>
+                        {% endif %}
+                      </legend>
+                      <div class="option-values flex flex-wrap gap-2">
+                        {%- for value in option.values -%}
+                          <input class="absolute opacity-0 invisible option-item {% if option.selected_value == value %} selected {% endif %}" type="radio" id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" name="{{ option.name }}" data-index="{{ fatherIndex }}" value="{{ value | escape }}" form="{{ product_form_id }}" {% if option.selected_value == value %} checked{% endif %}>
+                          <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" class="option-item font-light text-xs lg:text-base leading-none lg:leading-none min-h-[35px] lg:min-h-[41px] bg-primary text-primary border border-primary-250 p-2 flex text-center rounded items-center justify-center min-w-12 max-w-3-col-variant w-full option-label">
+                            {{ value }}
+                          </label>
+                        {%- endfor -%}
+                      </div>
+                    </fieldset>
+                  {% endif %}
+                {%- endfor -%}
+                <script type="application/json">
+                  {{ product.variants | json }}
+                </script>
+              </variant-radios>
+            {%- endunless -%}
+          {%- when 'text-image' -%}
+            {% style %}
+              [data-block-id="{{ block.id }}"] {
+                background: {{ block.settings.background_color_image_text }};
+                color: {{ block.settings.colors_text }};
+              }
+            {% endstyle %}
+            <div data-block-id="{{ block.id }}" class="grid grid-cols-3 gap-1 p-3 lg:p-4 mt-3 lg:mt-8 rounded-lg">
+              {% if block.settings.image-1 != blank or block.settings.text-1 != blank %}
+                <div class="text-center">
+                  {% if block.settings.image-1 != blank %}
+                    <img class="mb-3 mx-auto block text-center max-w-[40px]" src="{{ block.settings.image-1 | image_url: width: 150 }}" alt="{{ block.settings.text-1 }}" loading="lazy" width="{{ block.settings.image-1.width }}" height="{{ block.settings.image-1.height }}"/>
+                  {% endif %}
+                  {%- if block.settings.text-1 != blank -%}
+                    <span class="capitalize text-xs leading-2 lg:text-sm lg:leading-2 inline-block font-heading font-normal">{{ block.settings.text-1 }}</span>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+              {% if block.settings.image-2 != blank or block.settings.text-2 != blank %}
+                <div class="text-image text-center">
+                  {% if block.settings.image-2 != blank %}
+                    <img src="{{ block.settings.image-2 | image_url: width: 150 }}" alt="{{ block.settings.text-2 | escape }}" loading="lazy" width="{{ block.settings.image-2.width }}" height="{{ block.settings.image-2.height }}" class="mb-3 mx-auto block text-center max-w-[40px]" />
+                  {% endif %}
+                  {%- if block.settings.text-2 != blank -%}
+                    <span class="capitalize text-xs leading-2 lg:text-sm lg:leading-2 inline-block font-heading font-normal">{{ block.settings.text-2 }}</span>
+                  {% endif %}
+                </div>
+              {%- endif -%}
+              {%- if block.settings.image-3 != blank or block.settings.text-3 != blank -%}
+                <div class="text-image text-center">
+                  {% if block.settings.image-3 != blank %}
+                    <img src="{{ block.settings.image-3 | image_url: width: 150 }}" alt="{{ block.settings.text-3 | escape }}" loading="lazy" width="{{ block.settings.image-3.width }}" height="{{ block.settings.image-3.height }}" class="mb-3 mx-auto block text-center max-w-[40px]" />
+                  {% endif %}
+                  {%- if block.settings.text-3 != blank -%}
+                    <span class="capitalize text-xs leading-2 lg:text-sm lg:leading-2 inline-block font-heading font-normal">{{ block.settings.text-3 }}</span>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+            </div>
+          {%- when 'buy_buttons' -%}
+            <product-form class="block">
+              <div class="product-form__error-message-wrapper" role="alert" hidden>
+                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-error"  viewBox="0 0 13 13">
+                  <circle cx="6.5" cy="6.50049" r="5.5" stroke="white" stroke-width="2"/>
+                  <circle cx="6.5" cy="6.5" r="5.5" fill="#EB001B" stroke="#EB001B" stroke-width="0.7" />
+                  <path d="M5.87413 3.52832L5.97439 7.57216H7.02713L7.12739 3.52832H5.87413ZM6.50076 9.66091C6.88091 9.66091 7.18169 9.37267 7.18169 9.00504C7.18169 8.63742 6.88091 8.34917 6.50076 8.34917C6.12061 8.34917 5.81982 8.63742 5.81982 9.00504C5.81982 9.37267 6.12061 9.66091 6.50076 9.66091Z" fill="white" />
+                  <path d="M5.87413 3.17832H5.51535L5.52424 3.537L5.6245 7.58083L5.63296 7.92216H5.97439H7.02713H7.36856L7.37702 7.58083L7.47728 3.537L7.48617 3.17832H7.12739H5.87413ZM6.50076 10.0109C7.06121 10.0109 7.5317 9.57872 7.5317 9.00504C7.5317 8.43137 7.06121 7.99918 6.50076 7.99918C5.94031 7.99918 5.46982 8.43137 5.46982 9.00504C5.46982 9.57872 5.94031 10.0109 6.50076 10.0109Z" fill="white" stroke="#EB001B" stroke-width="0.7">
+                </svg>
+                <span class="product-form__error-message"></span>
+              </div>
+
+              {%- form 'product', product, id: product_form_id, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+                <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" disabled>
+                <sticky-add-to-cart class="block mt-2 lg:mt-6 mb-4 relative h-27 lg:h-29">
+                  <div class="product-form__buttons flex flex-col">
+                    <button type="submit" name="add" class="product-form__submit button button--full-width btn" {% if product.selected_or_first_available_variant.available == false %} disabled{% endif %}>
+                      <span>
+                        {%- if product.selected_or_first_available_variant.available -%}
+                          {{ 'products.product.add_to_cart' | t }}
+                        {%- else -%}
+                          {{ 'products.product.sold_out' | t }}
+                        {%- endif -%}
+                      </span>
+                      <div class="loading-overlay__spinner hidden"></div>
+                    </button>
+                    <div class="button-unavailable"></div>
+                  </div>
+                </sticky-add-to-cart>
+                {% if block.settings.show_shipping %}
+                  <span class="block text-center text-sm leading-1.5 text-primary font-light">{{ 'products.shipping_information.overmb' | t }}<span class="text-sale font-medium">{{ settings.minimum_freeshipping | append: '00' | plus: 0 | money_without_trailing_zeros }}</span>
+                  </span>
+                {% endif %}
+              {%- endform -%}
+            </product-form>         
+        {%- endcase -%}
+      {%- endfor -%}
+    </product-infor>
+    <div class="product-infor relative lg:hidden mt-6 w-full">
+      <accordion-toggle class="block p-4 bg-background rounded mb-2 w-full">
+        <div class="summary flex justify-between items-center w-full">
+          <div class="flex items-center gap-1.5 text-base text-primary font-semibold font-heading">
+            {% render 'icon-description', class: 'w-5 h-5' %}
+            <span>{{ 'products.product.description' | t }}</span>
+          </div>
+          <span class="icon-add">{% render 'icon-down', class: 'w-6 h-6 text-primary' %}</span>
+          <span class="icon-minus">{% render 'icon-up', class: 'w-6 h-6 text-primary' %}</span>
+        </div>
+        <div class="details product-details">
+          {% if fullDescriptionResults != blank %}
+            {{ fullDescriptionResults }}
+          {% endif %}
+          {% if product.description != blank %}
+            {{ product.description }}
+          {% endif %}
+        </div>
+      </accordion-toggle>
+      <accordion-toggle class="block p-4 bg-background rounded mb-2 w-full active">
+        <div class="summary flex justify-between items-center w-full">
+          <div class="flex items-center gap-1.5 text-base text-primary font-semibold font-heading">{% render 'icon-shipping', class: 'w-5 h-5' %}<span>{{ 'products.product.shipping' | t }}</span>
+          </div>
+          <span class="icon-add">{% render 'icon-down', class: 'w-6 h-6 text-primary' %}</span>
+          <span class="icon-minus">{% render 'icon-up', class: 'w-6 h-6 text-primary' %}</span>
+        </div>
+        <div class="details">
+          <div class="flex gap-2 items-center mb-3">
+            <p class="sub-title note text-sm text-primary font-light leading-5">{{ 'products.shipping_information.estimated_arrival' | t }}:</p>
+            <p class="m-0 text-base text-primary leading-6 underline font-normal">
+              {{ 'now' | date: "%s" | plus: seconds3 | date: "%b %d" }} - {{ 'now' | date: "%s" | plus: seconds4 | date: "%b %d" }}
+            </p>
+          </div>
+          <div class="icon-text grid grid-cols-3 items-start p-4 bg-background max-w-[486px] rounded">
+            <div class="icon-text-wrapper w-full group relative justify-center flex flex-col items-center text-center">
+              <div class="group relative mb-2.5 w-full before:border-primary before:border-dashed before:border-t-2 before:block before:w-full before:right-0 before:absolute before:top-1/2 before:-translate-y-1/2 before:z-0">
+                <span class="icon p-1.5 mx-auto bg-primary rounded-full leading-none block w-8 h-8 relative">{% render 'icon-box-delivery', class: 'w-4.5 h-4.5 inline align-middle text-center' %}</span>
+              </div>
+              <div class="date-text group">
+                <span class="text-xs lg:text-sm text-primary font-heading font-semibold leading-4 block">
+                  {%- assign mod_today = 'now' | date: '%a' -%}
+                  {% if shop.locale == 'de' %}
+                    {% if mod_today == 'Sat' %}
+                      <span>{{ "now" | date: '%s' | plus: 172800 | date: "%d %b" }}</span>
+                    {% elsif mod_today == 'Sun' %}
+                      <span>{{ "now" | date: '%s' | plus: 86400 | date: "%d %b" }}</span>
+                    {%- else -%}
+                      <span>{{ "now" | date: "%d %b" }}</span>
+                    {% endif %}
+                  {% else %}
+                    {% if mod_today == 'Sat' %}
+                      <span>{{ "now" | date: '%s' | plus: 172800 | date: "%b %d" }}</span>
+                    {% elsif mod_today == 'Sun' %}
+                      <span>{{ "now" | date: '%s' | plus: 86400 | date: "%b %d" }}</span>
+                    {%- else -%}
+                      <span>{{ "now" | date: "%b %d" }}</span>
+                    {% endif %}
+                  {% endif %}
+                </span>
+                <span class="note text-xs mt-0.5 font-light leading-5 text-primary block">
+                  {{ 'products.shipping_information.order_placed' | t }}
+                </span>
+              </div>
+              <span class="shadow-tooltip tooltip !top-1/2 min-w-[calc(100%_+_32px)] !translate-y-0 group-hover:opacity-100 group-hover:visible">{{ 'products.shipping_information.order_placed_mess' | t }}</span>
+            </div>
+            <div class="icon-text-wrapper w-full group relative justify-center flex flex-col items-center text-center">
+              <div class="group relative mb-2.5 w-full before:border-primary before:border-dashed before:border-t-2 before:block before:w-full before:right-0 before:absolute before:top-1/2 before:-translate-y-1/2 before:z-0">
+                <span class="icon p-1.5 mx-auto bg-primary rounded-full leading-none block w-8 h-8 relative">{% render 'icon-delivery', class: 'w-4.5 h-4.5 inline align-middle text-center' %}</span>
+              </div>
+              <div class="date-text group">
+                <span class="text-xs lg:text-sm text-primary font-heading font-semibold leading-4 block">
+                  {% if shop.locale == 'de' %}
+                    {{ 'now' | date: "%s" | plus: seconds | date: "%d" }}-{{ 'now' | date: "%s" | plus: seconds2 | date: "%d" }} {{ 'now' | date: "%s" | plus: seconds | date: "%b" }}
+                  {% else %}
+                    {{ 'now' | date: "%s" | plus: seconds | date: "%b %d" }}-{{ 'now' | date: "%s" | plus: seconds2 | date: "%d" }}
+                  {% endif %}
+                </span>
+                <span class="note text-xs mt-0.5 font-light leading-5 text-primary block">
+                  {{ 'products.shipping_information.order_ships' | t }}
+                </span>
+              </div>
+              <span class="shadow-tooltip tooltip !top-1/2 min-w-[calc(100%_+_32px)] !translate-y-0 group-hover:opacity-100 group-hover:visible">{{ 'products.shipping_information.order_ships_mess' | t }}</span>
+            </div>
+            <div class="icon-text-wrapper w-full group relative justify-center flex flex-col items-center text-center">
+              {% assign datec = 'now' | date: "%s" | plus: seconds3 | date: "%b %d" %}
+              {% assign datecc = 'now' | date: "%s" | plus: seconds4 | date: "%b %d" %}
+              {% assign date = datec | append: '-' | append: datecc %}
+              <div class="group relative mb-2.5 w-full before:border-primary before:border-dashed before:border-t-2 before:block before:w-full before:right-0 before:absolute before:top-1/2 before:-translate-y-1/2 before:z-0">
+                <span class="icon p-1.5 mx-auto bg-primary rounded-full leading-none block w-8 h-8 relative">{% render 'icon-gift-box', class: 'w-4.5 h-4.5 inline align-middle text-center' %}</span>
+              </div>
+              <div class="date-text group">
+                <span class="text-xs lg:text-sm text-primary font-heading font-semibold leading-4 block">
+                  {% if shop.locale == 'de' %}
+                    {{ 'now' | date: "%s" | plus: seconds3 | date: "%d %b" }}-{{ 'now' | date: "%s" | plus: seconds4 | date: "%d %b" }}
+                  {% else %}
+                    {{ 'now' | date: "%s" | plus: seconds3 | date: "%b %d" }}-{{ 'now' | date: "%s" | plus: seconds4 | date: "%b %d" }}
+                  {% endif %}
+                </span>
+                <span class="note text-xs mt-0.5 font-light leading-5 text-primary block">
+                  {{ 'products.shipping_information.delivered' | t }}
+                </span>
+              </div>
+              <span class="shadow-tooltip tooltip !top-1/2 min-w-[calc(100%_+_32px)] !translate-y-0 group-hover:opacity-100 group-hover:visible">{{ 'products.shipping_information.delivered_mess' | t: date: date }}</span>
+            </div>
+          </div>
+          {% if section.settings.shipping_description %}
+            <div class="mt-6 shipping-description">
+              {{ section.settings.shipping_description }}
+            </div>
+          {% endif %}
+        </div>
+      </accordion-toggle>
+      <div class="relative review block p-4 bg-background rounded mb-5 w-full">
+        <div class="summary flex justify-between items-center w-full">
+          <div class="flex items-center gap-1.5 text-base text-primary font-semibold font-heading">{% render 'icon-message', class: 'w-5 h-5' %}<span>{{ 'products.product.review' | t }}</span>
+          </div>
+          <a href="#{{ product.id }}-review" onclick="document.querySelector('#{{ product.id }}-review').click();" class="block" rel="nofollow">
+            <span class="text-sm leading-4 text-primary uppercase lg:hidden">{{ 'products.product.read' | t }}</span>
+          </a>
+        </div>
+      </div>
+      {% render 'share-social', product: product, class: 'justify-center' %}
+    </div>
+  </div>
+
+  {%- liquid
+    if product.selected_or_first_available_variant.featured_media
+      assign seo_media = product.selected_or_first_available_variant.featured_media
+    else
+      assign seo_media = product.featured_media
+    endif
+  -%}
+  {% assign collectionList = '' %}
+  {% for collection in product.collections %}
+    {% unless forloop.first %}
+      {% assign collectionList = collectionList | append: ',' | append: '"' | append: collection.title | append: '"' %}
+    {% else %}
+      {% assign collectionList = '"' | append: collection.title | append: '"'  %}
+    {% endunless %}
+  {% endfor %}
+  {% assign numReview = product.metafields.judgeme.badge | split: "data-number-of-reviews='" | last | split: "'" | first | plus: 0 %}
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org/",
+      "@type": "Product",
+      "name": {{ product.title | json }},
+      "url": {{ request.origin | append: product.url | json }},
+      {% if numReview != 0 %}
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "{{ product.metafields.judgeme.badge | split: "data-average-rating='" | last | split: "'" | first | plus: 0 }}",
+        "reviewCount": "{{ numReview }}",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      {% endif %}
+      {% if seo_media -%}
+        "image" : [{{ seo_media | image_url: width: seo_media.preview_image.width | prepend: "https:" | json }}],
+        {%- endif %}
+        "description": {{ product.description | strip_html | json }},
+        {% if product.selected_or_first_available_variant.sku != blank -%}
+          "sku": {{ product.selected_or_first_available_variant.sku | json }},
+          {%- endif %}
+          "brand": {
+            "@type": "Brand",
+            "name": {{ product.type | json }}
+          },
+          "offers": [
+                    {%- for variant in product.variants -%}
+              {
+                        "@type": "Offer",
+                        {%- if variant.sku != blank -%}
+                  "sku": {{ variant.sku | json }},
+                        {%- endif -%}
+                  {%- if variant.barcode.size == 12 -%}
+                    "gtin12": {{ variant.barcode }},
+                        {%- endif -%}
+                    {%- if variant.barcode.size == 13 -%}
+                      "gtin13": {{ variant.barcode }},
+                        {%- endif -%}
+                      {%- if variant.barcode.size == 14 -%}
+                        "gtin14": {{ variant.barcode }},
+                        {%- endif -%}
+                        "availability": "http://schema.org/{% if variant.available %} InStock{% else %}OutOfStock{% endif %}",
+                        "price": "{{ variant.price | money_without_currency | replace: ",", "." }}",
+                        "priceCurrency": {{ cart.currency.iso_code | json }},
+                        "url": {{ request.origin | append: variant.url | json }}
+                      }{% unless forloop.last %},{% endunless %}
+                    {%- endfor -%}
+                  ]
+                }
+  </script>
+  <script type="text/javascript" defer>
+    var _learnq = _learnq || [];
+    var item = {
+      "ProductName": "{{ product.title }}",
+      "ProductID": "{{ product.id }}",
+      "SKU": "{{ product.selected_or_first_available_variant.sku }}",
+      "Categories": {{ product.collections | json }},
+      "ImageURL": "{{ product.featured_image | image_url }}",
+      "URL": "{{ product.url }}",
+      "Brand": "{{ shop.name }}",
+      "Price": "{{ product.price | money }}",
+      "CompareAtPrice": "{{ product.compare_at_price | money }}"
+    };
+    _learnq.push(["track", "Viewed Product", item]);
+  </script>
+</section>
+
+<script defer src="https://cdn.customily.com/customily.js"></script>
+<script defer src="https://cdn.customily.com/shopify/static/customily.shopify.script.unified.js"></script>
+{% capture src_url %}{{ 'template-product.js' | asset_url }}{% endcapture %}
+{% render 'atom_script', src: src_url, priority: 'normal', type: "defer" %}
+
+<script defer src="https://www.paypal.com/sdk/js?client-id=AU_cd7dYLlIPAIz-RBHxFBSFgVK6tKWcw3SagqaDo6hoc88m_cM9fhnXjz_riLj29WFqrFwxn2Xey_Gj&components=messages" data-namespace="PayPalSDK"></script>
+
+{% schema %}
+  {
+    "name": "t:sections.main-product.name",
+    "tag": "section",
+    "blocks": [
+      {
+        "type": "@app"
+      },
+      {
+        "type": "text",
+        "name": "t:sections.main-product.blocks.text.name",
+        "settings": [
+          {
+            "type": "text",
+            "id": "text",
+            "default": "Text block",
+            "label": "t:sections.main-product.blocks.text.settings.text.label"
+          }, {
+            "type": "select",
+            "id": "text_style",
+            "options": [
+              {
+                "value": "body",
+                "label": "t:sections.main-product.blocks.text.settings.text_style.options__1.label"
+              }, {
+                "value": "subtitle",
+                "label": "t:sections.main-product.blocks.text.settings.text_style.options__2.label"
+              }, {
+                "value": "uppercase",
+                "label": "t:sections.main-product.blocks.text.settings.text_style.options__3.label"
+              }
+            ],
+            "default": "body",
+            "label": "t:sections.main-product.blocks.text.settings.text_style.label"
+          }
+        ]
+      },
+      {
+        "type": "shipping-box",
+        "name": "Shipping box",
+        "settings": []
+      },
+      {
+        "type": "text-image",
+        "name": "Text Image",
+        "settings": [
+          {
+            "type": "color",
+            "id": "background_color_image_text",
+            "label": "Background",
+            "default": "#FAFAFA"
+          },
+          {
+            "type": "color",
+            "id": "colors_text",
+            "default": "#808080",
+            "label": "Color text"
+          },
+          {
+            "type": "image_picker",
+            "id": "image-1",
+            "label": "Image"
+          },
+          {
+            "type": "text",
+            "id": "text-1",
+            "default": "Text block",
+            "label": "Text"
+          }, {
+            "type": "image_picker",
+            "id": "image-2",
+            "label": "Image"
+          }, {
+            "type": "text",
+            "id": "text-2",
+            "default": "Text block",
+            "label": "Text"
+          }, {
+            "type": "image_picker",
+            "id": "image-3",
+            "label": "Image"
+          }, {
+            "type": "text",
+            "id": "text-3",
+            "default": "Text block",
+            "label": "Text"
+          }
+        ]
+      }, {
+        "type": "title",
+        "name": "t:sections.main-product.blocks.title.name",
+        "limit": 1
+      }, {
+        "type": "price",
+        "name": "t:sections.main-product.blocks.price.name",
+        "limit": 1
+      }, {
+        "type": "quantity_selector",
+        "name": "t:sections.main-product.blocks.quantity_selector.name",
+        "limit": 1
+      }, {
+        "type": "variant_picker",
+        "name": "t:sections.main-product.blocks.variant_picker.name",
+        "limit": 1,
+        "settings": []
+      }, {
+        "type": "buy_buttons",
+        "name": "t:sections.main-product.blocks.buy_buttons.name",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "show_shipping",
+            "default": true,
+            "label": "Show shipping"
+          }
+        ]
+      }, {
+        "type": "rating",
+        "name": "t:sections.main-product.blocks.rating.name",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "paragraph",
+            "content": "t:sections.main-product.blocks.rating.settings.paragraph.content"
+          }
+        ]
+      }
+    ],
+    "settings": [
+      {
+        "type": "header",
+        "content": "Shipping Information"
+      }, {
+        "type": "richtext",
+        "id": "shipping_description",
+        "label": "Shipping description"
+      }
+    ]
+  }
+{% endschema %}

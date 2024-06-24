@@ -1,0 +1,157 @@
+{%- style -%}
+  [data-section-id="{{ section.id }}"] {
+    background: {{ section.settings.background_color }};
+    padding-top: {{ section.settings.padding_top_mb }}px;
+    padding-bottom: {{ section.settings.padding_bottom_mb }}px;
+  }
+  [data-section-id="{{ section.id }}"] .slider-slide { 
+      max-width: calc(100%/{{ section.settings.product_per_row_mobile }} - {{ 12 | times: section.settings.product_per_row_mobile | minus: 12 | divided_by: section.settings.product_per_row_mobile }}px);
+    }
+
+  @media screen and (min-width: 768px) {
+    [data-section-id="{{ section.id }}"] .slider-slide {
+      max-width: calc(100%/{{ section.settings.product_per_row_tablet }} - {{ 16 | times: section.settings.product_per_row_tablet | minus: 16 | divided_by: section.settings.product_per_row_tablet }}px);
+    }
+  }
+
+  @media screen and (min-width: 1024px) {
+    [data-section-id="{{ section.id }}"] {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+    [data-section-id="{{ section.id }}"] .slider-slide {
+      max-width: calc(100%/{{ section.settings.product_per_row }} - {{ 16 | times: section.settings.product_per_row | minus: 16 | divided_by: section.settings.product_per_row }}px);
+    }
+  }
+{%- endstyle -%}
+<div data-section-id="{{ section.id }}">
+  <recently-viewed class="page-width-desktop px-2 block relative">
+    <div class="flex items-center justify-between mb-6 lg:mb-10">
+      <h2 class="text-h5 font-semibold lg:text-h2 text-primary">{{ section.settings.heading | escape }}</h2>
+    </div>
+
+    <slider-component class="block overflow-hidden">
+      <button
+        type="button"
+        class="prev-{{ section.id }} absolute top-1/2 -translate-y-[125%] left-0 w-10 h-10 bg-transparent shadow-button leading-none cursor-pointer transition-all hidden lg:flex items-center justify-center p-0 rounded-full border-0 {% if settings.country == 'UK' %}text-primary disabled:!text-primary-opacity-50{% else %}text-primary disabled:!text-primary-opacity-50{% endif %}"
+        name="previous"
+        aria-label="previous">
+        {%- render 'icon-prev', class: "w-7 h-7" -%}
+      </button>
+      <ul class="flex slider-wrapper gap-3 md:gap-4 slider-on-mobile slider-on-tablet slider-on-desktop" id="Slider-{{ section.id }}">
+        <span class="!block w-full pb-52"></span>
+      </ul>
+      <button
+        type="button"
+        class="next-{{ section.id }} absolute top-1/2 -translate-y-[125%] right-0 w-10 h-10 bg-transparent shadow-button leading-none cursor-pointer transition-all hidden lg:flex items-center justify-center p-0 rounded-full border-0 {% if settings.country == 'UK' %}text-primary disabled:!text-primary-opacity-50{% else %}text-primary disabled:!text-primary-opacity-50{% endif %}"
+        name="next"
+        aria-label="next">
+        {%- render 'icon-next', class: "w-7 h-7" -%}
+      </button>
+
+      <div class="slider-counter caption !hidden">
+        <span class="slider-counter--current">1</span>
+        <span aria-hidden="true"> / </span>
+        <span class="slider-counter--total"></span>
+      </div>
+      <div class="slider-dots mt-8 lg:mt-12"></div>
+    </slider-component>
+
+  </recently-viewed>
+</div>
+
+{% capture recently %}{{ 'recently-viewed-product.js' | asset_url }}{% endcapture %}
+{% render 'atom_script', src: recently, priority: 'normal', type: "defer" %}
+
+{% schema %}
+  {
+    "name": "Recently viewed products",
+    "tag": "section",
+    "settings": [
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Heading",
+        "default": "Recently Viewed Products"
+      },
+      {
+        "type": "range",
+        "id": "product_per_row",
+        "label": "Products per row",
+        "min": 1,
+        "max": 5,
+        "step": 1,
+        "default": 4
+      },
+      {
+        "type": "range",
+        "id": "product_per_row_tablet",
+        "label": "Products per row tablet",
+        "min": 1,
+        "max": 4,
+        "step": 1,
+        "default": 3
+      }, {
+        "type": "range",
+        "id": "product_per_row_mobile",
+        "label": "Products per row mobile",
+        "min": 1,
+        "max": 3,
+        "step": 1,
+        "default": 2
+      }, {
+        "type": "header",
+        "content": "Common settings"
+      }, {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background",
+        "default": "#FAFAFA"
+      }, {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 200,
+        "step": 2,
+        "unit": "px",
+        "label": "Padding Top DeskTop",
+        "default": 64
+      }, {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 200,
+        "step": 2,
+        "unit": "px",
+        "label": "Padding Bottom Desktop",
+        "default": 92
+      }, {
+        "type": "header",
+        "content": "Mobile settings"
+      }, {
+        "type": "range",
+        "id": "padding_top_mb",
+        "min": 0,
+        "max": 200,
+        "step": 2,
+        "unit": "px",
+        "label": "Padding Top Mobile",
+        "default": 32
+      }, {
+        "type": "range",
+        "id": "padding_bottom_mb",
+        "min": 0,
+        "max": 200,
+        "step": 2,
+        "unit": "px",
+        "label": "Padding Bottom Mobile",
+        "default": 32
+      }
+    ],
+    "presets": [
+      {
+        "name": "Recently viewed products"
+      }
+    ]
+  }
+{% endschema %}

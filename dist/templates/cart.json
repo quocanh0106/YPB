@@ -1,0 +1,38 @@
+{
+  "sections": {
+    "template": {
+      "type": "template-cart",
+      "blocks": {
+        "subtotal": {
+          "type": "subtotal",
+          "settings": {
+          }
+        },
+        "buttons": {
+          "type": "buttons",
+          "settings": {
+          }
+        },
+        "text-image": {
+          "type": "text-image",
+          "settings": {
+            "background_color_image_text": "#fafafa",
+            "colors_text": "#0f0f0f"
+          }
+        }
+      },
+      "block_order": [
+        "subtotal",
+        "buttons",
+        "text-image"
+      ],
+      "settings": {
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "template"
+  ]
+}
