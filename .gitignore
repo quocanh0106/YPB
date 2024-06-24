@@ -1,8 +1,6 @@
 # Ignore dependnecies and compiled directories
 node_modules
 dist
-# Ignore lock files
-*.lock
 # Ignore temporary files
 *.DS_Store
 *error.log
