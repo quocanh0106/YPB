@@ -2,9 +2,9 @@ name: Deploy Preview
 
 on:
   push:
-    branches:
-      - develop
-
+    branches: [ "develop" ]
+  pull_request:
+    branches: [ "develop" ]
 jobs:
   deploy:
     name: Deploy
@@ -21,14 +21,9 @@ jobs:
           ruby-version: 3.1
           bundler: latest
 
-      - name: Install Shopify CLI
-        run: npm install -g @shopify/cli @shopify/theme
-
-      - name: Install dependencies
-        run: npm install --legacy-peer-deps
-
-      - name: Build theme
-        run: npm run build
+      - run: npm install -g @shopify/cli @shopify/theme
+      - run: npm ci
+      - run: npm run build --if-present
 
       - name: Deploy
         env:
