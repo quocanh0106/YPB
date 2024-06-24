@@ -21,9 +21,17 @@ jobs:
           ruby-version: 3.1
           bundler: latest
 
-      - run: npm install -g @shopify/cli @shopify/theme
-      - run: npm install
-      - run: npm run build --if-present
+      - name: Install Yarn
+        run: npm install -g yarn
+
+      - name: Install Shopify CLI
+        run: yarn global add @shopify/cli @shopify/theme
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build theme
+        run: yarn run build
 
       - name: Deploy
         env:
