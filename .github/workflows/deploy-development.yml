@@ -27,8 +27,8 @@ jobs:
         run: npm install -g @shopify/cli
 
       - name: Build project
-        run: npm run install
-        
+        run: npm install
+
       - name: Build theme
         run: npm run build
       
