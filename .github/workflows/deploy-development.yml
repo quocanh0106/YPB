@@ -25,7 +25,10 @@ jobs:
       
       - name: Install Shopify CLI
         run: npm install -g @shopify/cli
-      
+
+      - name: Build project
+        run: npm run install
+        
       - name: Build theme
         run: npm run build
       
