@@ -4,26 +4,6 @@
   <div class="megamenu duration-500 lg:duration-0 -translate-x-full lg:translate-x-0 flex flex-col lg:block w-3/4 lg:w-full h-full bg-background relative py-10 px-6 pr-4 lg:p-0 ">
     <ul class="flex flex-col lg:flex-row items-start justify-start w-full h-full lg:h-fit lg:items-center transition-all lg:justify-center bg-background lg:bg-background relative pr-2 lg:pr-0">
       <li class="lg:hidden block mb-10">
-        {%- if settings.logo_mb != blank -%}
-          {%- assign logo_mb_alt = settings.logo_mb.alt | default: shop.name | escape -%}
-          <img srcset="{%- if settings.logo_mb.width >= 100 -%}{{ settings.logo_mb | img_url: '100x' }} 100w,{%- endif -%}
-          {%- if settings.logo_mb.width >= 120 -%}{{ settings.logo_mb | img_url: '120x' }} 120w,{%- endif -%}
-          {%- if settings.logo_mb.width >= 140 -%}{{ settings.logo_mb | img_url: '140x' }} 140w,{%- endif -%}
-          {%- if settings.logo_mb.width >= 160 -%}{{ settings.logo_mb | img_url: '160x' }} 160w,{%- endif -%}
-          {%- if settings.logo_mb.width >= 180 -%}{{ settings.logo_mb | img_url: '180x' }} 180w,{%- endif -%}
-          {%- if settings.logo_mb.width >= 200 -%}{{ settings.logo_mb | img_url: '200x' }} 200w,{%- endif -%}
-          {{ settings.logo_mb | img_url: 'master' }} {{ settings.logo_mb_width }}w" 
-          src="{{ settings.logo_mb | image_url: width: 163 }}" 
-          sizes="163px" 
-          width="163" 
-          loading="lazy" 
-          class="block lg:hidden"
-          height="{{ 163 | divided_by: settings.logo_mb.aspect_ratio }}" 
-          alt="{{ logo_mb_alt }}">
-        {%- else -%}
-          <span class="h3">{{ shop.name }}</span>
-        {%- endif -%}
-
         <span class="close-menu bg-background absolute top-1 -right-9 w-10 h-10 flex justify-center items-center rounded-full translate-x-full z-30 cursor-pointer">
           {% render 'icon-close', class: "w-6 h-6" %}
         </span>
@@ -33,20 +13,7 @@
             assign megamenu = '' 
             assign link = linklists[block.settings.menu]
             assign megamenu = megamenu | append: link_handle | append: " "
-            assign temp = 12 | divided_by: dropdownWidth
-            assign colMenuClass = 12 
-            if colMenuClass <= 0 
-              assign colMenuClass = 12 
-            endif 
-            assign blockid = block.id
-            if block.settings.title_img_mega_menu != blank
-              assign title_img_mega_menu = block.settings.title_img_mega_menu
-            endif
-            if block.settings.banner_image != blank
-              assign banner_image = block.settings.banner_image
-            else 
-              assign banner_image = false
-            endif
+
         %}
         <li class="flex h-fit lg:h-full group parent-menu-effect hover:!opacity-100 w-full lg:w-fit mb-4 lg:mb-0">
           <div class="summary-head flex items-center justify-between w-full">
@@ -58,15 +25,9 @@
             {% endif %}
             <a
               href="{% if block.settings.url != blank %}{{ block.settings.url }}{% else %}#{% endif %}"
-              class="{{ block.settings.title | split: '[' | first |  downcase | replace: ' ', '_' }} flex relative items-center text-base leading-4 lg:p-3 lg:px-4 text-primary hover:text-secondary font-normal capitalize no-underline font-body gap-1"
+              class="{{ block.settings.title }} text-xs hover:border-primary border border-transparent font-normal capitalize no-underline font-body gap-1"
               title="{{ titleCollection0 }}">
-              <span class="before:!hidden before:lg:!block before:!-bottom-3 before:!h-0.5 before:bg-secondary lg:leading-4 group-hover:before:w-full">
                 {{ block.settings.title | split: '[' | first }}
-              </span>
-              {% render 'special-icon', menu: block.settings.title %}
-              {% if link.links != blank %}
-                {% render 'icon-down', class: 'hidden lg:block ml-1.5 w-5 h-5' %}
-              {% endif %}
             </a>
             {% if link.links != blank %}
               {% render 'icon-right', class: 'lg:hidden w-5 h-5' %}
@@ -74,21 +35,8 @@
           </div>
           {% if link.links != blank %}
             <div class="details-head lg:pt-8 lg:pb-12 -translate-x-full lg:translate-x-0 absolute top-0 left-0 lg:top-full z-20 text-left list-none block invisible opacity-0 text-sm w-full h-[calc(100vh_-_80px)] lg:h-fit bg-background group-hover:lg:visible group-hover:lg:opacity-100 transition-all transition-menu lg:shadow-megamenu">
-              <div class="page-width-desktop z-20 bg-background !px-0 lg:!px-12.5 flex flex-col lg:flex-row h-full lg:justify-between overflow-x-hidden lg:overflow-auto lg:h-max lg:max-h-menudt relative">
-                <div class="back lg:hidden flex items-center w-full text-primary hover:text-secondary transition-all mb-12.5 pr-2 lg:pr-0 z-0">
-                  <span class="inline-block pr-1.5">{% render 'icon-prev', class: "w-5 h-5" %}</span>
-                  <span class="text-base leading-4 font-normal capitalize">{{ 'sections.header.back' | t }}</span>
-                </div>
-                <div class="grid grid-cols-1 pr-2 gap-5 w-full h-fit overflow-auto static lg:overflow-unset lg:pb-0 lg:px-8 z-20 bg-background {% if banner_image %} lg:grid-cols-3 lg:max-w-3/4 lg:pr-2 {% else %} lg:grid-cols-4{% endif %}">
-                  
-                  <span-link href="{% if block.settings.url != blank %}{{ block.settings.url }}{% else %}#{% endif %}"
-                    class="{{ block.settings.title | replace: ' ', '_' }} lg:hidden flex relative items-center text-base leading-4 lg:p-3 lg:px-4 text-primary hover:text-secondary font-bold font-heading capitalize no-underline gap-1 mb-1 cursor-pointer transition-all"
-                    title="{{ titleCollection0 }}">
-                    <span class="before:!hidden before:lg:!block before:!-bottom-3 before:!h-0.5 before:bg-secondary lg:leading-4 group-hover:before:w-full">
-                      {{ block.settings.title | split: '[' | first }}
-                    </span>
-                    {% render 'special-icon', menu: block.settings.title %}
-                  </span-link>
+              <div class="z-20 bg-background !px-0 lg:!px-12.5 flex flex-col lg:flex-row h-full lg:justify-between overflow-x-hidden lg:overflow-auto lg:h-max lg:max-h-menudt relative">
+                <div class="grid grid-cols-1 pr-2 gap-5 w-full h-fit overflow-auto static lg:overflow-unset lg:pb-0 lg:px-8 z-20 bg-background lg:grid-cols-4">
                   {% for child_link in link.links %}
                     <div class="flex lg:block w-full menu-group hover:!opacity-100 transition-all">
                       {% liquid
@@ -201,14 +149,6 @@
                     </div>
                   {% endfor %}
                 </div>
-                {% if banner_image %}
-                  <img src="{{ banner_image | image_url: width: banner_image.width }}"
-                       class="block w-full h-fit object-cover lg:max-w-1/4 lg:pl-2 mt-16 lg:mt-0 pr-2 lg:pr-0 z-0"  
-                       alt="{{ banner_image | split: "/" | last | replace: "-", " " | split: "." | first }}" 
-                       loading="lazy" 
-                       width="{{ banner_image.width }}" 
-                       height="{{ banner_image.height }}">
-                {% endif %}
               </div>
             </div>
           {% endif %}
