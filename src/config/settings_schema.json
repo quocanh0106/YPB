@@ -320,5 +320,129 @@
         "default": "https://www.youtube.com/ypb"
       }
     ]
+  },
+  {
+    "name": "Collections",
+    "settings": [
+      {
+        "type": "collection",
+        "id": "new_arrivals_collection",
+        "label": "New arrivals collection"
+      },
+      {
+        "type": "collection",
+        "id": "best_sellers_collection",
+        "label": "Best sellers collection"
+      },
+      {
+        "type": "header",
+        "content": "Tag new hot"
+      },
+      {
+        "type": "text",
+        "id": "type_new",
+        "label": "Type for new"
+      },
+      {
+        "type": "text",
+        "id": "type_hot",
+        "label": "Type for hot"
+      },
+      {
+        "type": "header",
+        "content": "SEO Collection all"
+      },
+      {
+        "type": "textarea",
+        "id": "collection_all_title",
+        "label": "Title",
+        "default": "Products"
+      },
+      {
+        "type": "textarea",
+        "id": "collection_all_desc",
+        "label": "Description"
+      },
+      {
+        "type": "header",
+        "content": "Limit options filter"
+      },
+      {
+        "type": "number",
+        "id": "limit_options",
+        "label": "Limit options filter",
+        "default": 7
+      },
+      {
+        "type": "header",
+        "content": "Price filter"
+      },
+      {
+        "type": "number",
+        "id": "price_filter_2",
+        "label": "option 2",
+        "default": 21
+      },
+      {
+        "type": "number",
+        "id": "price_filter_3",
+        "label": "option 3",
+        "default": 41
+      },
+      {
+        "type": "number",
+        "id": "price_filter_4",
+        "label": "option 4",
+        "default": 61
+      },
+      {
+        "type": "number",
+        "id": "price_filter_5",
+        "label": "option 5",
+        "default": 81
+      },
+      {
+        "type": "number",
+        "id": "price_filter_6",
+        "label": "option 6",
+        "default": 101
+      }
+    ]
+  },
+  {
+    "name": "Predictive Search",
+    "settings": [
+      {
+        "type": "text",
+        "label": "Popular searchs",
+        "id": "predictive_popular_search",
+        "default": "T-shirt",
+        "info": "Exp: T-shirt"
+      },
+      {
+        "type": "text",
+        "label": "Product types",
+        "id": "predictive_product_type",
+        "default": "T-shirt, Pants, Hoodie, Short, Jacket, Sweater, Varsity",
+        "info": "Exp: T-shirt, Pants, Hoodie, Short, Jacket, Sweater, Varsity"
+      },
+      {
+        "type": "collection",
+        "label": "Recommend collection",
+        "id": "recommend_predictive_search",
+        "default": "new-arrivals"
+      }
+    ]
+  },
+  {
+    "name": "Products",
+    "settings": [
+      {
+        "type": "number",
+        "id": "recently_view_limit",
+        "label": "Recently view limit",
+        "default": 8
+      }
+    ]
   }
 ]

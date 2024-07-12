@@ -56,7 +56,7 @@ class WishlistButton extends HTMLElement {
     this.product = this.dataset.productHandle;
     this.listProduct = JSON.parse(localStorage.getItem('wishlistItems')) || [];
     this.update();
-    this.addEventListener('click', e => {
+    this.addEventListener('click', (e) => {
       e.preventDefault();
       this.pushToLocalStorage();
     });

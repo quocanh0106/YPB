@@ -9,7 +9,7 @@
     "search": {
       "title": "Search results",
       "search": "Search",
-      "placeholder": "What can we help you with?"
+      "placeholder": "What are you looking for?"
     },
     "copy": {
       "infor": "Copy to clipboard",
@@ -254,7 +254,7 @@
       "freeship_html": "Congrats! You qualify for <span class=\"font-normal\">FREE<\/span> Shipping",
       "checkout": "Checkout",
       "empty": "Your Cart is Empty",
-      "empty_description": "Let’s gather some delightful items together & remember, shipping is on us for orders over {{ free_shipping }}",
+      "empty_description": "Let’s gather some delightful items together & remember",
       "cart_error": "There was an error while updating your cart. Please try again.",
       "cart_quantity_error_html": "You can only add {{ quantity }} of this item to your cart."
     },

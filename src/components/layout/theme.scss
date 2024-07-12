@@ -64,10 +64,10 @@ a {
 /***** Button ******/
 
 .btn {
-  @apply border border-primary text-background bg-primary hover:text-primary hover:bg-background transition-all rounded h-10 px-3 text-sm uppercase;
+  @apply border border-primary text-background bg-primary hover:text-primary hover:bg-background transition-all rounded h-10 px-3 text-sm uppercase no-underline;
 }
 .btn-2 {
-  @apply border border-primary hover:text-background hover:bg-primary text-primary bg-background transition-all rounded h-10 px-3 text-sm uppercase;
+  @apply border border-primary hover:text-background hover:bg-primary text-primary bg-background transition-all rounded h-10 px-3 text-sm uppercase no-underline;
 }
 
 /***** End button ******/
@@ -307,11 +307,11 @@ slider-component:not(.gallery) .slider-dots {
 }
 
 slider-component:not(.gallery) .slider-dots .slider-dot {
-  @apply !block relative w-1 h-1 lg:w-1.5 lg:h-1.5 cursor-pointer rounded-full bg-secondary transition-all before:absolute before:-top-0.5 before:-left-0.5 before:lg:-top-0.75 before:lg:-left-0.75 before:w-2 before:h-2 before:lg:w-3 before:lg:h-3 before:z-10;
+  @apply !block relative w-1 h-1 lg:w-1.5 lg:h-1.5 cursor-pointer rounded-full bg-gray-300 transition-all before:absolute before:-top-0.5 before:-left-0.5 before:lg:-top-0.75 before:lg:-left-0.75 before:w-2 before:h-2 before:lg:w-3 before:lg:h-3 before:z-10;
 }
 
 slider-component:not(.gallery) .slider-dots .slider-dot.active {
-  @apply w-[19px] h-1 lg:w-[29px] lg:h-1.5 rounded bg-secondary cursor-auto after:content-none;
+  @apply w-[19px] h-1 lg:w-[29px] lg:h-1.5 rounded bg-primary cursor-auto after:content-none;
 }
 
 slider-component[visibility="true"] .slider-slide {
@@ -323,3 +323,21 @@ slider-component[visibility="true"] .slider-slide.slide-visible {
 }
 
 /************* END SLIDER *************/
+
+wishlist-button svg.active {
+  @apply hidden;
+}
+
+wishlist-button.active svg:first-child {
+  @apply hidden;
+}
+
+wishlist-button.active svg.active {
+  @apply block;
+}
+
+predictive-search[open="true"] {
+  .predictive-search {
+    @apply opacity-100 visible;
+  }
+}

@@ -1,6 +1,6 @@
 <div class="page-width flex bg-background border-b border-primary justify-between items-center py-2 h-46px lg:h-auto lg:min-h-[46px]">
   <ul class="w-full flex" style="max-width: calc((100% - {{ settings.logo_width }}px)/2)">
-    <li class="block px-2 lg:hidden">
+    <li class="block lg:hidden">
       <modal-opener class="inline-block lg:hidden cursor-pointer menu-drawer-out-search hover:text-primary-700 text-primary-900" data-id="#menu-drawer">
         {% render 'icon-hamburger' %}
       </modal-opener>
@@ -71,7 +71,7 @@
     <li class="px-2">
       <a href="/pages/wishlist" title="wishlist" class="flex items-center justify-center relative w-6 h-6 hover:text-primary text-primary">
         {% render 'icon-wishlist-header', class: "w-6 h-6", stroke: '0.25' %}
-        <wishlist-count class="absolute bg-secondary text-background min-w-[1rem] h-4 rounded-full flex justify-center items-center bottom-3 left-4 hidden">
+        <wishlist-count class="absolute bg-primary text-background min-w-[1rem] h-4 rounded-full flex justify-center items-center bottom-3 left-4 hidden">
           <span aria-hidden="true" class="flex justify-center items-center h-full text-xxs leading-none"></span>
         </wishlist-count>
       </a>
@@ -83,7 +83,7 @@
       {% render 'atom_script', src: cartDrawer, priority: 'normal', type: "defer" %}
       <modal-opener class="cursor-pointer flex items-center justify-center relative w-6 h-6 hover:text-primary text-primary" title="cart" data-id="#cart-drawer">
         {%- render 'icon-cart' -%}
-        <div class="absolute bg-secondary text-background min-w-[1rem] h-4 rounded-full flex justify-center items-center bottom-3 left-4 empty:hidden" id="cart-icon-bubble">
+        <div class="absolute bg-primary text-background min-w-[1rem] h-4 rounded-full flex justify-center items-center bottom-3 left-4 empty:hidden" id="cart-icon-bubble">
           {%- if cart != empty -%}
             {%- if cart.item_count < 100 -%}
               <span aria-hidden="true" class="flex justify-center items-center h-full text-xxs leading-none">{{ cart.item_count }}</span>
@@ -98,12 +98,12 @@
     {% else %}
       <a href="{{ routes.cart_url }}" class="flex items-center justify-center relative w-6 h-6 hover:text-primary text-primary" title="cart">
         {%- render 'icon-cart' -%}
-        <div class="absolute bg-secondary text-primary min-w-[1rem] h-4 rounded-full flex justify-center items-center bottom-3 left-4 empty:hidden" id="cart-icon-bubble">
+        <div class="absolute bg-primary text-background min-w-[1rem] h-4 rounded-full flex justify-center items-center bottom-3 left-4 empty:hidden" id="cart-icon-bubble">
           {%- if cart != empty -%}
             {%- if cart.item_count < 100 -%}
-              <span aria-hidden="true" class="text-primary flex justify-center items-center h-full text-xxs leading-none">{{ cart.item_count }}</span>
+              <span aria-hidden="true" class="flex justify-center items-center h-full text-xxs leading-none">{{ cart.item_count }}</span>
             {% else %}
-              <span aria-hidden="true" class="text-primary flex justify-center items-center h-full text-xxs">+99</span>
+              <span aria-hidden="true" class="flex justify-center items-center h-full text-xxs">+99</span>
             {%- endif -%}
           {%- endif -%}
         </div>
@@ -114,9 +114,9 @@
 </div>
 <div class="relative flex items-center gap-x-4 m-0 p-0 w-full border-b border-primary">
   <predictive-search class="flex justify-end lg:justify-start w-full">
-    <form action="{{ routes.search_url }}" method="get" role="search" class="absolute opacity-0 invisible bg-background shadow-search lg:shadow-none flex items-center gap-3 top-full left-0 h-12 p-0 z-10 transition-all lg:!opacity-100 lg:!visible lg:static lg:h-10 w-full lg:overflow-hidden">
+    <form action="{{ routes.search_url }}" method="get" role="search" class="bg-background shadow-search lg:shadow-none flex items-center gap-3 top-full left-0 h-12 p-0 z-10 transition-all lg:!opacity-100 lg:!visible lg:static lg:h-10 w-full lg:overflow-hidden">
       <div class="relative w-full center h-full lg:h-auto">
-        <input class="placeholder:!text-primary !border-none w-full h-full lg:h-auto pl-14 pr-8 !rounded-circle lg:overflow-hidden appearance-none !outline-none !shadow-none !ring-transparent"
+        <input class="placeholder:!text-gray-500 !border-none w-full h-full lg:h-auto pl-14 pr-8 !rounded-circle lg:overflow-hidden appearance-none !outline-none !shadow-none !ring-transparent"
           id="Search-In-Modal-1"
           type="search"
           name="q"
@@ -132,7 +132,7 @@
           autocomplete="off"
           autocapitalize="off"
           spellcheck="false"
-          placeholder="{{ 'general.search.search' | t }}"
+          placeholder="{{ 'general.search.placeholder' | t }}"
         >
         <input type="hidden" name="options[prefix]" value="last">
         <button type="reset" name="reset" class="absolute right-4 top-1/2 -translate-y-1/2 opacity-0 invisible" aria-label="reset">{% render 'icon-close' %}</button>
@@ -140,12 +140,11 @@
       </div>
       <span class="predictive-search-status hidden" role="status" aria-hidden="true"></span>
     </form>
-    <div class="predictive-search predictive-search--header opacity-0 invisible transition-all absolute z-20 top-[calc(100%_+_64px)] lg:!top-search left-0 w-full bg-background shadow-megamenu overflow-y-auto max-h-searchmb lg:max-h-searchdt pb-safe-offset-96 lg:pb-0" tabindex="-1" data-predictive-search>
+    <div class="predictive-search predictive-search--header opacity-0 invisible transition-all absolute z-20 top-full border-t border-primary left-0 w-full bg-background shadow-megamenu overflow-y-auto max-h-searchmb pb-safe-offset-96 lg:pb-0" tabindex="-1" data-predictive-search>
       <div class="predictive-search__preview">
 
       </div>
     </div>
-    <span class="block lg:hidden w-6 h-6 cursor-pointer" id="open-search">{% render 'icon-search' %}</span>
   </predictive-search>
 </div>
 

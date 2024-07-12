@@ -23,7 +23,7 @@
   assign percent = compare_at_price | minus: price | times: 100.0 | divided_by: compare_at_price | round
 -%}
 
-<div class="flex font-heading gap-2 lg:gap-[21px] items-center{% if template.name contains 'product' and show %} mb-2{% else %} mb-1.5{% endif %}">
+<div class="flex font-heading gap-2 lg:gap-[21px] items-center{% if template.name contains 'product' and show %} mb-2{% else %} mb-1.5{% endif %} {{ class }}">
   {% if product %}
     {% if compare_at_price > price %}
       {% if template.name contains 'product' and show  %}

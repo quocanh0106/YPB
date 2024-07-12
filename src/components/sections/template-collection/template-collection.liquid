@@ -1,27 +1,24 @@
 <link rel="stylesheet" href="{{ 'facet.css' | asset_url }}">
 
 {% paginate collection.products by section.settings.products_per_page %}
-  <div class="page-width-desktop flex flex-wrap pb-5 lg:pt-12 lg:pb-20" data-id="{{ section.id }}" id="ProductGridContainer">
+  <div class="flex flex-wrap pb-8 lg:pb-20" data-id="{{ section.id }}" id="ProductGridContainer">
     {% render 'facet', results: collection %}
-    <div class="w-full lg:max-w-3/4 transition-all duration-500 lg:ml-auto" data-total-pages="{{ paginate.pages }}" data-pagination="{{ products_per_page }}" data-current-page="{{ paginate.current_page }}" id="product-grid">
-      <div class="facet-mobile flex items-center justify-between mt-6 mb-4 lg:my-4 px-4 md:px-7.5 md:-mx-7.5 lg:mx-0 lg:px-0 lg:mt-0 sticky z-10 top-0 lg:static transition-all duration-200 bg-background">
-        <div class="flex flex-col lg:w-1/4 lg:flex-row lg:items-center lg:justify-between gap-4 lg:gap-1">
-          <toggle-filter class="block lg:hidden lg:opacity-0 lg:invisible transition-all duration-500">
-            <button class="flex items-center capitalize whitespace-nowrap lg:normal-case text-base font-semibold lg:font-normal leading-none text-primary bg-[#F6F6F6] lg:bg-transparent py-2 px-4 lg:p-0 rounded-md lg:text-primary font-heading lg:font-body cursor-pointer gap-2">
-              {% render 'icon-filter', class: 'w-5 h-5 lg:w-4 lg:h-4' %}
-              <span class="block lg:hidden">{{- 'products.facets.filter' | t -}}</span>
-              <span class="hidden lg:block">{{- 'products.facets.show_filter' | t -}}</span>
-            </button>
-          </toggle-filter>
-          <div id="ProductCount" class="viewing-currently-product text-sm text-primary order-2 whitespace-nowrap hidden lg:block">
-            {% liquid
-              assign products_count = paginate.current_page | times: section.settings.products_per_page
-              if products_count > paginate.items
-                assign products_count = paginate.items
-              endif
-            %}
-            {{ 'sections.collection_template.current_view_count_html' | t: all_products_count: paginate.items, products_count: products_count }}
-          </div>
+    <toggle-filter class="fixed bottom-10 left-1/2 -translate-x-1/2 block transition-all duration-500 z-10">
+      <button class="flex items-center px-4 py-3 border border-primary bg-primary text-background hover:bg-background hover:text-primary transition-all capitalize whitespace-nowrap lg:normal-case text-base leading-none rounded-md cursor-pointer gap-2">
+        <span class="block">{{- 'products.facets.filter' | t -}}</span>
+        {% render 'icon-filter', class: 'w-4 h-4' %}
+      </button>
+    </toggle-filter>
+    <div class="w-full transition-all duration-500 max-w-full overflow-hidden" data-total-pages="{{ paginate.pages }}" data-pagination="{{ products_per_page }}" data-current-page="{{ paginate.current_page }}" id="product-grid">
+      <div class="px-3 py-2 facet-mobile border-b border-primary flex items-center justify-between lg:mx-0 lg:mt-0 transition-all duration-200 bg-background">
+        <div id="ProductCount" class="viewing-currently-product text-sm text-primary whitespace-nowrap">
+          {% liquid
+            assign products_count = paginate.current_page | times: section.settings.products_per_page
+            if products_count > paginate.items
+              assign products_count = paginate.items
+            endif
+          %}
+          {{ 'sections.collection_template.current_view_count_html' | t: all_products_count: paginate.items, products_count: products_count }}
         </div>
         <facet-filters-form class="flex items-center justify-end gap-4 sort-by" id="sortby-wrapper">
           <form id="FacetSortForm">
@@ -129,16 +126,7 @@
           </form>
         </facet-filters-form>
       </div>
-      <div id="ProductCountMobile" class="viewing-currently-product text-sm px-4 md:px-0 mb-8 lg:mb-5 text-primary order-2 whitespace-nowrap lg:hidden">
-        {% liquid
-          assign products_count = paginate.current_page | times: section.settings.products_per_page
-          if products_count > paginate.items
-            assign products_count = paginate.items
-          endif
-        %}
-        {{ 'sections.collection_template.current_view_count_html' | t: all_products_count: paginate.items, products_count: products_count }}
-      </div>
-      <div id="main-collection-product" class="grid grid-cols-2 md:grid-cols-3 gap-x-2 gap-y-8 md:gap-x-4 md:gap-y-10 transition-all duration-500 px-2 md:px-0">
+      <div id="main-collection-product" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 transition-all duration-500 w-[calc(100%_+_1px)] overflow-hidden">
         {% assign listIncludeProduct = '' %}
         {% assign count = 0 %}
         {% if collection.products.size > 0 %}
@@ -169,7 +157,7 @@
                   {% else %}
                     {% assign lazy_load = 'eager' %}
                   {% endif %}
-                  {%- render 'product-card', product: product, lazy_load: lazy_load -%}
+                  {%- render 'product-card', product: product, lazy_load: lazy_load, class: 'border-r border-b border-primary' -%}
                   {% assign listIncludeProduct = listIncludeProduct | append: lastKey | append: ',' %}
                 {% endunless %}
               {% endfor %}
@@ -186,7 +174,7 @@
           </div>
         {% endif %}
       </div>
-      <div class="flex flex-col justify-center items-center gap-4 lg:gap-6 mt-8 lg:mt-12{% if paginate.pages <= 1 %} hidden{% endif %}" id="PaginationInfor">
+      <div class="flex flex-col justify-center items-center gap-4 mt-8 lg:mt-12{% if paginate.pages <= 1 %} !hidden{% endif %}" id="PaginationInfor">
         <div id="ProductCountDesktop" class="viewing-currently-product">
           {% liquid
             assign products_count = paginate.current_page | times: section.settings.products_per_page
@@ -195,12 +183,12 @@
             endif
           %}
           <span class="text-sm text-primary font-light">{{ 'sections.collection_template.current_view_html' | t: all_products_count: paginate.items, products_count: products_count }}</span>
-          <div class="max-w-[194px] mx-auto rounded-2xl{% if settings.country == 'FR' %} bg-primary{% elsif settings.country == 'DE' %} bg-primary{% else %} bg-[#F1F1F1]{% endif %} h-1 relative overflow-hidden mt-3">
-            <div class="rounded-l-2xl absolute top-0 left-0 h-1 w-full bg-secondary !block rounded-2xl" style="max-width: {{ products_count | divided_by: 1.0 | divided_by: paginate.items |  times: 100 }}%"></div>
+          <div class="max-w-[194px] mx-auto rounded-2xl bg-[#F1F1F1] h-1 relative overflow-hidden mt-3">
+            <div class="rounded-l-2xl absolute top-0 left-0 h-1 w-full bg-primary !block rounded-2xl" style="max-width: {{ products_count | divided_by: 1.0 | divided_by: paginate.items |  times: 100 }}%"></div>
           </div>
         </div>
-        <collection-loadmore data-click-loadmore="false" class="block text-center">
-          <span data-href="{{ paginate.next.url }}" class="btn btn-2 border !text-sm !leading-none load-more_btn py-3.5 px-6">{{- 'sections.collection_template.load_more' | t -}}</span>
+        <collection-loadmore data-click-loadmore="false" class="block text-center cursor-pointer">
+          <span data-href="{{ paginate.next.url }}" class="flex items-center justify-center btn btn-2 border !text-sm !leading-none load-more_btn py-3.5 px-6">{{- 'sections.collection_template.load_more' | t -}}</span>
         </collection-loadmore>
       </div>
     </div>

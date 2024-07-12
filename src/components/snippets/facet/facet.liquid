@@ -11,15 +11,15 @@
   assign occasionsText = 'products.facets.occasions' | t
 -%}
 
-<div class="facet w-full lg:h-fit max-w-facet lg:max-w-facetdt lg:mr-9 fixed top-0 left-0 -translate-x-full md:-translate-x-facet-tl lg:translate-x-0 z-30 lg:sticky lg:top-4 transition-all duration-500 lg:z-10">
-  <facet-filters-form class="block h-screen lg:h-fit bg-background lg:max-w-full">
+<div class="facet w-full h-full max-w-facet lg:max-w-facetdt fixed top-0 left-0 -translate-x-full md:-translate-x-facet-tl z-30 transition-all duration-500">
+  <facet-filters-form class="block h-screen bg-background lg:max-w-full border-r border-primary">
     <form id="FacetFiltersForm" class="bg-background">
       {%- if results.terms -%}
         <input type="hidden" name="q" value="{{ results.terms | escape }}">
         <input name="options[prefix]" type="hidden" value="last">
       {%- endif -%}
-      <div id="FacetsWrapperDesktop">
-        <div class="flex flex-wrap lg:flex-nowrap justify-between gap-2 items-center p-8 py-4 lg:px-0 lg:pt-0">
+      <div id="FacetsWrapperDesktop" class="py-5">
+        <div class="flex flex-wrap lg:flex-nowrap justify-between gap-2 items-center py-4 px-5 lg:pt-0">
           <toggle-filter class="block">
             <button type="button" class="flex items-center gap-1.5 text-primary capitalize font-heading font-normal">
               {% render 'icon-filter', class: "w-4 h-4" %} 
@@ -28,11 +28,11 @@
             </button>
           </toggle-filter>
         </div> 
-        <div class="flex flex-wrap gap-2 px-8 lg:px-0 items-center only:hidden empty:!hidden js-filter mb-4" data-index="remove-facet">
+        <div class="flex flex-wrap gap-2 px-5 items-center only:hidden empty:!hidden js-filter mb-4" data-index="remove-facet">
           {%- for filter in results.filters -%}
             {%- for value in filter.active_values -%}
               <facet-remove class="block">
-                <a href="{{ value.url_to_remove }}" class="block text-primary hover:text-primary bg-background border border-solid border-primary overflow-hidden rounded-3xl" rel="nofollow">
+                <a href="{{ value.url_to_remove }}" class="block text-primary hover:text-primary bg-background border border-solid border-primary overflow-hidden rounded-3xl no-underline" rel="nofollow">
                   <span class="flex items-center gap-1 px-2.5 pl-3 py-1.5 text-sm leading-2 font-heading font-normal">
                     {{ value.label | escape }}
                     {% render 'icon-close', class: 'w-4 h-4' %}
@@ -44,7 +44,7 @@
             {%- if filter.type == 'price_range' -%}
               {%- if filter.min_value.value != null or filter.max_value.value != null -%}
                 <facet-remove class="block">
-                  <a href="{{ filter.url_to_remove }}" class="block text-primary hover:text-primary bg-background border border-solid border-primary overflow-hidden rounded-3xl" rel="nofollow">
+                  <a href="{{ filter.url_to_remove }}" class="block text-primary hover:text-primary bg-background border border-solid border-primary overflow-hidden rounded-3xl no-underline" rel="nofollow">
                     <span class="flex items-center gap-1 px-2.5 pl-3 py-1.5 text-sm leading-2 font-heading font-normal">
                       {% if filter.min_value.value %}
                         {{ filter.min_value.value | money }}
@@ -77,12 +77,12 @@
             {%- endif -%}
           {%- endfor -%}
         </div>
-        <div class="overflow-y-scroll scroll-thin scroll-brighter max-h-[calc(100vh_-_56px)] lg:max-h-facetdt pl-8 pr-5 mr-3 lg:pl-0 lg:mr-0 pb-safe-offset-31 lg:pb-0">
+        <div class="overflow-y-auto scroll-thin scroll-brighter max-h-[calc(100vh_-_60px)] pb-safe-offset-31 lg:pb-0">
           {%- for filter in results.filters -%}
             {%- assign total_active_values = total_active_values | plus: filter.active_values.size -%}
             {% case filter.type %}
               {% when 'boolean', 'list' %}
-                <accordion-toggle id="Details-{{ forloop.index }}-{{ section.id }}" class="px-0 block border-b border-primary {% if forloop.first %}border-t{% endif %} last:border-none active">
+                <accordion-toggle id="Details-{{ forloop.index }}-{{ section.id }}" class="px-0 block border-b border-primary {% if forloop.first %}border-t{% endif %} last:border-none active px-5">
                   <div class="summary flex items-center justify-between gap-2 w-full cursor-pointer pt-4" aria-label="{{ filter.label }} ({{ 'products.facets.filters_selected.one' | t: count: filter.active_values.size }})">
                     <span class="text-base font-bold font-heading uppercase text-primary leading-4">{{ filter.label | escape }}</span>
                     {% render 'icon-minus', class: 'w-5 h-5 icon-minus' %}
@@ -140,7 +140,7 @@
                     assign uses_comma_decimals = true
                   endif
                 %}
-                <accordion-toggle id="Details-{{ forloop.index }}-{{ section.id }}" class="px-0 block border-b border-primary last:border-none active">
+                <accordion-toggle id="Details-{{ forloop.index }}-{{ section.id }}" class="px-0 block border-b border-primary last:border-none active px-5">
                   <div class="summary flex items-center justify-between gap-2 w-full cursor-pointer pt-4">
                     <span class="text-base font-bold font-heading uppercase text-primary leading-4">{{ filter.label | escape }}</span>
                     {% render 'icon-minus', class: 'w-5 h-5 icon-minus' %}
@@ -161,9 +161,9 @@
   </facet-filters-form>
 </div>
 
-<toggle-filter class="toggle-mobile block lg:!hidden fixed top-0 left-0 w-full h-full z-20 opacity-0 invisible transition-opacity">
-  <button class="lg:before:content-none lg:bg-none before:content-empty before:bg-overlay before:top-0 before:left-0 before:fixed before:w-full before:h-full before:backdrop-blur-sm before:-z-10">
-    <span class="absolute top-3 right-3 text-primary w-10 h-10 flex items-center justify-center rounded-full bg-background">
+<toggle-filter class="toggle-mobile block fixed top-0 left-0 w-full h-full z-20 opacity-0 invisible transition-opacity">
+  <button class="before:content-empty before:bg-overlay before:top-0 before:left-0 before:fixed before:w-full before:h-full before:backdrop-blur-sm before:-z-10">
+    <span class="lg:hidden absolute top-3 right-3 text-primary w-10 h-10 flex items-center justify-center rounded-full bg-background">
       {% render 'icon-close', class: 'text-primary w-3.5 h-3.5' %}
     </span>
   </button>  
