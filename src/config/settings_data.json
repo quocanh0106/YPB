@@ -11,15 +11,47 @@
   "current": {
     "favicon": "shopify:\/\/shop_images\/YP_BLACK_LOGO.svg",
     "logo": "shopify:\/\/shop_images\/YP_BLACK_LOGO.svg",
-    "logo_width": 100,
+    "logo_width": 45,
     "logo_mb": "shopify:\/\/shop_images\/YP_BLACK_LOGO.svg",
-    "logo_width_mb": 50,
+    "logo_width_mb": 40,
+    "type_font": "shopify",
+    "type_heading_font_light": "helvetica_n3",
+    "type_heading_font_normal": "helvetica_n4",
+    "type_heading_font_medium": "helvetica_n7",
+    "type_heading_font_semibold": "helvetica_n7",
+    "type_heading_font_bold": "helvetica_n7",
+    "type_body_font_light": "helvetica_n3",
+    "type_body_font_normal": "helvetica_n4",
+    "type_body_font_medium": "helvetica_n7",
+    "type_body_font_semibold": "helvetica_n7",
+    "type_body_font_bold": "helvetica_n7",
+    "color_primary": "#000000",
+    "color_secondary": "#ffffff",
+    "color_body_text": "#000000",
+    "color_subtext": "#767676",
+    "social_facebook_link": "",
+    "social_instagram_link": "https:\/\/www.instagram.com\/ypb_blank",
+    "social_tiktok_link": "",
+    "social_youtube_link": "",
     "sections": {
       "announcement-bar": {
         "type": "announcement-bar",
+        "blocks": {
+          "announcement_qdRfGJ": {
+            "type": "announcement",
+            "settings": {
+              "text": "<p><strong>ALL SHIPPING TIME WILL DEPEND OF YOUR LOCATION, ALL SELL ARE FINAL<\/strong><\/p>",
+              "link": "",
+              "open_new_window": false
+            }
+          }
+        },
+        "block_order": [
+          "announcement_qdRfGJ"
+        ],
         "settings": {
-          "background_color": "",
-          "text_color": ""
+          "background_color": "#000000",
+          "text_color": "#ffffff"
         }
       },
       "header": {
@@ -28,6 +60,7 @@
           "mega_menu_xV3Tq3": {
             "type": "mega-menu",
             "settings": {
+              "menu_alignment": "left",
               "title": "NEW ARRIVALS",
               "url": "shopify:\/\/collections\/new-arrivals",
               "menu": ""
@@ -36,6 +69,7 @@
           "mega_menu_PQxjky": {
             "type": "mega-menu",
             "settings": {
+              "menu_alignment": "left",
               "title": "READY TO SHIP",
               "url": "shopify:\/\/collections\/ready-to-ship",
               "menu": ""
@@ -44,14 +78,16 @@
           "mega_menu_x49Tmt": {
             "type": "mega-menu",
             "settings": {
+              "menu_alignment": "left",
               "title": "CATALOG",
               "url": "shopify:\/\/collections",
-              "menu": "catalog"
+              "menu": ""
             }
           },
           "mega_menu_gN9YJn": {
             "type": "mega-menu",
             "settings": {
+              "menu_alignment": "left",
               "title": "WHOLESALE",
               "url": "shopify:\/\/collections\/wholesale",
               "menu": ""
@@ -60,6 +96,7 @@
           "mega_menu_4wgPHn": {
             "type": "mega-menu",
             "settings": {
+              "menu_alignment": "left",
               "title": "BEST SELLER",
               "url": "shopify:\/\/collections\/best-seller",
               "menu": ""
@@ -68,6 +105,7 @@
           "mega_menu_Je7gD9": {
             "type": "mega-menu",
             "settings": {
+              "menu_alignment": "right",
               "title": "YOUTHPRIVILEGE BRAND",
               "url": "shopify:\/\/collections\/youthprivilege-brand",
               "menu": ""
@@ -76,6 +114,7 @@
           "mega_menu_CaAwEL": {
             "type": "mega-menu",
             "settings": {
+              "menu_alignment": "right",
               "title": "DESIGNER BRANDS",
               "url": "shopify:\/\/collections\/designer-brands",
               "menu": ""
@@ -97,16 +136,91 @@
       },
       "footer": {
         "type": "footer",
+        "blocks": {
+          "text_UJMQyi": {
+            "type": "text",
+            "settings": {
+              "col_span_desktop": 1,
+              "col_span_tablet": 1,
+              "col_span_mobile": 1,
+              "image": "shopify:\/\/shop_images\/YP_BLACK_LOGO.svg",
+              "image_width": 40,
+              "email": "ypb@gmail.com",
+              "address": "21 Street",
+              "address2": "",
+              "time_work": "Mon - Sun: 8 AM - 19h",
+              "show_social": false
+            }
+          },
+          "link_list_zcHg4X": {
+            "type": "link_list",
+            "settings": {
+              "col_span_desktop": 1,
+              "col_span_tablet": 1,
+              "col_span_mobile": 1,
+              "heading": "Client services",
+              "menu": "footer"
+            }
+          },
+          "link_list_PV4q69": {
+            "type": "link_list",
+            "settings": {
+              "col_span_desktop": 1,
+              "col_span_tablet": 1,
+              "col_span_mobile": 1,
+              "heading": "The Company",
+              "menu": "footer"
+            }
+          },
+          "link_list_xpcadB": {
+            "type": "link_list",
+            "settings": {
+              "col_span_desktop": 1,
+              "col_span_tablet": 1,
+              "col_span_mobile": 1,
+              "heading": "Connect",
+              "menu": "footer"
+            }
+          },
+          "link_list_MCNQLW": {
+            "type": "link_list",
+            "settings": {
+              "col_span_desktop": 1,
+              "col_span_tablet": 1,
+              "col_span_mobile": 1,
+              "heading": "Contact Us",
+              "menu": "footer"
+            }
+          },
+          "link_list_fARACf": {
+            "type": "link_list",
+            "settings": {
+              "col_span_desktop": 1,
+              "col_span_tablet": 1,
+              "col_span_mobile": 1,
+              "heading": "Quick links",
+              "menu": "footer"
+            }
+          }
+        },
+        "block_order": [
+          "text_UJMQyi",
+          "link_list_zcHg4X",
+          "link_list_PV4q69",
+          "link_list_xpcadB",
+          "link_list_MCNQLW",
+          "link_list_fARACf"
+        ],
         "settings": {
-          "background": "#0F0F0F",
-          "heading_color": "#FEFEFE",
-          "text_color": "#CDCDCD",
-          "social_color": "#CDCDCD",
-          "social_hover_color": "#FEFEFE",
-          "border_color": "#2F2F2F",
+          "background": "#aaaaac",
+          "heading_color": "#000000",
+          "text_color": "#000000",
+          "social_color": "#000000",
+          "social_hover_color": "#000000",
+          "border_color": "#000000",
           "col_per_row_desktop": 6,
-          "col_per_row_tablet": 6,
-          "col_per_row_mobile": 6,
+          "col_per_row_tablet": 3,
+          "col_per_row_mobile": 1,
           "copyright": "© 2024 YPB",
           "payment_enable": true,
           "use_payment_default": false

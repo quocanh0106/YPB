@@ -33,10 +33,10 @@
       {
         "type": "range",
         "id": "logo_width",
-        "min": 50,
-        "max": 150,
+        "min": 0,
+        "max": 100,
         "step": 1,
-        "default": 134,
+        "default": 50,
         "unit": "px",
         "label": "Custom logo width"
       },
@@ -48,10 +48,10 @@
       {
         "type": "range",
         "id": "logo_width_mb",
-        "min": 50,
-        "max": 150,
+        "min": 0,
+        "max": 100,
         "step": 1,
-        "default": 77,
+        "default": 40,
         "unit": "px",
         "label": "Custom logo width"
       }
@@ -295,29 +295,29 @@
         "type": "text",
         "id": "social_facebook_link",
         "label": "Facebook",
-        "info": "https://facebook.com/auros",
-        "default": "https://facebook.com/auros"
+        "info": "https://facebook.com/ypb",
+        "default": "https://facebook.com/ypb"
       },
       {
         "type": "text",
         "id": "social_instagram_link",
         "label": "Instagram",
-        "info": "http://instagram.com/auros",
-        "default": "https://instagram.com/auros"
+        "info": "http://instagram.com/ypb",
+        "default": "https://instagram.com/ypb"
       },
       {
         "type": "text",
         "id": "social_tiktok_link",
         "label": "TikTok",
-        "info": "https://tiktok.com/@auros",
-        "default": "https://tiktok.com/@auros"
+        "info": "https://tiktok.com/@ypb",
+        "default": "https://tiktok.com/@ypb"
       },
       {
         "type": "text",
         "id": "social_youtube_link",
         "label": "YouTube",
-        "info": "https://www.youtube.com/auros",
-        "default": "https://www.youtube.com/auros"
+        "info": "https://www.youtube.com/ypb",
+        "default": "https://www.youtube.com/ypb"
       }
     ]
   }
