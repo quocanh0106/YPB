@@ -133,16 +133,6 @@ class CartItems extends HTMLElement {
   getSectionsToRender() {
     return [
       {
-        id: 'cart-shipping-bar',
-        section: 'free-shipping',
-        selector: '.js-shipping-bar',
-      },
-      {
-        id: 'cart-shipping-bar-desktop',
-        section: 'free-shipping-desktop',
-        selector: '.js-shipping-bar-desktop',
-      },
-      {
         id: 'cart-icon-bubble',
         section: 'cart-icon-bubble',
         selector: '.shopify-section',

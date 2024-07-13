@@ -4,14 +4,10 @@
 {% assign free_shipping = shippingLimit | money_without_trailing_zeros %}
 {% assign one = 'templates.cart.pluralizatio.one' | t %}
 {% assign other = 'templates.cart.pluralizatio.other' | t %}
-<script async src="https://cdn.customily.com/shopify/static/customily.shopify.script.unified.js"></script>
 
 {%- if cart.item_count > 0 -%}
-  <div class="page-width flex flex-wrap pb-8" id="main-cart-items">
-    <div class="lg:hidden block mb-5 border-b border-primary w-full">
-      {%- render 'free-shipping' -%}
-    </div>
-    <div class="flex items-center gap-2 w-full mb-4 lg:mb-6 cart-heading">
+  <div class="flex flex-wrap" id="main-cart-items">
+    <div class="flex items-center gap-2 w-full p-3 border-b border-primary cart-heading">
       <span class="text-primary font-heading text-base leading-4 font-semibold">{{ 'sections.cart.cart_drawer_title' | t }}</span>
       {% render 'icon-dot', class: 'text-primary w-1 h-1' %}
       <span class="text-primary font-normal leading-4 text-sm">
@@ -19,7 +15,7 @@
         {{ other }}
       </span>
     </div>
-    <cart-items class="w-full lg:max-w-2/3 {% if cart == empty %} is-empty {% else %} inline-block{% endif %}" id="cart-items">
+    <cart-items class="w-full lg:max-w-2/3 border-primary border-b lg:border-b-0 lg:border-r  {% if cart == empty %} is-empty {% else %} inline-block{% endif %}" id="cart-items">
       <div class="shopping-cart-main">
         <form
           action="{{ routes.cart_url }}"
@@ -39,7 +35,7 @@
                       class="{% unless forloop.last %}border-primary border-b{% endunless %}"
                       data-key="{{ item.key }}">
                       <td
-                        class="table-cell border-none w-full items-center{% if forloop.first %} pb-4 lg:pb-5{% else %} py-4{% if forloop.last %} pb-5{% endif %} lg:py-5{% endif %}"
+                        class="table-cell border-none w-full items-center p-3"
                         colspan="2"
                         scope="col">
                         <div class="flex items-start">
@@ -122,17 +118,13 @@
                               <modal-dialog class="hidden fixed w-full h-full bg-black bg-opacity-20 top-0 left-0 z-20" id="Popup-Remove-{{ item.index | plus: 1 }}">
                                 <div class="text-center p-0 shadow-popup w-[343px] bg-background rounded-xl max-w-[calc(100vw_-_32px)] absolute top-1/2 left-1/2 z-30 -translate-x-1/2 -translate-y-1/2">
                                   <div class="px-5 pt-16">
-                                    {% for p in item.properties %}
-                                      {% if p.first == '_customily-thumb' %}
-                                        <img
-                                          src="{{ p.last }}"
-                                          class="w-40 h-40 block object-cover leading-none !max-w-full !max-h-full rounded mx-auto mb-3 bg-image-placeholder bg-no-repeat bg-cover bg-center text-transparent"
-                                          width="160"
-                                          height="160"
-                                          loading="lazy"
-                                          alt="{{ item.title | escape }}" />
-                                      {% endif %}
-                                    {% endfor %}
+                                    <img
+                                    src="{{ item.image | image_url: width: 160 }}"
+                                    class="w-40 h-40 block object-cover leading-none !max-w-full !max-h-full rounded mx-auto mb-3 bg-image-placeholder bg-no-repeat bg-cover bg-center text-transparent"
+                                    width="160"
+                                    height="160"
+                                    loading="lazy"
+                                    alt="{{ item.title | escape }}" />
                                   </div>
                                   <p class="mt-3 mb-5 text-lg font-light text-primary px-5">{{ 'sections.cart.content' | t }}</p>
                                   <div class="grid grid-cols-2 justify-center gap-3 p-5 pb-6 border-t border-primary">
@@ -169,10 +161,10 @@
                             <div class="flex items-center gap-2 justify-between mt-auto">
                               {% render 'price', product: item.variant %}
                               <quantity-input class="flex items-center relative w-fit h-5 lg:h-10 ml-auto mb-1.5" data-lineitem="{{ forloop.index }}">
-                                <button class="w-5 lg:w-10 h-5 lg:h-10 relative bg-primary-opacity-50 hover:bg-primary-250 transition-all rounded-full before:content-empty before:w-full before:h-full before:z-[1] before:absolute before:left-0 before:top-0"
+                                <button class="w-5 lg:w-10 h-5 lg:h-10 relative bg-transparent text-primary transition-all rounded-full before:content-empty before:w-full before:h-full before:z-[1] before:absolute before:left-0 before:top-0"
                                   name="minus"
                                   type="button">
-                                  {% render 'icon-minus', class: 'w-3 h-3 lg:w-6 lg:h-6 text-primary fill-primary mx-auto' %}
+                                  {% render 'icon-minus', class: 'w-3 h-3 lg:w-6 lg:h-6 mx-auto' %}
                                 </button>
                                 <input class="appearance-none border-none bg-transparent text-primary text-xs leading-4 lg:text-base lg:leading-2 p-0.5 w-6 lg:w-8 h-full font-medium text-center !ring-0 shadow-none focus:border-none"
                                   type="number"
@@ -182,26 +174,15 @@
                                   min="0"
                                   id="Quantity-{{ item.index | plus: 1 }}"
                                   data-key="{{ item.key }}">
-                                <button class="w-5 lg:w-10 h-5 lg:h-10 relative bg-primary-opacity-50 hover:bg-primary-250 transition-all rounded-full before:content-empty before:w-full before:h-full before:z-[1] before:absolute before:left-0 before:top-0"
+                                <button class="w-5 lg:w-10 h-5 lg:h-10 relative bg-transparent text-primary transition-all rounded-full before:content-empty before:w-full before:h-full before:z-[1] before:absolute before:left-0 before:top-0"
                                   name="plus"
                                   type="button">
-                                  {% render 'icon-plus', class: 'w-3 h-3 lg:w-6 lg:h-6 text-primary fill-primary mx-auto' %}
+                                  {% render 'icon-plus', class: 'w-3 h-3 lg:w-6 lg:h-6 mx-auto' %}
                                 </button>
                               </quantity-input>
                             </div>
                             {% assign lineItemOriginalPrice = item.variant.compare_at_price | times: item.quantity %}
                             {% assign original_price = original_price | plus: lineItemOriginalPrice %}
-                            <!-- quick view update -->
-                            {% assign productHandle = 'products/' | append: item.product.handle %}
-                            {% for p in item.properties %}
-                              {% if p.first == '_customily-customization-url' %}
-                                <open-edit data-href="{{ p.last | replace: 'cart', productHandle  | remove: 'view=ajax&' | replace: '?','?view=ajax&'  }}" class="cursor-pointer text-xs leading-4 lg:text-sm lg:leading-4 flex items-center mt-auto gap-1 font-medium font-heading text-primary hover:text-primary capitalize" data-key="{{ item.key }}" data-id="edit-lineitem">
-                                  {% render 'icon-edit', class: 'w-3.5 h-3.5 lg:w-4 lg:h-4' %}
-                                  <span>{{ 'templates.cart.edit_your_design' | t }}</span>
-                                </open-edit>
-                              {% endif %}
-                            {% endfor %}
-                            
                           <!-- end quick view update -->
                           </div>
                         </div>
@@ -215,11 +196,8 @@
         </form>
       </div>
     </cart-items>
-    <div class="sticky z-10 top-4 w-full h-fit lg:pl-4 xl:pl-32 max-md lg:max-w-1/3 inline-block{% if cart == empty %} is-empty{% endif %} cart_footer" id="main-cart-footer" data-id="{{ section.id }}">
+    <div class="sticky z-10 top-4 w-full h-fit px-3 max-md lg:max-w-1/3 inline-block{% if cart == empty %} is-empty{% endif %} cart_footer" id="main-cart-footer" data-id="{{ section.id }}">
       <div class="cart__footer">
-        <div class="hidden lg:block">
-          {% render 'free-shipping', desktop: true %}
-        </div>
         <div class="cart__blocks">
           {% for block in section.blocks %}
             {%- case block.type -%}
@@ -230,7 +208,7 @@
                   class="js-contents"
                   id="cart-total"
                   {{ block.shopify_attributes }}>
-                  <ul class="pt-5 pb-6 lg:py-6 border-t border-primary grid gap-2">
+                  <ul class="py-3 grid gap-2">
                     {% if original_price > cart.total_price %}
                       <li class="flex items-center justify-between gap-2">
                         <span class="text-sm font-light text-primary capitalize leading-5">{{ 'sections.cart.original_price' | t }}</span>
@@ -239,15 +217,9 @@
                         </span>
                       </li>
                     {% endif %}
-                    {% if cart.total_price < shippingLimit %}
-                      <li class="flex items-center justify-between gap-2">
-                        <span class="text-sm font-light text-primary capitalize leading-5">{{ 'sections.cart.shipping' | t }}</span>
-                        <span class="text-sm font-light text-primary leading-5">{{ 'sections.cart.shipping_calculated' | t }}</span>
-                      </li>
-                    {% endif %}
                     <li class="flex items-center justify-between gap-2">
-                      <span class="text-sm font-light text-sale capitalize leading-5">{{ 'sections.cart.save' | t }}</span>
-                      <span class="text-sm font-light text-sale leading-5">-{{ original_price | minus: cart.total_price | money }}</span>
+                      <span class="text-sm font-light text-primary capitalize leading-5">{{ 'sections.cart.shipping' | t }}</span>
+                      <span class="text-sm font-light text-primary leading-5">{{ 'sections.cart.shipping_calculated' | t }}</span>
                     </li>
                     {% if cart.total_discount > 0 %}
                       <li class="flex items-center justify-between gap-2">
@@ -326,7 +298,7 @@
                     <button
                       type="submit"
                       id="checkout"
-                      class="btn !block w-full !uppercase !px-8 !py-3.5 lg:!py-2"
+                      class="btn w-full !px-8 !py-3.5 lg:!py-2"
                       name="checkout"
                       {% if cart == empty %}
                       disabled{% endif %}
@@ -339,7 +311,7 @@
                   <div class="mt-4">{{ content_for_additional_checkout_buttons }}</div>
                 {% endif %}
 
-                <ul class="list list-payment flex gap-2 my-4 w-full justify-center" role="list">
+                <ul class="list list-payment flex flex-wrap gap-2 my-4 w-full justify-center" role="list">
                   {%- assign enabled_payment_types = "american_express,apple_pay,master,paypal,visa" | remove: ' ' | split: ',' -%}
                   {% for type in enabled_payment_types %}
                     {% if type == 'american_express' %}
@@ -359,10 +331,6 @@
                     {% endif %}
                   {%- endfor -%}
                 </ul>
-
-                <span class="block text-center text-sm leading-1.5 text-primary font-light">{{ 'products.shipping_information.overmb' | t }}<span class="text-sale font-medium">{{ shippingLimit | money_without_trailing_zeros }}</span>
-                </span>
-
             {%- endcase -%}
           {% endfor %}
 
@@ -371,23 +339,12 @@
     </div>
   </div>
 
-  <edit-lineitem class="hidden fixed w-full h-full bg-black bg-opacity-20 top-0 left-0 z-20" id="edit-lineitem">
-    <div class="p-4 pt-10 md:p-7.5 md:pt-10 lg:p-12.5 rounded-xl shadow-popup max-w-[calc(100vw_-_32px)] lg:max-w-[calc(100vw_-_32px)] max-h-[calc(100vh_-_96px)] lg:max-h-[calc(100vh_-_33px)] w-[var(--page-width)] overflow-auto bg-background absolute top-1/2 left-1/2 z-30 -translate-x-1/2 -translate-y-1/2">
-      <div class="edit-wrapper relative">
-        <span class="!block p-36 max-h-[calc(100vh_-_32px)] quickadd-loading"></span>
-      </div>
-      <span class="text-primary shadow-megamenu cursor-pointer bg-background w-10 h-10 flex items-center justify-center rounded-full z-10 absolute top-4 lg:top-5 right-4 lg:right-5 translate-y-0 translate-x-0 close">
-        {% render 'icon-close', class: 'w-6 h-6' %}
-      </span>
-    </div>
-  </edit-lineitem>
-
-  <div class="page-width py-8 cart-empty hidden">
-    <div class="text-center lg:shadow-megamenu lg:p-10 rounded-2xl">
+  <div class="py-8 cart-empty hidden">
+    <div class="text-center lg:p-10 rounded-2xl">
       <div class="{% if settings.country == 'DE' %}bg-secondary{% else %}bg-background{% endif %} rounded-lg px-4 py-6 lg:py-16">
         {% render 'icon-shoppingcartfilled', class: 'mx-auto w-16 h-16 lg:w-24 lg:h-24 mb-3 lg:mb-6 text-primary' %}
         <span class="block mx-auto text-base font-heading leading-4 font-semibold text-primary mb-1">{{ 'sections.cart.empty' | t }}</span>
-        <span class="block mx-auto text-sm leading-5 lg:text-base lg:leading-6 text-primary mb-5 lg:mb-6 max-w-[386px]">{{ 'sections.cart.empty_description' }}</span>
+        <span class="block mx-auto text-sm leading-5 lg:text-base lg:leading-6 text-primary mb-5 lg:mb-6 max-w-[386px]">{{ 'sections.cart.empty_description' | t  }}</span>
         <a href="{{ routes.all_products_collection_url }}" class="block cursor-pointer mx-auto w-fit btn btn-2 px-6 lg:px-8 py-3.5 text-sm leading-none lg:text-base !uppercase lg:leading-none !font-heading !font-bold">
           {{ 'general.continue_shopping' | t }}
         </a>
@@ -395,12 +352,12 @@
     </div>
   </div>
 {%- else -%}
-  <div class="page-width py-8 cart-empty">
-    <div class="text-center lg:shadow-megamenu lg:p-10 rounded-2xl">
+<div class="py-8 cart-empty">
+  <div class="text-center lg:p-10 rounded-2xl">
       <div class="{% if settings.country == 'DE' %}bg-secondary{% else %}bg-background{% endif %} rounded-lg px-4 py-6 lg:py-16">
         {% render 'icon-shoppingcartfilled', class: 'mx-auto w-16 h-16 lg:w-24 lg:h-24 mb-3 lg:mb-6 text-primary' %}
         <span class="block mx-auto text-base font-heading leading-4 font-semibold text-primary mb-1">{{ 'sections.cart.empty' | t }}</span>
-        <span class="block mx-auto text-sm leading-5 lg:text-base lg:leading-6 text-primary mb-5 lg:mb-6 max-w-[386px]">{{ 'sections.cart.empty_description' }}</span>
+        <span class="block mx-auto text-sm leading-5 lg:text-base lg:leading-6 text-primary mb-5 lg:mb-6 max-w-[386px]">{{ 'sections.cart.empty_description' | t  }}</span>
         <a href="{{ routes.all_products_collection_url }}" class="block cursor-pointer mx-auto w-fit btn btn-2 px-6 lg:px-8 py-3.5 text-sm leading-none lg:text-base !uppercase lg:leading-none !font-heading !font-bold">
           {{ 'general.continue_shopping' | t }}
         </a>
@@ -441,7 +398,7 @@
     "settings": [
       {
         "type": "header",
-        "content": "t:sections.all.padding.section_padding_heading"
+        "content": "Padding"
       }, {
         "type": "range",
         "id": "padding_top",
@@ -449,7 +406,7 @@
         "max": 200,
         "step": 4,
         "unit": "px",
-        "label": "t:sections.all.padding.padding_top",
+        "label": "Padding top",
         "default": 36
       }, {
         "type": "range",
@@ -458,7 +415,7 @@
         "max": 200,
         "step": 4,
         "unit": "px",
-        "label": "t:sections.all.padding.padding_bottom",
+        "label": "Padding bottom",
         "default": 36
       }
     ],
@@ -467,11 +424,11 @@
         "type": "@app"
       }, {
         "type": "subtotal",
-        "name": "t:sections.main-cart-footer.blocks.subtotal.name",
+        "name": "Subtotal",
         "limit": 1
       }, {
         "type": "buttons",
-        "name": "t:sections.main-cart-footer.blocks.buttons.name",
+        "name": "Buttons",
         "limit": 1
       }, {
         "type": "text-image",

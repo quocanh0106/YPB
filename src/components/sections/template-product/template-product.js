@@ -8,24 +8,34 @@ function fetchConfig(type = 'json') {
   };
 }
 
-if (!customElements.get('quantity-input') && !document.querySelector('cart-drawer')) {
+if (!customElements.get('quantity-input')) {
+
   class QuantityInput extends HTMLElement {
     constructor() {
       super();
       this.input = this.querySelector('input');
-      this.changeEvent = new Event('change', { bubbles: true })
+      this.line = this.dataset.lineitem;
+      this.removePopup = document.querySelector(`#Popup-Remove-${this.line}`)
+      this.changeEvent = new Event('change', { bubbles: true });
 
-      this.querySelectorAll('button').forEach((button) => {
-          button.addEventListener('click', this.onButtonClick.bind(this))
-        }
-      );
+      this.querySelectorAll('button').forEach(button => {
+        button.addEventListener('click', this.onButtonClick.bind(this));
+      });
     }
 
     onButtonClick(event) {
       event.preventDefault();
       const previousValue = this.input.value;
       event.target.name == 'plus' ? this.input.stepUp() : this.input.stepDown();
-      if (previousValue !== this.input.value) this.input.dispatchEvent(this.changeEvent);
+      if (previousValue !== this.input.value)
+
+      if (this.input.value == '0') {
+        this.removePopup?.open();
+        this.input.stepUp();
+      } else {
+        this.input.dispatchEvent(this.changeEvent);
+      }
+
     }
   }
 

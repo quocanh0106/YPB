@@ -51,6 +51,16 @@
       }
     {% endstyle %}
 
+    {% if settings.custom_code_header_all %}
+      {{ settings.custom_code_header_all }}
+    {% endif %}
+
+    {% if template contains 'index' %}
+      {% if settings.custom_code_header_home %}
+        {{ settings.custom_code_header_home }}
+      {% endif %}
+    {% endif %}
+    
     <script>
       window.shopUrl = '{{ request.origin }}';
       window.routes = {
@@ -113,9 +123,11 @@
     <main id="MainContent">
       {{ content_for_layout }}
     </main>
-
+    {% render 'cart-drawer' %}
     {% section 'footer' %}
-
+    {% if settings.custom_code_footer_all %}
+      {{ settings.custom_code_footer_all }}
+    {% endif %}
     <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
   </body>
 </html>

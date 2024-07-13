@@ -16,15 +16,9 @@
         </span>
       </li>
     {% endif %}
-    {% if cart.total_price < shippingLimit %}
-      <li class="flex items-center justify-between gap-2">
-        <span class="text-sm font-light text-primary capitalize leading-5">{{ 'sections.cart.shipping' | t }}</span>
-        <span class="text-sm font-light text-primary leading-5">{{ 'sections.cart.shipping_calculated' | t }}</span>
-      </li>
-    {% endif %}
     <li class="flex items-center justify-between gap-2">
-      <span class="text-sm font-light text-sale capitalize leading-5">{{ 'sections.cart.save' | t }}</span>
-      <span class="text-sm font-light text-sale leading-5">-{{ original_price | minus: cart.total_price | money }}</span>
+      <span class="text-sm font-light text-primary capitalize leading-5">{{ 'sections.cart.shipping' | t }}</span>
+      <span class="text-sm font-light text-primary leading-5">{{ 'sections.cart.shipping_calculated' | t }}</span>
     </li>
     {% if cart.total_discount > 0 %}
       <li class="flex items-center justify-between gap-2">

@@ -1,31 +1,24 @@
-.gallery .slider-dot.active {
-  @apply border-primary;
-}
-
 input:checked + label:not(.color) {
-  @apply bg-secondary text-primary border-secondary;
+  @apply bg-primary text-background border-primary;
+}
+input.disabled + label {
+  @apply cursor-not-allowed line-through bg-gray-400 border-gray-400 pointer-events-none;
 }
 
 input:checked + label.color {
-  @apply border-secondary;
+  @apply border-primary;
 }
 .dark-link {
-  @apply text-secondary hover:text-primary;
+  @apply text-primary hover:text-primary;
 }
 /***** Button ******/
 
 .btn {
-  @apply font-heading  font-bold capitalize border border-solid 
-  border-secondary text-primary bg-secondary hover:text-secondary 
-  hover:bg-primary whitespace-nowrap inline-block tracking-[0] transition-all 
-  cursor-pointer shadow-none no-underline rounded-[100px] 
-  disabled:!bg-primary disabled:!border-primary disabled:!text-primary;
+  @apply border border-primary text-background bg-primary hover:text-primary hover:bg-background transition-all rounded h-10 px-3 text-sm uppercase no-underline;
 }
-
 .btn-2 {
-  @apply hover:text-primary hover:bg-secondary text-secondary bg-primary;
+  @apply border border-primary hover:text-background hover:bg-primary text-primary bg-background transition-all rounded h-10 px-3 text-sm uppercase no-underline;
 }
-
 .btn-error {
   @apply hover:text-primary hover:bg-error text-error bg-primary border-error;
 }
@@ -38,7 +31,7 @@ input:checked + label.color {
 
 .product-form__submit,
 .product-form__submit.ld-over-inverse {
-  @apply !w-full !h-12.5 !relative !uppercase !border !font-heading !text-primary !bg-secondary !border-secondary hover:!text-secondary hover:!bg-primary hover:!border-secondary !whitespace-nowrap !inline-block !tracking-[0] !transition-colors !cursor-pointer !shadow-none !underline-offset-[0.3rem] !no-underline !rounded-[100px] !font-bold;
+  @apply !w-full !h-12.5 !rounded !relative !uppercase !border !font-heading !whitespace-nowrap !inline-block !tracking-[0] !transition-colors !cursor-pointer !shadow-none !underline-offset-[0.3rem] !no-underline !font-bold;
 }
 
 .product-form__submit.hidden-cart-btn {
@@ -49,8 +42,8 @@ input:checked + label.color {
   @apply !rounded-none !fixed !bottom-0 !left-0 !border-0 !mb-0 !border-t lg:!border lg:!mb-4 lg:!absolute lg:!rounded-[100px];
 }
 
-.product-form__submit.ld-over-inverse.btn-secondary {
-  @apply !text-primary !bg-secondary !border-secondary hover:!text-secondary hover:!bg-primary hover:!border-secondary;
+.product-form__submit.ld-over-inverse.btn-primary {
+  @apply !text-primary !bg-primary !border-primary hover:!text-primary hover:!bg-primary hover:!border-primary;
 }
 
 .product-form__buttons.btn-wrapper-sticky {
@@ -75,10 +68,6 @@ accordion-toggle:not(.active) .icon-text::before {
 
 accordion-toggle.review.active .details {
   @apply !max-h-full;
-}
-
-.slider-slide .cl-canvas-container {
-  @apply !flex;
 }
 
 .sticky-header cart-notification {

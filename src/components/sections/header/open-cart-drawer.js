@@ -33,31 +33,6 @@ class CartDrawer extends HTMLElement {
     })
     .finally(() => {
       this.wrapper.classList.remove('spinning-cart');
-      if(document.querySelector('.customily-hidden-property')) {
-        document.querySelectorAll('.customily-hidden-property').forEach((hidden) => {
-          hidden.remove();
-        })
-      }
-      let t = 0;
-      const showInterval = setInterval(function () {
-          if (!document.querySelectorAll('.group.loading .customily-item-image').length || t > 10000) {
-              clearInterval(showInterval);
-          } else {
-              document.querySelectorAll('.group.loading .customily-item-image').forEach(async function (element) {
-                let response = await fetch(element.getAttribute('data-thumb-src'), { method: 'HEAD' });
-                if(response.ok) {
-                  element.setAttribute('src', element.getAttribute('data-thumb-src') + '?' + Date.now());
-                  element.closest('.group').classList.remove('spinning');
-                  element.closest('.group').classList.remove('loading');
-
-                } else {
-                  element.setAttribute('src', element.getAttribute('data-placeholder'));
-                  element.closest('.group').classList.add('spinning');
-                }
-              });
-          }
-          t += 500;
-      }, 500);
     })
   }
 

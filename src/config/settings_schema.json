@@ -322,6 +322,56 @@
     ]
   },
   {
+    "name": "Cart",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "enable_cart_drawer",
+        "default": true,
+        "label": "Enable cart drawer"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_cart_note",
+        "label": "Enable cart note",
+        "default": false
+      }
+    ]
+  },
+  {
+    "name": "Insert custom code into head",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Home page"
+      },
+      {
+        "type": "textarea",
+        "id": "custom_code_header_home",
+        "label": "Custom code at the header"
+      },
+      {
+        "type": "textarea",
+        "id": "custom_code_footer_home",
+        "label": "Custom code at the footer"
+      },
+      {
+        "type": "header",
+        "content": "All pages"
+      },
+      {
+        "type": "textarea",
+        "id": "custom_code_header_all",
+        "label": "Custom code at the header"
+      },
+      {
+        "type": "textarea",
+        "id": "custom_code_footer_all",
+        "label": "Custom code at the footer"
+      }
+    ]
+  },
+  {
     "name": "Collections",
     "settings": [
       {
@@ -429,8 +479,7 @@
       {
         "type": "collection",
         "label": "Recommend collection",
-        "id": "recommend_predictive_search",
-        "default": "new-arrivals"
+        "id": "recommend_predictive_search"
       }
     ]
   },

@@ -67,6 +67,7 @@ Shopify.formatMoney = function (cents, format) {
 };
 
 if (!customElements.get('quantity-input')) {
+
   class QuantityInput extends HTMLElement {
     constructor() {
       super();
@@ -87,7 +88,7 @@ if (!customElements.get('quantity-input')) {
       if (previousValue !== this.input.value)
 
       if (this.input.value == '0') {
-        this.removePopup.open();
+        this.removePopup?.open();
         this.input.stepUp();
       } else {
         this.input.dispatchEvent(this.changeEvent);
@@ -140,11 +141,6 @@ if (!customElements.get('cart-items')) {
   
     getSectionsToRender() {
       return [
-        {
-          id: 'cart-drawer-free-shipping',
-          section: 'cart-drawer-free-shipping',
-          selector: '.js-shipping-bar',
-        },
         {
           id: 'cart-icon-bubble',
           section: 'cart-icon-bubble',

@@ -12,19 +12,11 @@
           "type": "buttons",
           "settings": {
           }
-        },
-        "text-image": {
-          "type": "text-image",
-          "settings": {
-            "background_color_image_text": "#fafafa",
-            "colors_text": "#0f0f0f"
-          }
         }
       },
       "block_order": [
         "subtotal",
-        "buttons",
-        "text-image"
+        "buttons"
       ],
       "settings": {
         "padding_top": 0,

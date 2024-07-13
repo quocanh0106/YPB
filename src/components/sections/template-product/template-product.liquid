@@ -1,8 +1,4 @@
 <link rel="stylesheet" href="{{ 'template-product.css' | asset_url }}" />
-{% if settings.country == 'UK '%}
-  <link rel="stylesheet" href="{{ 'template-product-uk.css' | asset_url }}" />
-{% endif %}
-
 <script>
   window.product = {{ product | json }}
 </script>
@@ -10,13 +6,19 @@
 <script id="product-card" type="text/html">
   <li class="slider-slide w-full">{% render 'product-card', product: product, use_variant: true %}</li>
 </script>
-
-<section id="MainProduct-{{ section.id }}" class="page-width" data-section="{{ section.id }}">
+{% liquid
+  assign variants_available_arr = product.variants | map: 'available'
+  assign variants_option1_arr = product.variants | map: 'option1'
+  assign variants_option2_arr = product.variants | map: 'option2'
+  assign variants_option3_arr = product.variants | map: 'option3'
+  assign product_form_id = 'product-form-' | append: section.id
+%}
+<section id="MainProduct-{{ section.id }}" data-section="{{ section.id }}">
   <div class="flex flex-wrap lg:flex-nowrap">
-    <div class="product-media-wrapper w-full{% if product.media.size > 0 %} lg:max-w-[calc(100%_-_492px)]{% else %} lg:max-w-full{% endif %} overflow-hidden h-fit transition-all duration-200 static lg:sticky top-4">
+    <div class="product-media-wrapper w-full{% if product.media.size > 0 %} lg:max-w-1/2{% else %} lg:max-w-full{% endif %} overflow-hidden h-fit transition-all duration-200 static lg:sticky top-4 border-r border-primary">
       {% render 'product-media-gallery', product: product %}
     </div>
-    <product-infor class="block w-full{% if product.media.size > 0 %} lg:max-w-[492px] lg:pl-7.5{% endif %} mt-6 lg:mt-0" id="ProductInfo-{{ section.id }}" data-product="{{ product.handle }}" data-recently-view="{{ settings.recently_view_limit }}">
+    <product-infor class="block w-full h-fit lg:w-[600px] mx-auto {% if product.media.size > 0 %} lg:max-w-1/2 {% endif %} px-4.5 py-6 lg:px-10 lg:py-15 lg:sticky lg:top-10" id="ProductInfo-{{ section.id }}" data-product="{{ product.handle }}" data-recently-view="{{ settings.recently_view_limit }}">
       {%- for block in section.blocks -%}
         {%- case block.type -%}
           {%- when 'text' -%}
@@ -24,14 +26,33 @@
               {{- block.settings.text -}}
             </p>
           {%- when 'title' -%}
-            <div class="mb-5 lg:mb-6">
-              <h1 class="text-base leading-4 lg:text-h4 lg:leading-4 font-semibold mb-2 font-heading">{{ product.title | escape }}</h1>
+            <div class="mb-5 lg:mb-6 text-center">
+              <h1 class="text-h2 uppercase leading-none font-semibold mb-2 font-heading">{{ product.title | escape }}</h1>
             </div>
           {%- when 'price' -%}
             <div id="price-{{ section.id }}" role="status" {{ block.shopify_attributes }}>
-              {%- render 'price' , product: product , use_variant: true , show_badges: true , show: true -%}
+              {%- render 'price' , product: product , use_variant: true , show_badges: true , show: true, class: 'text-center justify-center !mb-4' -%}
             </div>
-            <div class="h-4 mb-5 lg:mb-6 relative"><div class="absolute top-0 left-0 block w-full h-full" data-pp-message data-pp-placement="product"></div></div>
+            {%- if product.quantity_price_breaks_configured? -%}
+              <div class="volume-pricing-note" id="Volume-Note-{{ section.id }}">
+                <span>{{ 'products.product.volume_pricing.note' | t }}</span>
+              </div>
+            {%- endif -%}
+              <div class="product__tax caption rte">
+                {%- if cart.taxes_included -%}
+                  {{ 'products.product.include_taxes' | t }}
+                {%- endif -%}
+                {%- if shop.shipping_policy.body != blank -%}
+                  {{ 'products.product.shipping_policy_html' | t: link: shop.shipping_policy.url }}
+                {%- endif -%}
+              </div>
+            <div {{ block.shopify_attributes }}>
+              {%- assign product_form_installment_id = 'product-form-installment-' | append: section.id -%}
+              {%- form 'product', product, id: product_form_installment_id, class: 'installment caption-large' -%}
+                <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                {{ form | payment_terms }}
+              {%- endform -%}
+            </div>
           {%- when 'popup' -%}
             <modal-opener class="product-popup-modal__opener no-js-hidden quick-add-hidden" data-id="#PopupModal-{{ block.id }}" {{ block.shopify_attributes }}>
               <button id="ProductPopup-{{ block.id }}" class="product-popup-modal__button link" type="button" aria-haspopup="dialog">
@@ -56,74 +77,7 @@
               <variant-radios class="block border-t border-primary pt-6 scroll-m-14 lg:scroll-m-31" id="variant-radios-{{ section.id }}" data-section="{{ section.id }}" data-url="{{ product.url }}" {% if update_url == false %} data-update-url="false" {% endif %}>
                 {%- for option in product.options_with_values -%}
                   {% assign fatherIndex = forloop.index0 %}
-                  {% if option.name == 'Product' %}
-                    {% assign activeType = option.selected_value %}
-                    <fieldset class="js product-form__input block mb-8 {% if forloop.last %}!mb-0{% endif %} selector-wrapper data-layer-{{ fatherIndex }}" data-name="Product">
-                      <legend class="form__label mb-3 flex gap-2 text-sm text-primary uppercase font-bold font-heading leading-5">{{ 'products.product.product_type' | t }}:<span class="selected-value text-primary font-light font-body">{{ option.selected_value }}</span>
-                      </legend>
-                      <div class="option-values flex flex-wrap gap-2">
-                        {%- for value in option.values -%}
-                          <input
-                            type="radio"
-                            id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
-                            name="{{ option.name }}"
-                            value="{{ value | escape }}"
-                            data-index="{{ fatherIndex }}"
-                            class="absolute opacity-0 invisible option-item {% if option.selected_value == value %} selected {% endif %}"
-                            form="{{ product_form_id }}"
-                            {% if option.selected_value == value %}
-                            checked
-                            {% endif %}>
-                          <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" class="option-item font-normal text-xs lg:text-sm leading-6 lg:leading-4 min-h-[35px] lg:min-h-[36px] bg-primary text-primary border border-primary-250 p-2 flex text-center rounded items-center justify-center option-size-label min-w-12 max-w-3-col-variant w-full">
-                            {{ value }}
-                          </label>
-                        {%- endfor -%}
-                      </div>
-                    </fieldset>
-                  {% elsif option.name == 'Color' or option.name == 'Farbe' or option.name == 'Colore' or option.name == 'Couleur' %}
-                    <fieldset class="js product-form__input block mb-8 {% if forloop.last %}!mb-0{% endif %} option-color-wrapper data-layer-{{ fatherIndex }}" data-name="Color">
-                      <legend class="form__label mb-3 flex gap-2 text-sm text-primary uppercase font-bold font-heading leading-5">{{ option.name }}:
-                        <span class="selected-value text-primary font-light font-body">{{ option.selected_value | remove: '-1' | remove: '-2' | remove: '-3' | remove: '-4' | remove: '-5' }}</span>
-                        <span class="require-option capitalize font-light text-red-500 font-heading text-sm lg:text-base !leading-[20px] hidden">{{ 'products.product.require' | t }}</span>
-                        {% if forloop.index == 3 %}
-                          {% assign option1 = product.options_with_values[1].name | split: " " | last %}
-                          <span class="message-option capitalize font-light text-red-500 font-heading text-sm lg:text-base !leading-[20px] hidden">{{ 'products.product.message_option' | t: option: option1 }}</span>
-                        {% endif %}
-                      </legend>
-                      <div class="option-color flex flex-wrap gap-2">
-                        {% assign values = '' %}
-                        {%- for value in option.values -%}
-                          {%- unless values contains value -%}
-                            {%- liquid
-                              assign values = values | join: ','
-                              assign values = values | append: ',' | append: value
-                              assign values = values | split: ','
-                              assign bgColor = value | split: ' ' | first | handle
-                            -%}
-                            <input
-                              type="radio"
-                              class="absolute opacity-0 invisible option-item"
-                              id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
-                              data-index="{{ fatherIndex }}"
-                              name="{{ option.name }}"
-                              value="{{ value | escape }}"
-                              form="{{ product_form_id }}"
-                              {% if option.selected_value == value %}
-                              checked{% endif %}>
-                            <label
-                              for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
-                              class="color border w-10 h-10 inline-block rounded border-primary overflow-hidden option-item"
-                              data-product-id="{{ product.id }}"
-                              data-variant-id="{{ variant.id }}"
-                              data-option="{{ option.name | handleize }}"
-                              data-value="{{ value | escape }}">
-                              <span class="color w-full h-full !inline-block bg-center" style="background-color:{{ bgColor }}; background-image: url({{ value | handle | append: '.' | append: 'png' | asset_img_url: '150x' }});"></span>
-                            </label>
-                          {%- endunless -%}
-                        {%- endfor -%}
-                      </div>
-                    </fieldset>
-                  {% elsif option.name == 'Size' or option.name == 'Taille' or option.name == 'Taglia' or option.name == 'Größe' %}
+                  {% if option.name == 'Size' or option.name == 'Taille' or option.name == 'Taglia' or option.name == 'Größe' %}
                     <fieldset class="js product-form__input block mb-8 {% if forloop.last %}!mb-0{% endif %} option-size-wrapper data-layer-{{ fatherIndex }}" data-name="Size">
                       <div class="title-option-size mb-3 flex justify-between items-center">
                         <legend class="form__label flex gap-2 text-sm text-primary uppercase font-bold font-heading leading-5">{{ 'products.product.size' | t }}:
@@ -138,8 +92,28 @@
                       </div>
                       <div class="title-option-size-bt flex flex-wrap gap-2">
                         {%- for value in option.values -%}
-                          <input class="absolute opacity-0 invisible option-item" type="radio" id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" name="{{ option.name }}" data-index="{{ fatherIndex }}" value="{{ value | escape }}" form="{{ product_form_id }}" {% if option.selected_value == value %} checked{% endif %}>
-                          <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" class="option-item font-normal text-xs lg:text-sm leading-6 lg:leading-4 min-h-[35px] lg:min-h-[36px] bg-primary text-primary border border-primary-250 p-2 flex text-center rounded items-center justify-center option-size-label min-w-12 max-w-6-col-variant w-full ">
+                          {%- liquid
+                            assign option_disabled = true
+                        
+                            for option1_name in variants_option1_arr
+                              case option.position
+                                when 1
+                                  if variants_option1_arr[forloop.index0] == value and variants_available_arr[forloop.index0]
+                                    assign option_disabled = false
+                                  endif
+                                when 2
+                                  if option1_name == product.selected_or_first_available_variant.option1 and variants_option2_arr[forloop.index0] == value and variants_available_arr[forloop.index0]
+                                    assign option_disabled = false
+                                  endif
+                                when 3
+                                  if option1_name == product.selected_or_first_available_variant.option1 and variants_option2_arr[forloop.index0] == product.selected_or_first_available_variant.option2 and variants_option3_arr[forloop.index0] == value and variants_available_arr[forloop.index0]
+                                    assign option_disabled = false
+                                  endif
+                              endcase
+                            endfor
+                          -%}
+                          <input class="absolute opacity-0 invisible option-item{% if option.selected_value == value %} selected{% endif %}{% if option_disabled %} disabled{% endif %}" type="radio" id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" name="{{ option.name }}" data-index="{{ fatherIndex }}" value="{{ value | escape }}" form="{{ product_form_id }}" {% if option.selected_value == value %} checked{% endif %}>
+                          <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" class="cursor-pointer option-item font-normal text-xs lg:text-sm leading-6 lg:leading-4 min-h-[35px] lg:min-h-[36px] bg-background text-primary border border-primary p-2 flex text-center rounded items-center justify-center option-size-label min-w-12 max-w-6-col-variant w-full">
                             {{ value }}
                           </label>
                         {%- endfor -%}
@@ -157,8 +131,29 @@
                       </legend>
                       <div class="option-values flex flex-wrap gap-2">
                         {%- for value in option.values -%}
-                          <input class="absolute opacity-0 invisible option-item {% if option.selected_value == value %} selected {% endif %}" type="radio" id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" name="{{ option.name }}" data-index="{{ fatherIndex }}" value="{{ value | escape }}" form="{{ product_form_id }}" {% if option.selected_value == value %} checked{% endif %}>
-                          <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" class="option-item font-light text-xs lg:text-base leading-none lg:leading-none min-h-[35px] lg:min-h-[41px] bg-primary text-primary border border-primary-250 p-2 flex text-center rounded items-center justify-center min-w-12 max-w-3-col-variant w-full option-label">
+                          {%- liquid
+                            assign option_disabled = true
+                        
+                            for option1_name in variants_option1_arr
+                              case option.position
+                                when 1
+                                  if variants_option1_arr[forloop.index0] == value and variants_available_arr[forloop.index0]
+                                    assign option_disabled = false
+                                  endif
+                                when 2
+                                  if option1_name == product.selected_or_first_available_variant.option1 and variants_option2_arr[forloop.index0] == value and variants_available_arr[forloop.index0]
+                                    assign option_disabled = false
+                                  endif
+                                when 3
+                                  if option1_name == product.selected_or_first_available_variant.option1 and variants_option2_arr[forloop.index0] == product.selected_or_first_available_variant.option2 and variants_option3_arr[forloop.index0] == value and variants_available_arr[forloop.index0]
+                                    assign option_disabled = false
+                                  endif
+                              endcase
+                            endfor
+                          -%}
+
+                          <input class="absolute opacity-0 invisible option-item{% if option.selected_value == value %} selected{% endif %}{% if option_disabled %} disabled{% endif %}" type="radio" id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" name="{{ option.name }}" data-index="{{ fatherIndex }}" value="{{ value | escape }}" form="{{ product_form_id }}" {% if option.selected_value == value %} checked{% endif %}>
+                          <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" class="cursor-pointer option-item font-light text-xs lg:text-base leading-none lg:leading-none min-h-[35px] lg:min-h-[41px] bg-background text-primary border border-primary p-2 flex text-center rounded items-center justify-center min-w-12 max-w-3-col-variant w-full option-label">
                             {{ value }}
                           </label>
                         {%- endfor -%}
@@ -225,7 +220,29 @@
               {%- form 'product', product, id: product_form_id, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
                 <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" disabled>
                 <sticky-add-to-cart class="block mt-2 lg:mt-6 mb-4 relative h-27 lg:h-29">
-                  <div class="product-form__buttons flex flex-col">
+                  <div class="product-form__buttons flex gap-2">
+                    <quantity-input class="flex items-center relative w-fit h-12.5 rounded border border-primary">
+                      <button class="w-6 h-6 relative text-primary transition-all rounded-full before:content-empty before:w-full before:h-full before:z-[1] before:absolute before:left-0 before:top-0" name="minus" type="button">
+                        {% render 'icon-minus', class: 'w-4 h-4 mx-auto' %}
+                      </button>
+                      <input class="appearance-none border-none bg-transparent text-primary text-xs leading-4 lg:text-base lg:leading-2 p-0.5 w-6 lg:w-8 h-full font-medium text-center !ring-0 shadow-none focus:border-none" 
+                        type="number"
+                        name="quantity"
+                        id="Quantity-{{ section.id }}"
+                        data-cart-quantity="{{ cart_qty }}"
+                        data-min="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
+                        min="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
+                        {% if product.selected_or_first_available_variant.quantity_rule.max != null %}
+                          data-max="{{ product.selected_or_first_available_variant.quantity_rule.max }}"
+                          max="{{ product.selected_or_first_available_variant.quantity_rule.max }}"
+                        {% endif %}
+                        step="{{ product.selected_or_first_available_variant.quantity_rule.increment }}"
+                        value="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
+                        form="{{ product_form_id }}">
+                      <button class="w-6 h-6 relative text-primary transition-all rounded-full before:content-empty before:w-full before:h-full before:z-[1] before:absolute before:left-0 before:top-0" name="plus" type="button">
+                        {% render 'icon-plus', class: 'w-4 h-4 mx-auto' %}
+                      </button>
+                    </quantity-input>
                     <button type="submit" name="add" class="product-form__submit button button--full-width btn" {% if product.selected_or_first_available_variant.available == false %} disabled{% endif %}>
                       <span>
                         {%- if product.selected_or_first_available_variant.available -%}
@@ -239,12 +256,19 @@
                     <div class="button-unavailable"></div>
                   </div>
                 </sticky-add-to-cart>
-                {% if block.settings.show_shipping %}
-                  <span class="block text-center text-sm leading-1.5 text-primary font-light">{{ 'products.shipping_information.overmb' | t }}<span class="text-sale font-medium">{{ settings.minimum_freeshipping | append: '00' | plus: 0 | money_without_trailing_zeros }}</span>
-                  </span>
-                {% endif %}
               {%- endform -%}
-            </product-form>         
+            </product-form>
+          {%- when 'collapsible_tab' -%}
+            <accordion-toggle class="inline-block relative cursor-pointer bg-background rounded shadow-megamenu p-4 lg:p-6">
+              <div class="summary flex items-start justify-between gap-3 before:content-empty before:absolute before:top-0 before:left-0 before:w-full before:h-full before:block before:p-4 before:lg:p-6 before:lg:z-10">
+                <h3 class="inline-block text-base text-primary leading-4 font-heading font-semibold lg:text-lg lg:leading-4">{{ block.settings.summary }}</h3>
+                <span class="icon-add">{%- render 'icon-down', class: 'w-6 h-6 text-primary' -%}</span>
+                <span class="icon-minus">{%- render 'icon-up', class: 'w-6 h-6 text-primary' -%}</span>
+              </div>
+              <div class="details p-0">
+                {{ block.settings.description }}
+              </div>
+            </accordion-toggle>
         {%- endcase -%}
       {%- endfor -%}
     </product-infor>
@@ -272,15 +296,6 @@
       "@type": "Product",
       "name": {{ product.title | json }},
       "url": {{ request.origin | append: product.url | json }},
-      {% if numReview != 0 %}
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "{{ product.metafields.judgeme.badge | split: "data-average-rating='" | last | split: "'" | first | plus: 0 }}",
-        "reviewCount": "{{ numReview }}",
-        "bestRating": "5",
-        "worstRating": "1"
-      },
-      {% endif %}
       {% if seo_media -%}
         "image" : [{{ seo_media | image_url: width: seo_media.preview_image.width | prepend: "https:" | json }}],
         {%- endif %}
@@ -317,31 +332,14 @@
                   ]
                 }
   </script>
-  <script type="text/javascript" defer>
-    var _learnq = _learnq || [];
-    var item = {
-      "ProductName": "{{ product.title }}",
-      "ProductID": "{{ product.id }}",
-      "SKU": "{{ product.selected_or_first_available_variant.sku }}",
-      "Categories": {{ product.collections | json }},
-      "ImageURL": "{{ product.featured_image | image_url }}",
-      "URL": "{{ product.url }}",
-      "Brand": "{{ shop.name }}",
-      "Price": "{{ product.price | money }}",
-      "CompareAtPrice": "{{ product.compare_at_price | money }}"
-    };
-    _learnq.push(["track", "Viewed Product", item]);
-  </script>
 </section>
 
 {% capture src_url %}{{ 'template-product.js' | asset_url }}{% endcapture %}
 {% render 'atom_script', src: src_url, priority: 'normal', type: "defer" %}
 
-<script defer src="https://www.paypal.com/sdk/js?client-id=AU_cd7dYLlIPAIz-RBHxFBSFgVK6tKWcw3SagqaDo6hoc88m_cM9fhnXjz_riLj29WFqrFwxn2Xey_Gj&components=messages" data-namespace="PayPalSDK"></script>
-
 {% schema %}
   {
-    "name": "t:sections.main-product.name",
+    "name": "Template product",
     "tag": "section",
     "blocks": [
       {
@@ -349,7 +347,7 @@
       },
       {
         "type": "text",
-        "name": "t:sections.main-product.blocks.text.name",
+        "name": "Text",
         "settings": [
           {
             "type": "text",
@@ -429,43 +427,26 @@
         ]
       }, {
         "type": "title",
-        "name": "t:sections.main-product.blocks.title.name",
+        "name": "Title",
         "limit": 1
       }, {
         "type": "price",
-        "name": "t:sections.main-product.blocks.price.name",
+        "name": "Price",
         "limit": 1
       }, {
         "type": "quantity_selector",
-        "name": "t:sections.main-product.blocks.quantity_selector.name",
+        "name": "Quantity",
         "limit": 1
       }, {
         "type": "variant_picker",
-        "name": "t:sections.main-product.blocks.variant_picker.name",
+        "name": "Variant picker",
         "limit": 1,
         "settings": []
       }, {
         "type": "buy_buttons",
-        "name": "t:sections.main-product.blocks.buy_buttons.name",
+        "name": "Buy button",
         "limit": 1,
-        "settings": [
-          {
-            "type": "checkbox",
-            "id": "show_shipping",
-            "default": true,
-            "label": "Show shipping"
-          }
-        ]
-      }, {
-        "type": "rating",
-        "name": "t:sections.main-product.blocks.rating.name",
-        "limit": 1,
-        "settings": [
-          {
-            "type": "paragraph",
-            "content": "t:sections.main-product.blocks.rating.settings.paragraph.content"
-          }
-        ]
+        "settings": []
       }
     ],
     "settings": [

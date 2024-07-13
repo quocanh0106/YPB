@@ -2,7 +2,7 @@
 {% unless width %}
   {% assign width = media.preview_image.width %}
 {% endunless %}
-<div class="relative w-full" style="padding-bottom: {{ aspect_ratio | times: 100 }}%">
+<div class="relative w-full">
   <img
     srcset="{%- if width >= 330 -%}
       {{ media.preview_image | image_url: width: 330 }} 165w,{%- endif -%}
@@ -21,7 +21,7 @@
     {% if lazy_load %}
     loading="lazy"
     {% endif %}
-    class="absolute top-0 left-0 block w-full h-full object-cover bg-image-placeholder bg-no-repeat bg-cover bg-center text-transparent"
+    class="block w-full h-full object-cover bg-image-placeholder bg-no-repeat bg-cover bg-center text-transparent"
     width="{{ width }}"
     height="{{ width | divided_by: aspect_ratio }}"
     data-media-id="{{ media.id }}"

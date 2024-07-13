@@ -17,12 +17,12 @@
   <div class="cart-empty text-center h-full rounded-lg px-4 py-6 lg:py-16 hidden">
     {% render 'icon-shoppingcartfilled', class: 'mx-auto w-16 h-16 mb-3' %}
     <span class="block mx-auto text-base font-heading leading-4 font-semibold text-primary mb-1">{{ 'sections.cart.empty' | t }}</span>
-    <span class="block mx-auto text-sm leading-5 text-primary mb-5 max-w-[386px]">{{ 'sections.cart.empty_description' }}</span>
+    <span class="block mx-auto text-sm leading-5 text-primary mb-5 max-w-[386px]">{{ 'sections.cart.empty_description' | t  }}</span>
     <a href="{{ routes.all_products_collection_url }}" class="block cursor-pointer mx-auto w-fit btn btn-2 px-6 lg:px-8 py-3.5 text-sm leading-none lg:text-base !uppercase lg:leading-none !font-heading !font-bold">
       {{ 'general.continue_shopping' | t }}
     </a>
   </div>
-  <cart-items class="w-[calc(100%_-_8px)] lg:w-[calc(100%_-_32px)] pl-4 pr-2 lg:pl-10 lg:pr-2 scroll-thin scroll-brighter overflow-auto {% if cart == empty %} is-empty {% else %} block{% endif %}">
+  <cart-items class="w-full scroll-thin scroll-brighter overflow-auto {% if cart == empty %} is-empty {% else %} block{% endif %}">
     <div class="shopping-cart-main">
       <form action="{{ routes.cart_url }}" class="cart__contents critical-hidden" method="post" id="cart">
         <div class="cart__items" id="main-cart-items" data-id="{{ section.id }}">
@@ -31,7 +31,7 @@
               <table class="cart-items w-full border-none">
                 {%- for item in cart.items -%}
                   <tr id="CartItem-{{ item.index | plus: 1 }}" class="{% unless forloop.last %}border-primary border-b{% endunless %}" data-key="{{ item.key }}">
-                    <td class="table-cell border-none w-full items-center{% if forloop.first %} pb-4{% else %} py-4{% endif %}" colspan="2" scope="col">
+                    <td class="table-cell border-none w-full items-center{% if forloop.first %} pb-4{% else %} py-4{% endif %} px-4" colspan="2" scope="col">
                       <div class="flex items-start">
                         {% if item.properties == empty %}
                           <modal-opener class="group block w-20 h-20 lg:w-24 lg:h-24 rounded flex-none overflow-hidden relative cursor-pointer" data-id="#preview-image-{{ item.index | plus: 1 }}">
@@ -53,7 +53,7 @@
                             {% for p in item.properties %}
                               {% if p.first == '_customily-thumb' %}
                                 <modal-opener class="group block w-20 h-20 lg:w-24 lg:h-24 flex-none relative cursor-pointer loading" data-id="#preview-image-{{ item.index | plus: 1 }}">
-                                  <img src="{{ item.properties['_customily-thumb'] }}" data-placeholder="{{ placeholderImage }}" data-thumb-src="{{ item.properties['_customily-thumb'] }}" class="customily-item-image w-full h-full block object-cover leading-none rounded !max-w-full !max-h-full bg-image-placeholder bg-no-repeat bg-cover bg-center text-transparent" style="--image-placeholder: url({{ placeholderImage }});" width="160" height="160" loading="lazy" alt="{{ item.title | escape }}" />
+                                  <img src="{{ item.image }}" data-placeholder="{{ placeholderImage }}" data-thumb-src="{{ item.image }}" class="customily-item-image w-full h-full block object-cover leading-none rounded !max-w-full !max-h-full bg-image-placeholder bg-no-repeat bg-cover bg-center text-transparent" style="--image-placeholder: url({{ placeholderImage }});" width="160" height="160" loading="lazy" alt="{{ item.title | escape }}" />
                                   <div class="absolute bottom-1 right-1 rounded flex items-center justify-center p-1 w-5 h-5 lg:w-6 lg:h-6 bg-background-opacity-80 group-hover:bg-background-opacity-100 transition-all text-primary">
                                     {% render 'icon-zoom', class: 'w-3 h-3 lg:w-4 lg:h-4' %}
                                   </div>
@@ -74,7 +74,7 @@
                             {% for p in item.properties %}
                               {% if p.first == '_customily-thumb' %}
                                 <modal-opener class="group block w-20 h-20 lg:w-24 lg:h-24 flex-none relative cursor-pointer" data-id="#preview-image-{{ item.index | plus: 1 }}">
-                                  <img src="{{ item.properties['_customily-thumb'] }}" data-placeholder="{{ placeholderImage }}" data-thumb-src="{{ item.properties['_customily-thumb'] }}" class="customily-item-image w-full h-full block object-cover leading-none rounded !max-w-full !max-h-full bg-image-placeholder bg-no-repeat bg-cover bg-center text-transparent" style="--image-placeholder: url({{ placeholderImage }});" width="160" height="160" loading="lazy" alt="{{ item.title | escape }}" />
+                                  <img src="{{ item.image }}" data-placeholder="{{ placeholderImage }}" data-thumb-src="{{ item.image }}" class="customily-item-image w-full h-full block object-cover leading-none rounded !max-w-full !max-h-full bg-image-placeholder bg-no-repeat bg-cover bg-center text-transparent" style="--image-placeholder: url({{ placeholderImage }});" width="160" height="160" loading="lazy" alt="{{ item.title | escape }}" />
                                   <div class="absolute bottom-1 right-1 rounded flex items-center justify-center p-1 w-5 h-5 lg:w-6 lg:h-6 bg-background-opacity-80 group-hover:bg-background-opacity-100 transition-all text-primary">
                                     {% render 'icon-zoom', class: 'w-3 h-3 lg:w-4 lg:h-4' %}
                                   </div>
@@ -95,7 +95,7 @@
                         {% endif %}
                         <div class="w-full ml-2 lg:ml-3 flex flex-col min-h-[80px] lg:min-h-[96px]">
                           <div class="flex items-center justify-between gap-4">
-                            <a href="{{ item.url }}" class="text-xs leading-2 lg:text-base lg:leading-4 font-medium font-heading text-primary hover:text-primary truncate-line one-line overflow-hidden" title="{{ item.product.title }}">
+                            <a href="{{ item.url }}" class="text-xs leading-2 lg:text-base lg:leading-4 font-medium font-heading no-underline text-primary hover:text-primary truncate-line one-line overflow-hidden" title="{{ item.product.title }}">
                               {{ item.product.title }}
                             </a>
                             <modal-opener class="block font-light text-primary hover:text-primary transition-all text-xs text-center cursor-pointer ml-auto w-fit" data-id="#Popup-Remove-{{ item.index | plus: 1 }}">
@@ -118,8 +118,8 @@
                             <div class="text-center p-0 shadow-popup w-[343px] bg-background rounded-xl max-w-[calc(100vw_-_32px)] absolute top-1/2 left-1/2 z-30 -translate-x-1/2 -translate-y-1/2">
                               <div class="px-5 pt-16 group loading">
                                 <img
-                                  src="{{ item.properties['_customily-thumb'] }}" data-placeholder="{{ placeholderImage }}" data-thumb-src="{{ item.properties['_customily-thumb'] }}"
-                                  class="customily-item-image w-40 h-40 block object-cover leading-none !max-w-full !max-h-full rounded mx-auto mb-3 bg-image-placeholder bg-no-repeat bg-cover bg-center text-transparent"
+                                  src="{{ item.image | image_url: width: 160 }}"
+                                  class="w-40 h-40 block object-cover leading-none !max-w-full !max-h-full rounded mx-auto mb-3 bg-image-placeholder bg-no-repeat bg-cover bg-center text-transparent"
                                   width="160"
                                   height="160"
                                   loading="lazy"
@@ -147,12 +147,12 @@
                           <div class="flex items-center gap-2 justify-between mt-auto">
                             {% render 'lineitem-cart-drawer-price', product: item.variant %}
                             <quantity-input class="flex items-center relative w-fit h-6" data-lineitem="{{ forloop.index }}">
-                              <button class="w-6 h-6 relative bg-primary-opacity-50 hover:bg-primary-250 transition-all rounded-full before:content-empty before:w-full before:h-full before:z-[1] before:absolute before:left-0 before:top-0" name="minus" type="button">
-                                {% render 'icon-minus', class: 'w-4 h-4 text-primary fill-primary mx-auto' %}
+                              <button class="w-6 h-6 relative bg-background hover:bg-primary text-primary hover:text-background transition-all rounded-full before:content-empty before:w-full before:h-full before:z-[1] before:absolute before:left-0 before:top-0" name="minus" type="button">
+                                {% render 'icon-minus', class: 'w-4 h-4 mx-auto' %}
                               </button>
                               <input class="appearance-none border-none bg-transparent text-primary text-xs leading-4 lg:text-base lg:leading-2 p-0.5 w-6 lg:w-8 h-full font-medium text-center !ring-0 shadow-none focus:border-none" inputmode="numeric" pattern="[0-9]*" type="number" name="updates[]" value="{{ item.quantity }}" min="0" id="Quantity-{{ item.index | plus: 1 }}" data-key="{{ item.key }}">
-                              <button class="w-6 h-6 relative bg-primary-opacity-50 hover:bg-primary-250 transition-all rounded-full before:content-empty before:w-full before:h-full before:z-[1] before:absolute before:left-0 before:top-0" name="plus" type="button">
-                                {% render 'icon-plus', class: 'w-4 h-4 text-primary fill-primary mx-auto' %}
+                              <button class="w-6 h-6 relative bg-background hover:bg-primary text-primary hover:text-background transition-all rounded-full before:content-empty before:w-full before:h-full before:z-[1] before:absolute before:left-0 before:top-0" name="plus" type="button">
+                                {% render 'icon-plus', class: 'w-4 h-4 mx-auto' %}
                               </button>
                             </quantity-input>
                           </div>
@@ -170,12 +170,9 @@
       </form>
     </div>
   </cart-items>
-  <div class="w-full mt-auto block pb-8 lg:pb-12{% if cart == empty %} is-empty{% endif %} cart_footer" id="main-cart-footer" data-id="{{ section.id }}">
-    <div class="px-4 lg:px-10">
-      {%- render 'cart-drawer-free-shipping' -%}
-    </div>
+  <div class="w-full mt-auto block pb-6{% if cart == empty %} is-empty{% endif %} cart_footer" id="main-cart-footer" data-id="{{ section.id }}">
     <div class="js-contents" id="cart-drawer-total" {{ block.shopify_attributes }}>
-      <ul class="pt-5 pb-6 px-4 lg:px-10 lg:py-6 border-t border-primary grid gap-2">
+      <ul class="px-4 py-6 border-t border-primary grid gap-2">
         {% if original_price > cart.total_price %}
           <li class="flex items-center justify-between gap-2">
             <span class="text-sm font-light text-primary capitalize leading-5">{{ 'sections.cart.original_price' | t }}</span>
@@ -190,10 +187,6 @@
             <span class="text-sm font-light text-primary leading-5">{{ 'sections.cart.shipping_calculated' | t }}</span>
           </li>
         {% endif %}
-        <li class="flex items-center justify-between gap-2">
-          <span class="text-sm font-light text-sale capitalize leading-5">{{ 'sections.cart.save' | t }}</span>
-          <span class="text-sm font-light text-sale leading-5">-{{ original_price | minus: cart.total_price | money }}</span>
-        </li>
         {% if cart.total_discount > 0 %}
           <li class="flex items-center justify-between gap-2">
             <span class="text-sm font-light text-primary capitalize leading-5">{{ 'sections.cart.discount' | t }}</span>
@@ -208,9 +201,9 @@
         </li>
       </ul>
     </div>
-    <div class="px-4 lg:px-10 flex flex-wrap lg:flex-nowrap gap-3 lg:gap-4">
-      <a href="{{ routes.cart_url }}" class="btn btn-2 !block w-full lg:w-fit !uppercase !px-8 !py-3 text-center" title="{{ 'templates.cart.view_bag' | t }}">{{ 'templates.cart.view_bag' | t }}</a>
-      <button type="submit" id="checkout" class="btn !block w-full !uppercase !px-8 !py-3" name="checkout"{% if cart == empty %} disabled{% endif %} form="cart">
+    <div class="px-4 flex flex-wrap lg:flex-nowrap gap-3 lg:gap-4">
+      <a href="{{ routes.cart_url }}" class="btn btn-2 !flex justify-center items-center w-full !uppercase !px-8 !py-3 text-center" title="{{ 'templates.cart.view_bag' | t }}">{{ 'templates.cart.view_bag' | t }}</a>
+      <button type="submit" id="checkout" class="btn !flex justify-center items-center w-full !uppercase !px-8 !py-3" name="checkout"{% if cart == empty %} disabled{% endif %} form="cart">
         {{ 'sections.cart.checkout' | t }}
       </button>
     </div>
@@ -219,7 +212,7 @@
   <div class="cart-empty text-center h-full rounded-lg px-4 py-6 lg:py-16">
     {% render 'icon-shoppingcartfilled', class: 'mx-auto w-16 h-16 mb-3' %}
     <span class="block mx-auto text-base font-heading leading-4 font-semibold text-primary mb-1">{{ 'sections.cart.empty' | t }}</span>
-    <span class="block mx-auto text-sm leading-5 text-primary mb-5 max-w-[386px]">{{ 'sections.cart.empty_description' }}</span>
+    <span class="block mx-auto text-sm leading-5 text-primary mb-5 max-w-[386px]">{{ 'sections.cart.empty_description' | t  }}</span>
     <a href="{{ routes.all_products_collection_url }}" class="block cursor-pointer mx-auto w-fit btn btn-2 px-6 lg:px-8 py-3.5 text-sm leading-none lg:text-base !uppercase lg:leading-none !font-heading !font-bold">
       {{ 'general.continue_shopping' | t }}
     </a>
