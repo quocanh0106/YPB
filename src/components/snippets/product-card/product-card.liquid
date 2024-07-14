@@ -55,11 +55,11 @@
             <span aria-hidden="true"> / </span>
             <span class="slider-counter--total">{{ product.media.size }}</span>
           </div>
-          <div class="lg:opacity-0 group-hover:lg:opacity-100 transition-all slider-dots !hidden md:!flex absolute bottom-3 lg:bottom-4 left-1/2 -translate-x-1/2">
+          <div class="lg:opacity-0 group-hover:lg:opacity-100 transition-all slider-dots !flex absolute bottom-3 lg:bottom-4 left-1/2 -translate-x-1/2">
             {% for media in product.media %}
               {% if media.media_type == 'image' %}
                 <span class="slider-dot{% if forloop.first %} active{% endif %}" data-position="{{ forloop.index }}"></span>
-              {% endif %
+              {% endif %}
             {% endfor %}
           </div>
           <wishlist-button class="opacity-0 group-hover:opacity-100 z-10 transition-all absolute top-2 right-2 lg:top-4 lg:right-4 flex justify-center items-center bg-background w-7 h-7 lg:w-9 lg:h-9 rounded-full overflow-hidden shadow-card cursor-pointer" data-product-handle="{{ product.handle }}">

@@ -23,14 +23,14 @@
         "color_title": "#000000",
         "color_subtitle": "#000000",
         "background_color": "#ffffff",
-        "image": "shopify:\/\/shop_images\/Large-HP_DK_SOUVENIR_SHOP_15_STILL_LIFES_2600x1300_2x1_e91ad20c-32ec-4635-b189-3fddfdbdeb03.jpg",
-        "heading": "SOMETHING",
+        "image": "shopify:\/\/shop_images\/YP.SHOOT15169.jpg",
+        "heading": "",
         "heading_tag": "h2",
-        "description": "Something Something Something Something SomethingSomething",
-        "button_url": "shopify:\/\/collections",
-        "button_text": "Collections",
-        "button_url_2": "shopify:\/\/collections\/all",
-        "button_text_2": "Products",
+        "description": "",
+        "button_url": "shopify:\/\/collections\/new-arrivals",
+        "button_text": "New Arrivals",
+        "button_url_2": "",
+        "button_text_2": "",
         "margin_top": 0,
         "margin_bottom": 0,
         "margin_top_mb": 0,
@@ -60,7 +60,7 @@
         "product_per_row_tablet": 3,
         "product_per_row_mobile": 2,
         "limit": 12,
-        "background_color": "#FAFAFA",
+        "background_color": "#fafafa",
         "padding_top": 0,
         "padding_bottom": 0,
         "padding_top_mb": 0,
@@ -71,17 +71,17 @@
       "type": "banner-text-button",
       "settings": {
         "border_bottom": false,
-        "color_title": "#000000",
+        "color_title": "#ffffff",
         "color_subtitle": "#000000",
         "background_color": "#ffffff",
-        "image": "shopify:\/\/shop_images\/Large-HP_DK_SOUVENIR_SHOP_15_STILL_LIFES_2600x1300_2x1_e91ad20c-32ec-4635-b189-3fddfdbdeb03.jpg",
-        "heading": "SOMETHING",
+        "image": "shopify:\/\/shop_images\/YP_PRODUCT_13.030171.jpg",
+        "heading": "T - Shirt",
         "heading_tag": "h2",
-        "description": "Something Something Something Something SomethingSomething",
-        "button_url": "shopify:\/\/collections",
-        "button_text": "Collections",
-        "button_url_2": "shopify:\/\/collections\/all",
-        "button_text_2": "Products",
+        "description": "",
+        "button_url": "shopify:\/\/collections\/t-shirt-longsleeve",
+        "button_text": "Shop now",
+        "button_url_2": "",
+        "button_text_2": "",
         "margin_top": 0,
         "margin_bottom": 0,
         "margin_top_mb": 0,
@@ -105,46 +105,7 @@
           "187",
           "98",
           "1340",
-          "152"
-        ],
-        "product_per_row": 4,
-        "product_per_row_tablet": 3,
-        "product_per_row_mobile": 2,
-        "limit": 12,
-        "background_color": "#FAFAFA",
-        "padding_top": 0,
-        "padding_bottom": 0,
-        "padding_top_mb": 0,
-        "padding_bottom_mb": 0
-      }
-    },
-    "banner_text_button_3": {
-      "type": "banner-text-button",
-      "settings": {
-        "border_bottom": false,
-        "color_title": "#000000",
-        "color_subtitle": "#000000",
-        "background_color": "#ffffff",
-        "image": "shopify:\/\/shop_images\/Large-HP_DK_SOUVENIR_SHOP_15_STILL_LIFES_2600x1300_2x1_e91ad20c-32ec-4635-b189-3fddfdbdeb03.jpg",
-        "heading": "SOMETHING",
-        "heading_tag": "h2",
-        "description": "Something Something Something Something SomethingSomething",
-        "button_url": "shopify:\/\/collections",
-        "button_text": "Collections",
-        "button_url_2": "shopify:\/\/collections\/all",
-        "button_text_2": "Products",
-        "margin_top": 0,
-        "margin_bottom": 0,
-        "margin_top_mb": 0,
-        "margin_bottom_mb": 0
-      }
-    },
-    "product_list_3": {
-      "type": "product-list",
-      "settings": {
-        "border_bottom": true,
-        "heading": "",
-        "product_list": [
+          "152",
           "t-shirt-2",
           "t-shirt-4",
           "t-shirt-3",
@@ -162,35 +123,35 @@
         "product_per_row_tablet": 3,
         "product_per_row_mobile": 2,
         "limit": 12,
-        "background_color": "#FAFAFA",
+        "background_color": "#fafafa",
         "padding_top": 0,
         "padding_bottom": 0,
         "padding_top_mb": 0,
         "padding_bottom_mb": 0
       }
     },
-    "banner_text_button_4": {
+    "banner_text_button_3": {
       "type": "banner-text-button",
       "settings": {
         "border_bottom": false,
-        "color_title": "#000000",
+        "color_title": "#ffffff",
         "color_subtitle": "#000000",
         "background_color": "#ffffff",
-        "image": "shopify:\/\/shop_images\/Large-HP_DK_SOUVENIR_SHOP_15_STILL_LIFES_2600x1300_2x1_e91ad20c-32ec-4635-b189-3fddfdbdeb03.jpg",
-        "heading": "SOMETHING",
+        "image": "shopify:\/\/shop_images\/YP_PRODUCT_13.030130.jpg",
+        "heading": "Hoodie",
         "heading_tag": "h2",
-        "description": "Something Something Something Something SomethingSomething",
-        "button_url": "shopify:\/\/collections",
-        "button_text": "Collections",
-        "button_url_2": "shopify:\/\/collections\/all",
-        "button_text_2": "Products",
+        "description": "",
+        "button_url": "shopify:\/\/collections\/hoodie",
+        "button_text": "Shop now",
+        "button_url_2": "",
+        "button_text_2": "",
         "margin_top": 0,
         "margin_bottom": 0,
         "margin_top_mb": 0,
         "margin_bottom_mb": 0
       }
     },
-    "product_list_4": {
+    "product_list_3": {
       "type": "product-list",
       "settings": {
         "border_bottom": true,
@@ -213,35 +174,35 @@
         "product_per_row_tablet": 3,
         "product_per_row_mobile": 2,
         "limit": 12,
-        "background_color": "#FAFAFA",
+        "background_color": "#fafafa",
         "padding_top": 0,
         "padding_bottom": 0,
         "padding_top_mb": 0,
         "padding_bottom_mb": 0
       }
     },
-    "banner_text_button_5": {
+    "banner_text_button_4": {
       "type": "banner-text-button",
       "settings": {
         "border_bottom": false,
-        "color_title": "#000000",
+        "color_title": "#ffffff",
         "color_subtitle": "#000000",
         "background_color": "#ffffff",
-        "image": "shopify:\/\/shop_images\/Large-HP_DK_SOUVENIR_SHOP_15_STILL_LIFES_2600x1300_2x1_e91ad20c-32ec-4635-b189-3fddfdbdeb03.jpg",
-        "heading": "SOMETHING",
+        "image": "shopify:\/\/shop_images\/YP_PRODUCT_13.030116.jpg",
+        "heading": "Bottom",
         "heading_tag": "h2",
-        "description": "Something Something Something Something SomethingSomething",
-        "button_url": "shopify:\/\/collections",
-        "button_text": "Collections",
-        "button_url_2": "shopify:\/\/collections\/all",
-        "button_text_2": "Products",
+        "description": "",
+        "button_url": "shopify:\/\/collections\/pants",
+        "button_text": "Pants",
+        "button_url_2": "",
+        "button_text_2": "",
         "margin_top": 0,
         "margin_bottom": 0,
         "margin_top_mb": 0,
         "margin_bottom_mb": 0
       }
     },
-    "product_list_5": {
+    "product_list_4": {
       "type": "product-list",
       "settings": {
         "border_bottom": true,
@@ -264,35 +225,35 @@
         "product_per_row_tablet": 3,
         "product_per_row_mobile": 2,
         "limit": 12,
-        "background_color": "#FAFAFA",
+        "background_color": "#fafafa",
         "padding_top": 0,
         "padding_bottom": 0,
         "padding_top_mb": 0,
         "padding_bottom_mb": 0
       }
     },
-    "banner_text_button_6": {
+    "banner_text_button_5": {
       "type": "banner-text-button",
       "settings": {
         "border_bottom": false,
-        "color_title": "#000000",
+        "color_title": "#ffffff",
         "color_subtitle": "#000000",
         "background_color": "#ffffff",
-        "image": "shopify:\/\/shop_images\/Large-HP_DK_SOUVENIR_SHOP_15_STILL_LIFES_2600x1300_2x1_e91ad20c-32ec-4635-b189-3fddfdbdeb03.jpg",
-        "heading": "SOMETHING",
+        "image": "shopify:\/\/shop_images\/wholesale.jpg",
+        "heading": "WHOLESALE",
         "heading_tag": "h2",
-        "description": "Something Something Something Something SomethingSomething",
-        "button_url": "shopify:\/\/collections",
-        "button_text": "Collections",
-        "button_url_2": "shopify:\/\/collections\/all",
-        "button_text_2": "Products",
+        "description": "",
+        "button_url": "shopify:\/\/collections\/wholesale",
+        "button_text": "Shop now",
+        "button_url_2": "",
+        "button_text_2": "",
         "margin_top": 0,
         "margin_bottom": 0,
         "margin_top_mb": 0,
         "margin_bottom_mb": 0
       }
     },
-    "product_list_6": {
+    "product_list_5": {
       "type": "product-list",
       "settings": {
         "border_bottom": true,
@@ -315,7 +276,7 @@
         "product_per_row_tablet": 3,
         "product_per_row_mobile": 2,
         "limit": 12,
-        "background_color": "#FAFAFA",
+        "background_color": "#fafafa",
         "padding_top": 0,
         "padding_bottom": 0,
         "padding_top_mb": 0,
@@ -334,8 +295,6 @@
     "banner_text_button_4",
     "product_list_4",
     "banner_text_button_5",
-    "product_list_5",
-    "banner_text_button_6",
-    "product_list_6"
+    "product_list_5"
   ]
 }

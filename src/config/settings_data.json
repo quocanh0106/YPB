@@ -102,6 +102,15 @@
               "menu": ""
             }
           },
+          "mega_menu_cQnUxP": {
+            "type": "mega-menu",
+            "settings": {
+              "menu_alignment": "right",
+              "title": "PRE ORDER",
+              "url": "shopify:\/\/collections\/pre-order",
+              "menu": ""
+            }
+          },
           "mega_menu_Je7gD9": {
             "type": "mega-menu",
             "settings": {
@@ -127,6 +136,7 @@
           "mega_menu_x49Tmt",
           "mega_menu_gN9YJn",
           "mega_menu_4wgPHn",
+          "mega_menu_cQnUxP",
           "mega_menu_Je7gD9",
           "mega_menu_CaAwEL"
         ],
@@ -143,17 +153,18 @@
               "col_span_desktop": 1,
               "col_span_tablet": 1,
               "col_span_mobile": 1,
-              "image": "shopify:\/\/shop_images\/YP_BLACK_LOGO.svg",
+              "image": "",
               "image_width": 40,
-              "email": "ypb@gmail.com",
-              "address": "21 Street",
+              "email": "",
+              "address": "",
               "address2": "",
-              "time_work": "Mon - Sun: 8 AM - 19h",
-              "show_social": false
+              "time_work": "",
+              "show_social": true
             }
           },
           "link_list_zcHg4X": {
             "type": "link_list",
+            "disabled": true,
             "settings": {
               "col_span_desktop": 1,
               "col_span_tablet": 1,
@@ -164,6 +175,7 @@
           },
           "link_list_PV4q69": {
             "type": "link_list",
+            "disabled": true,
             "settings": {
               "col_span_desktop": 1,
               "col_span_tablet": 1,
@@ -174,6 +186,7 @@
           },
           "link_list_xpcadB": {
             "type": "link_list",
+            "disabled": true,
             "settings": {
               "col_span_desktop": 1,
               "col_span_tablet": 1,
@@ -184,6 +197,7 @@
           },
           "link_list_MCNQLW": {
             "type": "link_list",
+            "disabled": true,
             "settings": {
               "col_span_desktop": 1,
               "col_span_tablet": 1,
@@ -194,6 +208,7 @@
           },
           "link_list_fARACf": {
             "type": "link_list",
+            "disabled": true,
             "settings": {
               "col_span_desktop": 1,
               "col_span_tablet": 1,
@@ -218,12 +233,11 @@
           "social_color": "#000000",
           "social_hover_color": "#000000",
           "border_color": "#000000",
-          "col_per_row_desktop": 6,
-          "col_per_row_tablet": 3,
+          "col_per_row_desktop": 2,
+          "col_per_row_tablet": 2,
           "col_per_row_mobile": 1,
           "copyright": "© 2024 YPB",
-          "payment_enable": true,
-          "use_payment_default": false
+          "show_localization": true
         }
       }
     },
