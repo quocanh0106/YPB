@@ -1,38 +1,29 @@
 {%- style -%}
-  #shopify-section-{{ section.id }} {
+  [data-section-id="{{ section.id }}"]  {
     background-color: {{ section.settings.background_color }};
     padding-top: {{ section.settings.padding_top_mb }}px;
     padding-bottom: {{ section.settings.padding_bottom_mb }}px;
   }
-  #shopify-section-{{ section.id }}
-  span
-  , #shopify-section-{{ section.id }}
-  span svg {
+  [data-section-id="{{ section.id }}"] span, [data-section-id="{{ section.id }}"] span svg {
     color: {{ section.settings.color_text_breadcrumb }};
   }
-  #shopify-section-{{ section.id }}
-  a
-  , #shopify-section-{{ section.id }}
-  svg {
+  [data-section-id="{{ section.id }}"] a, [data-section-id="{{ section.id }}"] svg {
     color: {{ section.settings.color_text_breadcrumb_link }};
   }
-  #shopify-section-{{ section.id }}a:hover {
+  [data-section-id="{{ section.id }}"] a:hover {
     color: {{ section.settings.color_text_breadcrumb_link_hover }};
   }
   @media screen and (min-width: 768px) {
-    #shopify-section-{{ section.id }} {
+    [data-section-id="{{ section.id }}"] {
       padding-top: {{ section.settings.padding_top }}px;
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
   }
 {%- endstyle -%}
-<div class="page-width overflow-hidden{% if template.suffix contains 'reviews' %} !max-w-[1096px]{% endif %}">
+<div class="page-width overflow-hidden{% if template.suffix contains 'reviews' %} !max-w-[1096px]{% endif %} border-b border-primary" data-section-id="{{ section.id }}">
   <ul class="flex items-center gap-1 overflow-x-auto slider-mobile">
     <li class="flex items-center gap-1 text-xs leading-3 lg:text-sm lg:leading-4 font-medium font-heading">
-      <a
-        href="{{ routes.root_url }}"
-        class="whitespace-nowrap capitalize"
-        title="{{ 'general.breadcrumbs.home' | t }}">{{ 'general.breadcrumbs.home' | t }}</a>
+      <a href="{{ routes.root_url }}" class="whitespace-nowrap capitalize" title="{{ 'general.breadcrumbs.home' | t }}">{{ 'general.breadcrumbs.home' | t }}</a>
     </li>
     {% if template contains 'product' %}
       {%- assign breadcrumbs_linklist = linklists['breadcrumbs-product'] -%}

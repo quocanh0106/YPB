@@ -160,6 +160,12 @@ class CartItems extends HTMLElement {
       .then(state => {
         const parsedState = JSON.parse(state);
         this.classList.toggle('!hidden', parsedState.item_count === 0);
+        const quantityElement = this.querySelector(`input[data-key="${key}"]`);
+        if (parsedState.errors) {
+          quantityElement.value = quantityElement.getAttribute('value');
+          this.updateLiveRegions(key, parsedState.errors);
+          return;
+        }
         const cartFooter = document.getElementById('main-cart-footer');
         const itemCount = document.getElementById('item-count');
         if (itemCount) {itemCount.innerHTML = parsedState.item_count;}
@@ -192,17 +198,16 @@ class CartItems extends HTMLElement {
   }
 
   updateLiveRegions(line, itemCount) {
+    this.currentItemCount = itemCount;
+
     if (this.currentItemCount === itemCount) {
-      const lineItemError = document.getElementById(`Line-item-error-${line}`);
-      const quantityElement = document.getElementById(`Quantity-${line}`);
-      lineItemError.querySelector('.cart-item__error-text').innerHTML =
+      const quantityElement = this.querySelector(`input[data-key="${line}"]`);
+      this.querySelector(`.cart-item__error-text[data-key="${line}"]`).innerHTML =
         window.cartStrings.quantityError.replace(
           '[quantity]',
           quantityElement.value,
         );
     }
-
-    this.currentItemCount = itemCount;
   }
 
   getSectionInnerHTML(html, selector) {

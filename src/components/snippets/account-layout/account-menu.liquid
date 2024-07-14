@@ -31,35 +31,35 @@
   <div class="details lg:block lg:!max-h-full !mt-0.5 lg:!mt-0 absolute z-10 w-full bg-background lg:static shadow-megamenu lg:shadow-none rounded-b-md lg:rounded-none">
     <ul class="flex-col flex gap-0.5 pb-1.5 lg:pb-0">
       <li class="{% if pageUrl contains routes.account_url %}{% unless pageUrl contains routes.account_addresses_url %}{% unless pageUrl contains '?view=' %}{% unless pageUrl contains '/orders/' %}hidden lg:inline-block{% endunless %}{% endunless %}{% endunless %}{% endif %}">
-        <a class="flex items-center gap-2.5 px-6 py-2.5 pl-[21px] text-primary text-base font-heading font-semibold leading-4 hover:text-secondary hover:bg-secondary border-l-[3px] border-transparent border-solid rounded-r hover:border-l-secondary transition-all 
-                  {% if pageUrl contains routes.account_url %}{% unless pageUrl contains routes.account_addresses_url %}{% unless pageUrl contains '?view=' %}{% unless pageUrl contains '/orders/' %} !text-secondary !bg-secondary !border-l-secondary{% endunless %}{% endunless %}{% endunless %}{% endif %}" href="{{ routes.account_url }}">
+        <a class="no-underline flex items-center gap-2.5 px-6 py-2.5 pl-[21px] text-primary text-base font-heading font-semibold leading-4 hover:bg-secondary border border-transparent border-solid rounded transition-all 
+                  {% if pageUrl contains routes.account_url %}{% unless pageUrl contains routes.account_addresses_url %}{% unless pageUrl contains '?view=' %}{% unless pageUrl contains '/orders/' %} !border-primary{% endunless %}{% endunless %}{% endunless %}{% endif %}" href="{{ routes.account_url }}">
           {% render 'icon-customer', class: 'w-5 h-5' %}
           <span>{{ 'customer.account.title' | t }}</span>
         </a>
       </li>
       <li class="{% if pageUrl contains routes.account_addresses_url %}{% unless pageUrl contains '?view=' %}hidden lg:inline-block{% endunless %}{% endif %}">
-        <a class="flex items-center gap-2.5 px-6 py-2.5 pl-[21px] text-primary text-base font-heading font-semibold leading-4 hover:text-secondary hover:bg-secondary border-l-[3px] border-transparent border-solid rounded-r hover:border-l-secondary transition-all 
-                  {% if pageUrl contains routes.account_addresses_url %} !text-secondary !bg-secondary !border-l-secondary{% endif %}" href="{{ routes.account_addresses_url }}">
+        <a class="no-underline flex items-center gap-2.5 px-6 py-2.5 pl-[21px] text-primary text-base font-heading font-semibold leading-4 hover:bg-secondary border border-transparent border-solid rounded transition-all 
+                  {% if pageUrl contains routes.account_addresses_url %} !border-primary{% endif %}" href="{{ routes.account_addresses_url }}">
           {% render 'icon-address', class: 'w-5 h-5' %}
           <span>{{ 'customer.addresses.title' | t }}</span>
         </a>
       </li>
       <li class="{% if pageUrl contains '?view=orders' or pageUrl contains '/orders/' %}hidden lg:inline-block{% endif %}">
-        <a class="flex items-center gap-2.5 px-6 py-2.5 pl-[21px] text-primary text-base font-heading font-semibold leading-4 hover:text-secondary hover:bg-secondary border-l-[3px] border-transparent border-solid rounded-r hover:border-l-secondary transition-all 
-                  {% if pageUrl contains '?view=orders' or pageUrl contains '/orders/' %} !text-secondary !bg-secondary !border-l-secondary{% endif %}" href="{{ routes.account_url }}?view=orders">
+        <a class="no-underline flex items-center gap-2.5 px-6 py-2.5 pl-[21px] text-primary text-base font-heading font-semibold leading-4 hover:bg-secondary border border-transparent border-solid rounded transition-all 
+                  {% if pageUrl contains '?view=orders' or pageUrl contains '/orders/' %} !border-primary{% endif %}" href="{{ routes.account_url }}?view=orders">
           {% render 'icon-bag', class: 'w-5 h-5' %}
           <span>{{ 'customer.orders.title' | t }}</span>
         </a>
       </li>
       <li class="{% if pageUrl contains '?view=wishlist' %}hidden lg:inline-block{% endif %}">
-        <a class="flex items-center gap-2.5 px-6 py-2.5 pl-[21px] text-primary text-base font-heading font-semibold leading-4 hover:text-secondary hover:bg-secondary border-l-[3px] border-transparent border-solid rounded-r hover:border-l-secondary transition-all 
-                  {% if pageUrl contains '?view=wishlist' %} !text-secondary !bg-secondary !border-l-secondary{% endif %}" href="{{ routes.account_url }}?view=wishlist">
+        <a class="no-underline flex items-center gap-2.5 px-6 py-2.5 pl-[21px] text-primary text-base font-heading font-semibold leading-4 hover:bg-secondary border border-transparent border-solid rounded transition-all 
+                  {% if pageUrl contains '?view=wishlist' %} !border-primary{% endif %}" href="{{ routes.account_url }}?view=wishlist">
           {% render 'icon-wishlist-header', class: 'w-5 h-5', stroke: '0.5' %}
           <span>{{ 'customer.wishlist.title' | t }}</span>
         </a>
       </li>
       <li>
-        <modal-opener data-id="#logout" class="flex items-center gap-2.5 px-6 py-2.5 pl-[21px] text-primary text-base font-heading font-semibold leading-4 hover:text-secondary hover:bg-secondary border-l-[3px] border-transparent border-solid rounded-r hover:border-l-secondary transition-all cursor-pointer">
+        <modal-opener data-id="#logout" class="no-underline flex items-center gap-2.5 px-6 py-2.5 pl-[21px] text-primary text-base font-heading font-semibold leading-4 hover:bg-secondary border border-transparent border-solid rounded transition-all cursor-pointer">
           {% render 'icon-logout', class: 'w-5 h-5' %}
           <span>{{ 'customer.logout.title' | t }}</span>
         </modal-opener>

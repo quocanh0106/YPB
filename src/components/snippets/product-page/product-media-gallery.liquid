@@ -3,19 +3,41 @@
     <ul class="flex slider-wrapper slider-on-mobile slider-on-tablet lg:flex-col">
       {%- if product.selected_or_first_available_variant.featured_media != null -%}
         {%- assign featured_media = product.selected_or_first_available_variant.featured_media -%}
-        <li class="slider-slide !h-fit w-full active lg:border-b lg:border-primary">
+        {% assign aspect_ratio = featured_media.aspect_ratio | default: 1.0 %}
+        {% if aspect_ratio %}
+          <style>
+            .product-aspect-ratio {
+              aspect-ratio: {{ aspect_ratio }};
+              @media (min-width: 1024px) {
+                aspect-ratio: auto;
+              }
+            }
+          </style>
+        {% endif %}
+        <li class="slider-slide h-full w-full active lg:border-b lg:border-primary">
           {%- assign media_position = 1 -%}
-          {% render 'product-thumbnail', media: featured_media, lazy_load: false %}
+          {% render 'product-media', media: featured_media, lazy_load: false %}
         </li>
       {%- endif -%}
       {%- for media in product.media -%}
         {%- unless media.id == product.selected_or_first_available_variant.featured_media.id -%}
         {% if featured_media == null and forloop.first %}
           {% assign lazy_load = false %}
+          {% assign aspect_ratio = media.aspect_ratio | default: 1.0 %}
+          {% if aspect_ratio %}
+            <style>
+              .product-aspect-ratio {
+                aspect-ratio: {{ aspect_ratio }};
+                @media (min-width: 1024px) {
+                  aspect-ratio: auto;
+                }
+              }
+            </style>
+          {% endif %}
         {% else %}
           {% assign lazy_load = true %}
         {% endif %}
-          <li class="slider-slide !h-fit w-full{% if featured_media == null and forloop.first %} active{% endif %} lg:border-b lg:border-primary">
+          <li class="slider-slide h-full w-full{% if featured_media == null and forloop.first %} active{% endif %} lg:border-b lg:border-primary">
             {%- liquid
               assign media_position = media_position | default: 0 | plus: 1
               assign lazy_load = false
@@ -23,7 +45,7 @@
                 assign lazy_load = true
               endif
             -%}
-            {% render 'product-thumbnail', media: media, lazy_load: lazy_load, thumb: false %}
+            {% render 'product-media', media: media, lazy_load: lazy_load, thumb: false %}
           </li>
         {%- endunless -%}
       {%- endfor -%}
@@ -53,7 +75,7 @@
       <span aria-hidden="true"> / </span>
       <span class="slider-counter--total">{{ product.media.size }}</span>
     </div>
-    <div class="slider-dots absolute bottom-5 left-1/2 gap-2 -translate-x-1/2 flex z-20 lg:!hidden">
+    <div class="slider-dots absolute bottom-13 left-1/2 gap-2 -translate-x-1/2 flex z-20 lg:!hidden">
       {% for media in product.media %}
         <span class="slider-dot{% if forloop.first %} active{% endif %}" data-position="{{ forloop.index }}"></span>
       {% endfor %}

@@ -59,11 +59,7 @@
 <meta name="twitter:description" content="{{ og_description | escape }}">
 
 {%- assign robots_index = true -%}
-{%- if request.page_type == 'collection' or request.page_type == 'page' -%}
-  {%- assign split_path = request.path | split: '/' -%}
-  {%- if split_path.size > 3 -%}
-    {%- assign robots_index = false -%}
-  {%- endif -%}
+{%- if request.page_type == 'page' -%}
   {% if template.suffix == 'sizeguide' %}
     {%- assign robots_index = false -%}
   {% endif %}

@@ -39,7 +39,7 @@ input:checked ~ .icon-checkmark {
   @apply opacity-100 visible text-primary;
 }
 input:checked ~ .icon-box {
-  @apply fill-secondary text-secondary;
+  @apply fill-primary text-primary;
 }
 .register-lastdes {
   a {
@@ -81,9 +81,9 @@ input:checked ~ .icon-box {
   @apply hidden;
 }
 .bitlogin-root {
-  @apply -order-1 lg:order-8 !flex-row flex-wrap !mb-4 lg:!mb-8 !w-full;
+  @apply -order-1 lg:order-8 flex !flex-row flex-wrap justify-center gap-4 !mb-4 lg:!mb-8 !w-full;
   .scheme-match {
-    @apply !p-0 !w-12 !h-12 !rounded-full !items-center !justify-center;
+    @apply !p-0 !w-12 !h-12 !rounded-full !flex !items-center !justify-center border-primary;
     svg {
       @apply !w-6 !h-6 flex-none;
     }
@@ -91,13 +91,16 @@ input:checked ~ .icon-box {
       @apply hidden;
     }
     &#google-login {
-      @apply border-primary;
+      @apply border border-primary;
     }
     &#facebook-login {
-      @apply border-primary;
+      @apply bg-[#1977F3];
     }
     &#apple-login {
-      @apply border-primary;
+      @apply bg-black;
+    }
+    &#twitter-login {
+      @apply bg-black;
     }
   }
 }

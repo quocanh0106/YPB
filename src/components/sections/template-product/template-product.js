@@ -127,10 +127,10 @@ class VariantSelects extends HTMLElement {
         break;
       case 2:
         document.querySelectorAll('.data-layer-2 label, .data-layer-2 input').forEach(el => el.classList.remove('active'))
-        document.querySelector('.data-layer-2 .require-option').classList.add('hidden');
-        document.querySelector('.data-layer-2 .message-option').classList.add('hidden')
-        if(document.querySelector('.data-layer-1 .selected-value').textContent == '') {
-          document.querySelector('.data-layer-2 .message-option').classList.remove('hidden')
+        document.querySelector('.data-layer-2 .require-option')?.classList.add('hidden');
+        document.querySelector('.data-layer-2 .message-option')?.classList.add('hidden')
+        if(document.querySelector('.data-layer-1 .selected-value')?.textContent == '') {
+          document.querySelector('.data-layer-2 .message-option')?.classList.remove('hidden')
         }
         this.fakeCurrentVariant = false;
         break;
@@ -312,8 +312,8 @@ class VariantSelects extends HTMLElement {
     const addButton = button.querySelector('[name="add"]');
     const buttonUnavailable = button.querySelector('.button-unavailable');
     buttonUnavailable.addEventListener('click', () => {
-      if(document.querySelector('.data-layer-1 .selected-value').textContent == '') document.querySelector('.data-layer-1 .require-option').classList.remove('hidden');
-      if(document.querySelector('.data-layer-2 .selected-value').textContent == '') document.querySelector('.data-layer-2 .require-option').classList.remove('hidden');
+      if(document.querySelector('.data-layer-1 .selected-value')?.textContent == '') document.querySelector('.data-layer-1 .require-option')?.classList.remove('hidden');
+      if(document.querySelector('.data-layer-2 .selected-value')?.textContent == '') document.querySelector('.data-layer-2 .require-option')?.classList.remove('hidden');
       if(window.innerWidth >= 1024) {window.scrollTo(0, this.offsetTop - 124)} else { window.scrollTo(0, this.offsetTop - 56) }
     })
 
@@ -387,12 +387,6 @@ class ProductForm extends HTMLElement {
     fetch(`${routes.cart_add_url}`, config)
       .then((response) => response.json())
       .then((response) => {
-        if (this.cart) {
-          this.cart.open();
-          this.renderContents(response);
-        } else {
-          this.renderCartPageContents(response);
-        }
         if (response.status) {
           this.handleErrorMessage(response.description);
           const soldOutMessage = this.submitButton.querySelector('.sold-out-message');
@@ -402,6 +396,13 @@ class ProductForm extends HTMLElement {
           soldOutMessage.classList.remove('hidden');
           this.error = true;
           return;
+        } else {
+          if (this.cart) {
+            this.cart.open();
+            this.renderContents(response);
+          } else {
+            this.renderCartPageContents(response);
+          }
         }
       })
       .catch((e) => {
@@ -418,10 +419,15 @@ class ProductForm extends HTMLElement {
     if (!this.errorMessageWrapper) return;
     this.errorMessage = this.errorMessage || this.errorMessageWrapper.querySelector('.product-form__error-message');
 
-    this.errorMessageWrapper.toggleAttribute('hidden', !errorMessage);
-
     if (errorMessage) {
+      this.errorMessageWrapper.removeAttribute('hidden');
       this.errorMessage.textContent = errorMessage;
+      setTimeout(() => {
+        this.errorMessageWrapper.setAttribute('hidden', '');
+      }, 2000)
+    } else {
+      this.errorMessageWrapper.setAttribute('hidden', '');
+      this.errorMessage.textContent = '';
     }
   }
 
@@ -429,8 +435,8 @@ class ProductForm extends HTMLElement {
     this.cartItemKey = parsedState.key;
     this.getSectionsToRender().forEach((section) => {
       const elementToReplace = document.getElementById(section.id)?.querySelector(section.selector) || document.getElementById(section.id);
-      if(elementToReplace) {
-        elementToReplace.innerHTML = this.getSectionInnerHTML(parsedState.sections[section.section], section.selector);
+      if(elementToReplace && parsedState.sections) {
+        elementToReplace.innerHTML = this.getSectionInnerHTML(parsedState?.sections[section?.section], section?.selector);
       }
     });
   }
@@ -451,6 +457,11 @@ class ProductForm extends HTMLElement {
       {
         id: 'cart-icon-bubble-drawer',
         section: 'cart-icon-bubble-drawer',
+        selector: '.shopify-section'
+      },
+      {
+        id: 'cart-icon-bubble',
+        section: 'cart-icon-bubble',
         selector: '.shopify-section'
       }
     ];

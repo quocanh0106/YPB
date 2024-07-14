@@ -27,8 +27,7 @@ class RecentlyViewedProducts extends HTMLElement {
     })
 
 
-    this.querySelector('.slider-wrapper').innerHTML = this.dom;
-    this.querySelector('slider-component').initPages();
+    this.querySelector('.product-wrapper').innerHTML = this.dom;
   }
 
   productCard(product) {

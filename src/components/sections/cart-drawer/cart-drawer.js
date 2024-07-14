@@ -175,6 +175,14 @@ if (!customElements.get('cart-items')) {
           const parsedState = JSON.parse(state);
           this.classList.toggle('!hidden', parsedState.item_count === 0);
           const cartFooter = document.getElementById('main-cart-footer');
+          const quantityElement = this.querySelector(`input[data-key="${key}"]`);
+          if (parsedState.errors) {
+            console.log(quantityElement)
+            quantityElement.value = quantityElement.getAttribute('value');
+            this.updateLiveRegions(key, parsedState.errors);
+            return;
+          }
+
           if (cartFooter) {
             if(parsedState.item_count == 0) {
               cartFooter.classList.add('!hidden');
@@ -194,7 +202,7 @@ if (!customElements.get('cart-items')) {
             }
           });
         })
-        .catch(() => {
+        .catch((error) => {
           const errors = document.getElementById('cart-errors');
           if (errors) {
             errors.textContent = window.cartStrings.error;
@@ -203,17 +211,17 @@ if (!customElements.get('cart-items')) {
     }
   
     updateLiveRegions(line, itemCount) {
+      this.currentItemCount = itemCount;
+
       if (this.currentItemCount === itemCount) {
-        const lineItemError = document.getElementById(`Line-item-error-${line}`);
-        const quantityElement = document.getElementById(`Quantity-${line}`);
-        lineItemError.querySelector('.cart-item__error-text').innerHTML =
+        const quantityElement = this.querySelector(`input[data-key="${line}"]`);
+        console.log(this.querySelector(`.cart-item__error-text[data-key="${line}"]`));
+        this.querySelector(`.cart-item__error-text[data-key="${line}"]`).innerHTML =
           window.cartStrings.quantityError.replace(
             '[quantity]',
             quantityElement.value,
           );
       }
-  
-      this.currentItemCount = itemCount;
     }
   
     getSectionInnerHTML(html, selector) {

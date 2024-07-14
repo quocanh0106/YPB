@@ -1,44 +1,69 @@
 {% style %}
   [data-section-id="{{ section.id }}"] {
-    background: {% if section.settings.background_color %}{{ section.settings.background_color }} {% endif %}{% if section.settings.background_image_mb %} url({{ section.settings.background_image_mb | img_url: 'master' }}){% endif %} no-repeat;
-    background-size: cover;
-    background-position: center center;
     margin-top: {{ section.settings.margin_top_mb }}px;
     margin-bottom: {{ section.settings.margin_bottom_mb }}px;
-    padding-left: {{ section.settings.padding_vertical_mb }}px;
-    padding-right: {{ section.settings.padding_vertical_mb }}px;
-    padding-top: {{ section.settings.padding_horizontal_mb }}px;
-    padding-bottom: {{ section.settings.padding_horizontal_mb }}px;
-
   }
 
   @media(min-width: 1024px) {
     [data-section-id="{{ section.id }}"] {
-      background: {% if section.settings.background_color %}{{ section.settings.background_color }} {% endif %}{% if section.settings.background_image %} url({{ section.settings.background_image | img_url: 'master' }}){% endif %} no-repeat;
-      background-size: cover;
-      background-position: center center;
       margin-top: {{ section.settings.margin_top }}px;
       margin-bottom: {{ section.settings.margin_bottom }}px;
-      padding-left: {{ section.settings.padding_vertical }}px;
-      padding-right: {{ section.settings.padding_vertical }}px;
-      padding-top: {{ section.settings.padding_horizontal }}px;
-      padding-bottom: {{ section.settings.padding_horizontal }}px;
     }
   }
 {% endstyle %}
 
-<div class="{% if section.settings.fullwidth %}page-width-desktop{% else %}page-width{% endif %}{% if template.suffix contains 'reviews' %} !max-w-[1096px]{% endif %}">
-  <div data-section-id="{{ section.id }}" class="rounded-lg lg:rounded-xl bg-cover py-10 px-6 lg:py-16 lg:px-12">
-    <div class="max-w-[388px] text-center lg:text-left mx-auto lg:mx-0">
+<div class="w-full{% if section.settings.border_bottom %} border-b border-primary{% endif %}">
+  <div data-section-id="{{ section.id }}" class="relative bg-cover">
+    <img srcset="{%- if section.settings.image.width >= 180 -%}{{ section.settings.image | image_url: width: 180 }} 180w,{%- endif -%}
+      {%- if section.settings.image.width >= 360 -%} {{ section.settings.image | image_url: width: 360 }} 360w,{%- endif -%}
+      {%- if section.settings.image.width >= 540 -%} {{ section.settings.image | image_url: width: 540 }} 540w,{%- endif -%}
+      {%- if section.settings.image.width >= 720 -%} {{ section.settings.image | image_url: width: 720 }} 720w,{%- endif -%}
+      {%- if section.settings.image.width >= 900 -%} {{ section.settings.image | image_url: width: 900 }} 900w,{%- endif -%}
+      {%- if section.settings.image.width >= 1080 -%} {{ section.settings.image | image_url: width: 1080 }} 1080w{%- endif -%}"
+      src="{{ section.settings.image | image_url: width: 700 }}"
+      sizes="(min-width: 1100px) 900px, (min-width: 750px) calc((100vw - 130px) / 2), calc((100vw - 50px) / 2)"
+      alt="{{ altDt }}"
+      loading="lazy"
+      class="w-full h-full transition-all {% if section.settings.image_mobile %} hidden md:block{% else %} block{% endif %}"
+      width="{{ section.settings.image.width }}"
+      height="{{ section.settings.image.height }}">
+    <img srcset="{%- if section.settings.image_mobile.width >= 180 -%} {{ section.settings.image_mobile | image_url: width: 180 }} 180w,{%- endif -%}
+      {%- if section.settings.image_mobile.width >= 360 -%} {{ section.settings.image_mobile | image_url: width: 360 }} 360w,{%- endif -%}
+      {%- if section.settings.image_mobile.width >= 540 -%} {{ section.settings.image_mobile | image_url: width: 540 }} 540w,{%- endif -%}
+      {%- if section.settings.image_mobile.width >= 720 -%} {{ section.settings.image_mobile | image_url: width: 720 }} 720w,{%- endif -%}
+      {%- if section.settings.image_mobile.width >= 900 -%} {{ section.settings.image_mobile | image_url: width: 900 }} 900w,{%- endif -%}
+      {%- if section.settings.image_mobile.width >= 1080 -%} {{ section.settings.image_mobile | image_url: width: 1080 }} 1080w{%- endif -%}"
+      src="{%- if section.settings.image_mobile.width >= 1080 -%} {{ section.settings.image_mobile | image_url: width: 1080 }}
+      {%- elsif section.settings.image_mobile.width >= 900 -%} {{ section.settings.image_mobile | image_url: width: 900 }}
+      {%- elsif section.settings.image_mobile.width >= 720 -%} {{ section.settings.image_mobile | image_url: width: 720 }}
+      {%- elsif section.settings.image_mobile.width >= 540 -%} {{ section.settings.image_mobile | image_url: width: 540 }}
+      {%- elsif section.settings.image_mobile.width >= 360 -%} {{ section.settings.image_mobile | image_url: width: 360 }}
+      {%- elsif section.settings.image_mobile.width >= 180 -%} {{ section.settings.image_mobile | image_url: width: 180 }}{%- endif -%}"
+    sizes="100vw"
+    alt="{{ altMb }}"
+    {% if forloop.first %}
+    loading="eager"
+    {% else %}
+    loading="lazy"
+    {% endif %}
+    class="w-full{% if section.settings.image %} block md:hidden{% else %} block{% endif %}"
+    width="{{ section.settings.image_mobile.width }}"
+    height="{{ section.settings.image_mobile.height }}">
+    <div class="absolute left-1/2 bottom-5 -translate-x-1/2 max-w-[388px] text-center lg:text-left mx-auto lg:mx-0 ">
       {% if section.settings.heading != blank %}
-        <{{ section.settings.heading_tag }} class="heading text-h3 font-heading mb-2 lg:text-h1" style="color: {{ section.settings.color_title }};">{{ section.settings.heading }}</{{ section.settings.heading_tag }}>
+        <{{ section.settings.heading_tag }} class="heading text-lg leading-2 font-bold font-heading mb-4 text-center" style="color: {{ section.settings.color_title }};">{{ section.settings.heading }}</{{ section.settings.heading_tag }}>
       {% endif %}
       {% if section.settings.description != blank %}
-        <p class="text-sm lg:text-lg mb-4 lg:mb-6" style="color: {{ section.settings.color_subtitle }};">{{ section.settings.description }}</p>
+        <p class="text-sm leading-4 mb-4 text-center" style="color: {{ section.settings.color_subtitle }};">{{ section.settings.description }}</p>
       {% endif %}
-      {% if section.settings.button_text != blank and section.settings.button_url != blank %}
-        <a href="{{ section.settings.button_url }}" class="btn py-3.5 px-6 lg:px-8 uppercase text-sm leading-4 font-bold font-heading" title="{{ section.settings.button_text }}">{{ section.settings.button_text }}</a>
-      {% endif %}
+      <div class="flex justify-center items-center gap-3">
+        {% if section.settings.button_text != blank and section.settings.button_url != blank %}
+          <a href="{{ section.settings.button_url }}" class="btn-2 py-4 px-6 uppercase text-sm leading-none font-light" title="{{ section.settings.button_text }}">{{ section.settings.button_text }}</a>
+        {% endif %}
+        {% if section.settings.button_text_2 != blank and section.settings.button_url_2 != blank %}
+          <a href="{{ section.settings.button_url_2 }}" class="btn-2 py-4 px-6 uppercase text-sm leading-none font-light" title="{{ section.settings.button_text_2 }}">{{ section.settings.button_text_2 }}</a>
+        {% endif %}
+      </div>
     </div>
   </div>
 </div>
@@ -50,9 +75,9 @@
     "settings": [
       {
         "type": "checkbox",
-        "id": "fullwidth",
-        "label": "Fullwidth",
-        "default": false
+        "id": "border_bottom",
+        "label": "Show border bottom",
+        "default": true
       },
       {
         "type": "color",
@@ -74,14 +99,14 @@
       },
       {
         "type": "image_picker",
-        "id": "background_image",
-        "label": "Background image",
+        "id": "image",
+        "label": "Image",
         "info": "Only show when collection image blank"
       },
       {
         "type": "image_picker",
-        "id": "background_image_mb",
-        "label": "Background image mobile",
+        "id": "image_mobile",
+        "label": "Image mobile",
         "info": "Only show when collection image blank"
       },
       {
@@ -133,52 +158,14 @@
         "label": "Button text"
       },
       {
-        "type": "header",
-        "content": "Padding desktop"
+        "type": "url",
+        "id": "button_url_2",
+        "label": "Button url 2"
       },
       {
-        "type": "range",
-        "id": "padding_vertical",
-        "min": 0,
-        "max": 200,
-        "step": 4,
-        "unit": "px",
-        "label": "Padding vertical",
-        "default": 32
-      },
-      {
-        "type": "range",
-        "id": "padding_horizontal",
-        "min": 0,
-        "max": 200,
-        "step": 4,
-        "unit": "px",
-        "label": "Padding horizontal",
-        "default": 32
-      },
-      {
-        "type": "header",
-        "content": "Padding mobile"
-      },
-      {
-        "type": "range",
-        "id": "padding_vertical_mb",
-        "min": 0,
-        "max": 200,
-        "step": 4,
-        "unit": "px",
-        "label": "Padding vertical ",
-        "default": 16
-      },
-      {
-        "type": "range",
-        "id": "padding_horizontal_mb",
-        "min": 0,
-        "max": 200,
-        "step": 4,
-        "unit": "px",
-        "label": "Padding horizontal",
-        "default": 16
+        "type": "text",
+        "id": "button_text_2",
+        "label": "Button text 2"
       },
       {
         "type": "header",
@@ -192,7 +179,7 @@
         "step": 4,
         "unit": "px",
         "label": "Margin top",
-        "default": 16
+        "default": 0
       },
       {
         "type": "range",
@@ -202,7 +189,7 @@
         "step": 4,
         "unit": "px",
         "label": "Margin bottom",
-        "default": 16
+        "default": 0
       },
       {
         "type": "header",
@@ -216,7 +203,7 @@
         "step": 4,
         "unit": "px",
         "label": "Margin top ",
-        "default": 16
+        "default": 0
       },
       {
         "type": "range",
@@ -226,7 +213,7 @@
         "step": 4,
         "unit": "px",
         "label": "Margin bottom",
-        "default": 16
+        "default": 0
       }
     ],
     "presets": [

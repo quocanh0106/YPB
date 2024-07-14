@@ -35,7 +35,7 @@
     {% endfor %}
   </div>
   
-  <button type="button" class="loadmore !block text-center w-fit mx-auto btn btn-2 border border-primary !text-sm lg:text-base !leading-none !font-bold hover:border-primary-250 py-3.5 px-6 lg:py-4 lg:px-8{% if allArticle.size < section.settings.limit %} !hidden{% endif %}">
+  <button type="button" class="loadmore !block text-center w-fit mx-auto btn btn-2 border border-primary !text-sm lg:text-base !leading-none !font-bold hover:border-primary py-3.5 px-6 lg:py-4 lg:px-8{% if allArticle.size < section.settings.limit %} !hidden{% endif %}">
     {{ 'sections.collection_template.load_more' | t }}
   </button>
 </pagination-custom>

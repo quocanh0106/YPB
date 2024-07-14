@@ -47,7 +47,7 @@
         <div class="w-full mb-8">
           <label class="block font-heading text-base text-primary leading-4 font-normal mb-2" for="RecoverEmail">{{ 'customer.login_page.email' | t }}</label>
           <input
-            class="border border-primary focus:border-primary-250 hover:border-primary active:border-primary-250 !ring-0 font-light border-solid w-full text-sm leading-5 lg:text-base lg:leading-6 px-6 py-3 rounded-full {% if form.errors %}error{% endif %}"
+            class="border border-primary focus:border-primary hover:border-primary active:border-primary !ring-0 font-light border-solid w-full text-sm leading-5 lg:text-base lg:leading-6 px-6 py-3 rounded {% if form.errors %}error{% endif %}"
             type="email"
             data-name="email"
             value=""
@@ -94,7 +94,7 @@
         <div class="w-full mb-4 lg:mb-5 0 order-3 lg:order-2">
           <label class="block font-heading text-base text-primary leading-4 font-normal mb-2" for="CustomerEmail">{{ 'customer.login_page.email' | t }}</label>
           <input
-            class="border border-primary focus:border-primary-250 hover:border-primary active:border-primary-250 !ring-0 font-light border-solid w-full text-sm leading-5 lg:text-base lg:leading-6 px-6 py-3 rounded-full{% if form.errors contains 'form' %} error{% endif %}"
+            class="border border-primary focus:border-primary hover:border-primary active:border-primary !ring-0 font-light border-solid w-full text-sm leading-5 lg:text-base lg:leading-6 px-6 py-3 rounded{% if form.errors contains 'form' %} error{% endif %}"
             type="email"
             name="customer[email]"
             data-name="email"
@@ -111,7 +111,7 @@
             <label class="block font-heading text-base text-primary leading-4 font-normal mb-2" for="CustomerPassword">{{ 'customer.login_page.password' | t }}</label>
             <toggle-password class="relative field w-full block">
               <input
-                class="border border-primary focus:border-primary-250 hover:border-primary active:border-primary-250 !ring-0 font-light border-solid w-full text-sm leading-5 lg:text-base lg:leading-6 px-6 py-3 rounded-full{% if form.errors contains 'form' %} error{% endif %}"
+                class="border border-primary focus:border-primary hover:border-primary active:border-primary !ring-0 font-light border-solid w-full text-sm leading-5 lg:text-base lg:leading-6 px-6 py-3 rounded{% if form.errors contains 'form' %} error{% endif %}"
                 type="password"
                 data-name="password"
                 value=""
@@ -172,13 +172,6 @@
         <button type="submit" class="btn w-full py-4 px-6 lg:px-8 !uppercase text-base leading-none mb-3 order-6 lg:order-5">{{ 'customer.login_page.title' | t }}</button>
 
         <span class="account-description block text-xs mb-6 lg:mb-8 font-light text-primary text-center order-7 lg:order-6 max-w-[270px] mx-auto lg:max-w-full">{{ 'customer.login_page.introduce_html' | t: sitename: shop.name }}</span>
-        {% if settings.login_with_social %}
-          <div class="order-1 lg:order-7 grid gap-4 lg:gap-5 mb-6 lg:mb-8">
-            <div class="relative before:w-full before:border-primary before:border-t before:block before:absolute before:top-1/2 before:-translate-y-1/2 before:h-0.25 before:rounded-lg order-2 lg:order-1">
-              <span class="text-primary text-center text-base leading-4 font-normal block bg-background px-2 z-10 w-fit mx-auto relative">{{ 'customer.login_page.title_login_socials' | t }}</span>
-            </div>
-          </div>
-        {% endif %}
         <div class="flex items-center justify-center text-sm text-primary gap-1.5 order-9 lg:order-9">
           <a href="{{ routes.account_register_url }}" class="capitalize font-medium leading-2 block">{{ 'customer.login_page.create_account' | t }}</a>
         </div>
@@ -204,6 +197,8 @@ if(document.querySelector('#recover_success') || document.querySelector('#recove
 </script>
 {% capture src_url %}{{ 'account.js' | asset_url }}{% endcapture %}
 {% render 'atom_script', src: src_url, priority: 'normal', type: "defer" %}
+{% capture bitlogin %}{{ 'bitlogin.js' | asset_url }}{% endcapture %}
+{% render 'atom_script', src: bitlogin, priority: 'normal', type: "defer" %}
 {% schema %}
   {
     "name": "Login",

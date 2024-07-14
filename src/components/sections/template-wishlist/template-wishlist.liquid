@@ -15,19 +15,19 @@
   }
 {%- endstyle -%}
 
-<wishlist-wrapper class="block page-width-desktop" data-section-id="{{ section.id }}">
-  <div class="flex items-center gap-2 px-4 md:px-0">
-    <wishlist-count class="block capitalize text-base text-primary font-semibold leading-4 font-heading hidden mb-6">
+<wishlist-wrapper class="block" data-section-id="{{ section.id }}">
+  <div class="flex items-center gap-2 px-3 py-3 border-t border-primary">
+    <wishlist-count class="block capitalize text-base text-primary font-semibold leading-4 font-heading hidden">
       <span>0</span>
     </wishlist-count>
     
-    <modal-opener data-id="#PopupModal-ClearWishlist" class="flex items-center justify-center gap-0.5 text-sm leading-4 text-primary font-bold font-heading cursor-pointer mb-6 hidden">
+    <modal-opener data-id="#PopupModal-ClearWishlist" class="flex items-center justify-center gap-0.5 text-sm leading-4 text-primary font-bold font-heading cursor-pointer hidden">
       {% render 'icon-dot', class: 'w-1 h-1 text-primary mr-1.5' %}
       {% render 'icon-trash', class: 'w-5 h-5' %}
       <span>{{ "wishlist.clear_wishlist" | t }}</span>
     </modal-opener>
   </div>
-  <div class="px-2 md:px-0 grid gap-x-2 gap-y-8 md:gap-x-4 grid-cols-{{ section.settings.product_per_row_mobile }} md:grid-cols-{{ section.settings.product_per_row_tablet }} lg:grid-cols-{{ section.settings.product_per_row }}" id="whislist-wrapper">
+  <div class="border-t border-primary mb-[-1px] grid grid-cols-{{ section.settings.product_per_row_mobile }} md:grid-cols-{{ section.settings.product_per_row_tablet }} lg:grid-cols-{{ section.settings.product_per_row }}" id="whislist-wrapper">
     <span class="!block py-20 relative spinning col-span-{{ section.settings.product_per_row_mobile }} md:col-span-{{ section.settings.product_per_row_tablet }} lg:col-span-{{ section.settings.product_per_row }}"></span>
   </div>
   <div class="hidden lg:py-10 lg:px-12 rounded-2xl shadow-megamenu" id="whislist-blank">

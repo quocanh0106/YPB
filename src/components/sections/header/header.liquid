@@ -1,13 +1,116 @@
-<div class="page-width flex bg-background border-b border-primary justify-between items-center py-2 h-46px lg:h-auto lg:min-h-[46px]">
+<div class="relative page-width flex bg-background border-b border-primary justify-between items-center py-2 h-46px lg:h-auto lg:min-h-[46px]">
   <ul class="w-full flex" style="max-width: calc((100% - {{ settings.logo_width }}px)/2)">
     <li class="block lg:hidden">
-      <modal-opener class="inline-block lg:hidden cursor-pointer menu-drawer-out-search hover:text-primary-700 text-primary-900" data-id="#menu-drawer">
+      <modal-opener class="inline-block lg:hidden cursor-pointer menu-drawer-out-search hover:text-primary text-primary" data-id="#menu-drawer">
         {% render 'icon-hamburger' %}
       </modal-opener>
     </li>
     {% for block in section.blocks %}
       {% if block.settings.menu_alignment == "left" %}
-        <li><a href="{{ block.settings.url }}" title="{{ block.settings.title }}" class="lg:block hidden text-xs no-underline px-2 py-1 rounded border border-transparent hover:border-primary">{{ block.settings.title }}</a></li>
+        <li class="group">
+          <a class="relative lg:block hidden text-xs no-underline px-2 py-1 rounded border border-transparent hover:border-primary
+            before:absolute before:top-1/2 before:left-0 before:w-full before:h-17 before:-translate-y-1/2" href="{{ block.settings.url }}" title="{{ block.settings.title }}">{{ block.settings.title }}</a>
+          {% liquid
+            assign megamenu = '' 
+            assign link = linklists[block.settings.menu]
+            assign megamenu = megamenu | append: link_handle | append: " "
+          %}
+          {% if link.links != blank %}
+            <div class="opacity-0 invisible absolute px-3 py-6 group-hover:opacity-100 group-hover:visible top-full left-0 grid lg:grid-cols-4 gap-5 w-full h-fit overflow-auto lg:overflow-unset z-20 bg-background border-y border-primary">
+              {% for child_link in link.links %}
+                <div class="flex lg:block w-full menu-group hover:!opacity-100 transition-all">
+                  {% liquid
+                    assign child_list_handle = child_link.title | handle 
+                    assign hasChild = false 
+                    if linklists[child_list_handle] and linklists[child_list_handle].links.size > 0 
+                      assign hasChild = true 
+                    endif
+                  %}
+                  {% assign handleCollection1 = child_link.url | split: '/' | last %}
+                  {% if collections[handleCollection1] %}
+                    {% assign titleCollection1 = collections[handleCollection1].title %}
+                  {% else %}
+                    {% assign titleCollection1 = child_link.title %}
+                  {% endif %}
+                  <div class="summary-head w-full flex items-center justify-between gap-x-2.5 text-primary hover:text-primary-opacity-80 transition-all">
+                    <a href="{{ child_link.url }}" title="{{ titleCollection1 }}"
+                      class="{{ child_link.title | downcase | replace: ' ', '_' }} font-normal capitalize lg:font-medium lg:uppercase text-primary hover:text-primary-opacity-80 text-sm leading-4 font-body">
+                      {{ child_link.title }}
+                    </a>
+                  </div>
+                  {% if hasChild %}
+                    <ul class="details-head scrollbar-thin -translate-x-full lg:translate-x-0 absolute lg:mt-3 lg:static w-full h-[calc(100vh_-_80px)] lg:h-fit bg-background top-0 right-0 transition-all z-50 overflow-hidden">
+                      <li class="pr-2 lg:pr-0 h-[calc(100%_-_108px)] lg:h-fit overflow-auto lg:overflow-unset lg:pb-[1px]">
+                      {% for grandchild_link in child_link.links %}
+                        <div class="{% unless forloop.last %}mb-5 lg:mb-3{% endunless %}">
+                          {% if grandchild_link.links.size > 0 %}
+                          <accordion-toggle class="block menu-dropdown pl-3">
+                            <div class="summary w-full lg:w-fit flex items-center justify-between gap-2 lg:min-w-[165px]">
+                          {% endif %}
+                            {% assign handleCollection2 = grandchild_link.url | split: '/' | last %}
+                            {% if collections[handleCollection1] %}
+                              {% assign titleCollection2 = collections[handleCollection2].title %}
+                            {% else %}
+                              {% assign titleCollection2 = grandchild_link.title %}
+                            {% endif %}
+                              {% if grandchild_link.url != '#' %}
+                                <a
+                                  href="{{ grandchild_link.url }}"
+                                  class="{{ grandchild_link.title | downcase | replace: ' ', '_' }} block w-fit font-normal text-sm leading-4 font-body capitalize transition-all text-primary hover:text-primary-opacity-80 lg:text-primary"
+                                  title="{{ titleCollection2 }}">
+                                  <span>
+                                    {{ grandchild_link.title }}
+                                    {%- if grandchild_link.title contains '[' -%}
+                                      <span class="label-menu bg-background" {% if grandchild_link.title contains '(' %}style="background: {{ grandchild_link.title | split: '(' | last | split: ')' | first }}"{% endif %}>{{ grandchild_link.title | split: '[' | last | split: ']' | first }}</span>
+                                    {%- endif -%}
+                                  </span>
+                                </a>
+                              {% else %}
+                                <span class="block w-fit font-normal text-sm leading-4 font-body capitalize transition-all text-primary hover:text-primary-opacity-80 lg:text-primary">
+                                  {{ grandchild_link.title }}
+                                  {%- if grandchild_link.title contains '[' -%}
+                                    <span class="label-menu bg-background" {% if grandchild_link.title contains '(' %}style="background: {{ grandchild_link.title | split: '(' | last | split: ')' | first }}"{% endif %}>{{ grandchild_link.title | split: '[' | last | split: ']' | first }}</span>
+                                  {%- endif -%}
+                                </span>
+                              {% endif %}
+                            {% if grandchild_link.links.size > 0 %}
+                              {% render 'icon-up', class: 'w-4 h-4 icon-minus' %}
+                              {% render 'icon-down', class: 'w-4 h-4 icon-add' %}
+                            </div>
+                            {% endif %}
+                            {% if grandchild_link.links.size > 0 %}
+                              <ul class="details grid gap-y-2 pl-3 leading-none">
+                                {% for lastchild_link in grandchild_link.links %}
+                                  <li>
+                                    {% assign handleCollection3 = lastchild_link.url | split: '/' | last %}
+                                    {% if collections[handleCollection1] %}
+                                      {% assign titleCollection3 = collections[handleCollection3].title %}
+                                    {% else %}
+                                      {% assign titleCollection3 = lastchild_link.title %}
+                                    {% endif %}
+                                    <a href="{{ lastchild_link.url }}" title="{{ titleCollection3 }}" class="{{ lastchild_link.title | downcase | replace: ' ', '_' }} text-sm leading-5 font-light text-primary hover:text-primary-opacity-80 lg:text-primary">
+                                      {{ lastchild_link.title }}
+                                      {%- if lastchild_link.title contains '[' -%}
+                                        <span class="label-menu bg-background" {% if lastchild_link.title contains '(' %}style="background: {{ grandchild_link.title | split: '(' | last | split: ')' | first }}"{% endif %}>{{ grandchild_link.title | split: '[' | last | split: ']' | first }}</span>
+                                      {%- endif -%}
+                                    </a>
+                                  </li>
+                                {% endfor %}
+                              </ul>
+                            {% endif %}
+                          {% if grandchild_link.links.size > 0 %}
+                          </accordion-toggle>
+                          {% endif %}
+                        </div>
+                      {% endfor %}
+                      </li>
+                    </ul>
+                  {% endif %}
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </li>
       {% endif %}
     {% endfor %}
   </ul>
@@ -56,11 +159,114 @@
   <ul class="w-full flex justify-end" style="max-width: calc((100% - {{ settings.logo_width }}px)/2)">
     {% for block in section.blocks %}
       {% if block.settings.menu_alignment == "right" %}
-        <li><a href="{{ block.settings.url }}" title="{{ block.settings.title }}" class="hidden lg:block text-xs no-underline px-2 py-1 rounded border border-transparent hover:border-primary">{{ block.settings.title }}</a></li>
+        <li class="group">
+          <a class="relative lg:block hidden text-xs no-underline px-2 py-1 rounded border border-transparent hover:border-primary
+          before:absolute before:top-1/2 before:left-0 before:w-full before:h-17 before:-translate-y-1/2" href="{{ block.settings.url }}" title="{{ block.settings.title }}">{{ block.settings.title }}</a>
+          {% liquid
+            assign megamenu = '' 
+            assign link = linklists[block.settings.menu]
+            assign megamenu = megamenu | append: link_handle | append: " "
+          %}
+          {% if link.links != blank %}
+            <div class="opacity-0 invisible absolute px-3 py-6 group-hover:opacity-100 group-hover:visible top-full left-0 grid lg:grid-cols-4 gap-5 w-full h-fit overflow-auto lg:overflow-unset z-20 bg-background border-y border-primary">
+              {% for child_link in link.links %}
+                <div class="flex lg:block w-full menu-group hover:!opacity-100 transition-all">
+                  {% liquid
+                    assign child_list_handle = child_link.title | handle 
+                    assign hasChild = false 
+                    if linklists[child_list_handle] and linklists[child_list_handle].links.size > 0 
+                      assign hasChild = true 
+                    endif
+                  %}
+                  {% assign handleCollection1 = child_link.url | split: '/' | last %}
+                  {% if collections[handleCollection1] %}
+                    {% assign titleCollection1 = collections[handleCollection1].title %}
+                  {% else %}
+                    {% assign titleCollection1 = child_link.title %}
+                  {% endif %}
+                  <div class="summary-head w-full flex items-center justify-between gap-x-2.5 text-primary hover:text-primary-opacity-80 transition-all">
+                    <a href="{{ child_link.url }}" title="{{ titleCollection1 }}"
+                      class="{{ child_link.title | downcase | replace: ' ', '_' }} font-normal capitalize lg:font-medium lg:uppercase text-primary hover:text-primary-opacity-80 text-sm leading-4 font-body">
+                      {{ child_link.title }}
+                    </a>
+                  </div>
+                  {% if hasChild %}
+                    <ul class="details-head scrollbar-thin -translate-x-full lg:translate-x-0 absolute lg:mt-3 lg:static w-full h-[calc(100vh_-_80px)] lg:h-fit bg-background top-0 right-0 transition-all z-50 overflow-hidden">
+                      <li class="pr-2 lg:pr-0 h-[calc(100%_-_108px)] lg:h-fit overflow-auto lg:overflow-unset lg:pb-[1px]">
+                      {% for grandchild_link in child_link.links %}
+                        <div class="{% unless forloop.last %}mb-5 lg:mb-3{% endunless %}">
+                          {% if grandchild_link.links.size > 0 %}
+                          <accordion-toggle class="block menu-dropdown">
+                            <div class="summary w-full lg:w-fit flex items-center justify-between gap-2 lg:min-w-[165px]">
+                          {% endif %}
+                            {% assign handleCollection2 = grandchild_link.url | split: '/' | last %}
+                            {% if collections[handleCollection1] %}
+                              {% assign titleCollection2 = collections[handleCollection2].title %}
+                            {% else %}
+                              {% assign titleCollection2 = grandchild_link.title %}
+                            {% endif %}
+                              {% if grandchild_link.url != '#' %}
+                                <a
+                                  href="{{ grandchild_link.url }}"
+                                  class="{{ grandchild_link.title | downcase | replace: ' ', '_' }} block w-fit font-normal text-sm leading-4 font-body capitalize transition-all text-primary hover:text-primary-opacity-80 lg:text-primary"
+                                  title="{{ titleCollection2 }}">
+                                  <span>
+                                    {{ grandchild_link.title }}
+                                    {%- if grandchild_link.title contains '[' -%}
+                                      <span class="label-menu bg-background" {% if grandchild_link.title contains '(' %}style="background: {{ grandchild_link.title | split: '(' | last | split: ')' | first }}"{% endif %}>{{ grandchild_link.title | split: '[' | last | split: ']' | first }}</span>
+                                    {%- endif -%}
+                                  </span>
+                                </a>
+                              {% else %}
+                                <span class="block w-fit font-normal text-sm leading-4 font-body capitalize transition-all text-primary hover:text-primary-opacity-80 lg:text-primary">
+                                  {{ grandchild_link.title }}
+                                  {%- if grandchild_link.title contains '[' -%}
+                                    <span class="label-menu bg-background" {% if grandchild_link.title contains '(' %}style="background: {{ grandchild_link.title | split: '(' | last | split: ')' | first }}"{% endif %}>{{ grandchild_link.title | split: '[' | last | split: ']' | first }}</span>
+                                  {%- endif -%}
+                                </span>
+                              {% endif %}
+                            {% if grandchild_link.links.size > 0 %}
+                              {% render 'icon-up', class: 'w-4 h-4 icon-minus' %}
+                              {% render 'icon-down', class: 'w-4 h-4 icon-add' %}
+                            </div>
+                            {% endif %}
+                            {% if grandchild_link.links.size > 0 %}
+                              <ul class="details grid gap-y-2 pl-3 border-l-2 border-primary-opacity-80 leading-none">
+                                {% for lastchild_link in grandchild_link.links %}
+                                  <li>
+                                    {% assign handleCollection3 = lastchild_link.url | split: '/' | last %}
+                                    {% if collections[handleCollection1] %}
+                                      {% assign titleCollection3 = collections[handleCollection3].title %}
+                                    {% else %}
+                                      {% assign titleCollection3 = lastchild_link.title %}
+                                    {% endif %}
+                                    <a href="{{ lastchild_link.url }}" title="{{ titleCollection3 }}" class="{{ lastchild_link.title | downcase | replace: ' ', '_' }} text-sm leading-5 font-light text-primary hover:text-primary-opacity-80 lg:text-primary">
+                                      {{ lastchild_link.title }}
+                                      {%- if lastchild_link.title contains '[' -%}
+                                        <span class="label-menu bg-background" {% if lastchild_link.title contains '(' %}style="background: {{ grandchild_link.title | split: '(' | last | split: ')' | first }}"{% endif %}>{{ grandchild_link.title | split: '[' | last | split: ']' | first }}</span>
+                                      {%- endif -%}
+                                    </a>
+                                  </li>
+                                {% endfor %}
+                              </ul>
+                            {% endif %}
+                          {% if grandchild_link.links.size > 0 %}
+                          </accordion-toggle>
+                          {% endif %}
+                        </div>
+                      {% endfor %}
+                      </li>
+                    </ul>
+                  {% endif %}
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </li>
       {% endif %}
     {% endfor %}
     <li class="px-2">
-      <a href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}" title="account" class="flex items-center justify-center relative w-6 h-6 hover:text-primary text-primary{% if customer %} bg-primary rounded-full hover:bg-primary-250{% endif %}">
+      <a href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}" title="account" class="no-underline flex items-center justify-center relative w-6 h-6 hover:text-primary text-primary{% if customer %} border border-primary rounded-full{% endif %}">
         {%- if customer -%}
           <span class="uppercase text-xs font-normal font-body leading-loose text-center p-2">{{ customer.first_name | split: '' | first }}{{ customer.last_name | split: '' | first }}</span>
         {%- else -%}

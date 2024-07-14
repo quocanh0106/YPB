@@ -42,7 +42,7 @@
     </div>
     <table class="w-full rounded-lg overflow-hidden" role="table">
       <thead role="rowgroup" class="hidden lg:table-row-group">
-        <tr class="text-primary bg-background" role="row">
+        <tr class="text-primary bg-backgroundSecondary" role="row">
           <th class="text-sm leading-4 font-body font-normal md:py-4 lg:p-3.5 text-left" colspan="2">{{ 'customer.order.lineitem.name' | t }}</th>
           <th class="text-sm leading-4 font-body font-normal md:py-4 lg:py-3.5 lg:px-6 text-left">{{ 'customer.order.lineitem.tracking_code' | t }}</th>
           <th class="text-sm leading-4 font-body font-normal md:py-4 lg:py-3.5 lg:px-6 text-left">{{ 'customer.order.lineitem.quantity' | t }}</th>
@@ -53,7 +53,7 @@
       <tbody role="rowgroup">
         {%- for line_item in order.line_items -%}
           {% assign greyBackground = forloop.index | modulo: 2 %}
-          <tr class="flex flex-wrap justify-end lg:table-row p-3.5 lg:p-0 relative{% if greyBackground == 0 %} bg-background lg:bg-background{% else %} bg-background lg:bg-background{% endif %}" role="row">
+          <tr class="flex flex-wrap justify-end lg:table-row p-3.5 lg:p-0 relative{% if greyBackground == 0 %} bg-background lg:bg-backgroundSecondary{% else %} bg-backgroundSecondary lg:bg-background{% endif %}" role="row">
             <td class="p-0 lg:py-3.5 lg:pl-3.5 text-left flex-none absolute top-3.5 left-3.5 lg:static" role="cell">
               {%- if line_item.image -%}
                 {% for property in line_item.properties %}

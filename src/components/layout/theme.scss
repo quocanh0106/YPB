@@ -7,10 +7,6 @@
   @apply box-border;
 }
 
-#preview-bar-iframe {
-  @apply !hidden;
-}
-
 html {
   @apply !pb-0;
 }
@@ -55,7 +51,7 @@ h5 {
 /***** Link ******/
 
 a {
-  @apply text-sm underline text-primary hover:text-opacity-80;
+  @apply text-sm no-underline text-primary hover:text-opacity-80;
 }
 
 
@@ -337,6 +333,9 @@ wishlist-button.active svg.active {
 }
 
 predictive-search[open="true"] {
+  form {
+    @apply z-20;
+  }
   .predictive-search {
     @apply opacity-100 visible;
   }

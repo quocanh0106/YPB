@@ -22,7 +22,7 @@
       {%- render 'price', product: product, use_variant: true, show_badges: true, show: true -%}
       {%- unless product.has_only_default_variant -%}
         <variant-radios
-          class="hidden border-t border-primary-250 pt-4"
+          class="hidden border-t border-primary pt-4"
           id="variant-radios-{{ section.id }}"
           data-section="{{ section.id }}"
           data-url="{{ product.url }}"
@@ -50,7 +50,7 @@
                       {% if option.selected_value == value %}
                       checked
                       {% endif %}>
-                    <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" class="option-item font-normal text-xs lg:text-sm leading-6 lg:leading-4 min-h-[35px] lg:min-h-[36px] bg-primary text-primary border border-primary-250 p-2 flex text-center rounded items-center justify-center option-size-label min-w-12 max-w-3-col-variant w-full">
+                    <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" class="option-item font-normal text-xs lg:text-sm leading-6 lg:leading-4 min-h-[35px] lg:min-h-[36px] bg-primary text-primary border border-primary p-2 flex text-center rounded items-center justify-center option-size-label min-w-12 max-w-3-col-variant w-full">
                       {{ value }}
                     </label>
                   {%- endfor -%}
@@ -112,7 +112,7 @@
                       form="{{ product_form_id }}"
                       {% if option.selected_value == value %}
                       checked{% endif %}>
-                    <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" class="option-item font-normal text-xs lg:text-sm leading-6 lg:leading-4 min-h-[35px] lg:min-h-[36px] bg-primary text-primary border border-primary-250 p-2 flex text-center rounded items-center justify-center option-size-label min-w-12 max-w-6-col-variant w-full ">
+                    <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" class="option-item font-normal text-xs lg:text-sm leading-6 lg:leading-4 min-h-[35px] lg:min-h-[36px] bg-primary text-primary border border-primary p-2 flex text-center rounded items-center justify-center option-size-label min-w-12 max-w-6-col-variant w-full ">
                       {{ value }}
                     </label>
                   {%- endfor -%}
@@ -134,7 +134,7 @@
                       form="{{ product_form_id }}"
                       {% if option.selected_value == value %}
                       checked{% endif %}>
-                    <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" class="option-item font-light text-xs lg:text-base leading-none lg:leading-none min-h-[35px] lg:min-h-[41px] bg-primary text-primary border border-primary-250 p-2 flex text-center rounded items-center justify-center min-w-12 max-w-3-col-variant w-full option-label">
+                    <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" class="option-item font-light text-xs lg:text-base leading-none lg:leading-none min-h-[35px] lg:min-h-[41px] bg-primary text-primary border border-primary p-2 flex text-center rounded items-center justify-center min-w-12 max-w-3-col-variant w-full option-label">
                       {{ value }}
                     </label>
                   {%- endfor -%}

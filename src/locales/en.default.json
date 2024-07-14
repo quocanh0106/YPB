@@ -232,8 +232,8 @@
         "other": "{{ count }} results found for “{{ terms }}”"
       },
       "results_with_count_and_term_html": {
-        "one": "<strong class=\"text-primary-700 font-medium\">{{ count }}<\/strong> result found for <strong class=\"text-primary-700 font-medium\">“{{ terms }}”<\/strong>",
-        "other": "<strong class=\"text-primary-700 font-medium\">{{ count }}<\/strong> results found for <strong class=\"text-primary-700 font-medium\">“{{ terms }}”<\/strong>"
+        "one": "<strong class=\"text-primary font-medium\">{{ count }}<\/strong> result found for <strong class=\"text-primary font-medium\">“{{ terms }}”<\/strong>",
+        "other": "<strong class=\"text-primary font-medium\">{{ count }}<\/strong> results found for <strong class=\"text-primary font-medium\">“{{ terms }}”<\/strong>"
       },
       "title": "Search results"
     },
@@ -264,7 +264,7 @@
     },
     "search_help_center": {
       "help_hub": "Help hub",
-      "help_hub_subtitle_html": "Sorry,  we could not find any results for <strong class=\"text-primary-700 font-medium truncate-line one-line overflow-hidden break-words\">{{ terms }}<\/strong>",
+      "help_hub_subtitle_html": "Sorry,  we could not find any results for <strong class=\"text-primary font-medium truncate-line one-line overflow-hidden break-words\">{{ terms }}<\/strong>",
       "popular_search": "Popular search",
       "popular_questions": "Popular Questions",
       "popular_questions_subtitle": "Got a question? Check out our articles below to find the answer you’re looking for. Unfortunately, we do not have the meaning of life, we’re not that far ahead just yet.",
@@ -312,7 +312,7 @@
       "see_less": "Read Less",
       "show_more": "Show More",
       "show_less": "Show Less",
-      "current_view_count_html": "<span class=\"js-current-products text-primary-700\">1 - {{ products_count }} of {{ all_products_count }}<\/span> results",
+      "current_view_count_html": "<span class=\"js-current-products text-primary\">1 - {{ products_count }} of {{ all_products_count }}<\/span> results",
       "current_view_html": "You've seen <span class=\"js-current-products\">{{ products_count }} of {{ all_products_count }}<\/span> results",
       "load_more": "Show More",
       "write_review": "WRITE A STORE REVIEW",

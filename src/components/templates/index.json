@@ -1,8 +1,341 @@
+/*
+* ------------------------------------------------------------
+* IMPORTANT: The contents of this file are auto-generated.
+*
+* This file may be updated by the Shopify admin theme editor
+* or related systems. Please exercise caution as any changes
+* made to this file may be overwritten.
+* ------------------------------------------------------------
+*/
 {
   "sections": {
-
+    "video_autoplay_1": {
+      "type": "video-autoplay",
+      "settings": {
+        "border_bottom": true,
+        "video": "shopify:\/\/files\/videos\/hoodie.mov"
+      }
+    },
+    "banner_text_button_1": {
+      "type": "banner-text-button",
+      "settings": {
+        "border_bottom": false,
+        "color_title": "#000000",
+        "color_subtitle": "#000000",
+        "background_color": "#ffffff",
+        "image": "shopify:\/\/shop_images\/Large-HP_DK_SOUVENIR_SHOP_15_STILL_LIFES_2600x1300_2x1_e91ad20c-32ec-4635-b189-3fddfdbdeb03.jpg",
+        "heading": "SOMETHING",
+        "heading_tag": "h2",
+        "description": "Something Something Something Something SomethingSomething",
+        "button_url": "shopify:\/\/collections",
+        "button_text": "Collections",
+        "button_url_2": "shopify:\/\/collections\/all",
+        "button_text_2": "Products",
+        "margin_top": 0,
+        "margin_bottom": 0,
+        "margin_top_mb": 0,
+        "margin_bottom_mb": 0
+      }
+    },
+    "product_list_1": {
+      "type": "product-list",
+      "settings": {
+        "border_bottom": true,
+        "heading": "",
+        "product_list": [
+          "113",
+          "112",
+          "111",
+          "108",
+          "91",
+          "92",
+          "68-31",
+          "93",
+          "134",
+          "139",
+          "135",
+          "136"
+        ],
+        "product_per_row": 4,
+        "product_per_row_tablet": 3,
+        "product_per_row_mobile": 2,
+        "limit": 12,
+        "background_color": "#FAFAFA",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_top_mb": 0,
+        "padding_bottom_mb": 0
+      }
+    },
+    "banner_text_button_2": {
+      "type": "banner-text-button",
+      "settings": {
+        "border_bottom": false,
+        "color_title": "#000000",
+        "color_subtitle": "#000000",
+        "background_color": "#ffffff",
+        "image": "shopify:\/\/shop_images\/Large-HP_DK_SOUVENIR_SHOP_15_STILL_LIFES_2600x1300_2x1_e91ad20c-32ec-4635-b189-3fddfdbdeb03.jpg",
+        "heading": "SOMETHING",
+        "heading_tag": "h2",
+        "description": "Something Something Something Something SomethingSomething",
+        "button_url": "shopify:\/\/collections",
+        "button_text": "Collections",
+        "button_url_2": "shopify:\/\/collections\/all",
+        "button_text_2": "Products",
+        "margin_top": 0,
+        "margin_bottom": 0,
+        "margin_top_mb": 0,
+        "margin_bottom_mb": 0
+      }
+    },
+    "product_list_2": {
+      "type": "product-list",
+      "settings": {
+        "border_bottom": true,
+        "heading": "",
+        "product_list": [
+          "177",
+          "178",
+          "179",
+          "180",
+          "183",
+          "184",
+          "185",
+          "186",
+          "187",
+          "98",
+          "1340",
+          "152"
+        ],
+        "product_per_row": 4,
+        "product_per_row_tablet": 3,
+        "product_per_row_mobile": 2,
+        "limit": 12,
+        "background_color": "#FAFAFA",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_top_mb": 0,
+        "padding_bottom_mb": 0
+      }
+    },
+    "banner_text_button_3": {
+      "type": "banner-text-button",
+      "settings": {
+        "border_bottom": false,
+        "color_title": "#000000",
+        "color_subtitle": "#000000",
+        "background_color": "#ffffff",
+        "image": "shopify:\/\/shop_images\/Large-HP_DK_SOUVENIR_SHOP_15_STILL_LIFES_2600x1300_2x1_e91ad20c-32ec-4635-b189-3fddfdbdeb03.jpg",
+        "heading": "SOMETHING",
+        "heading_tag": "h2",
+        "description": "Something Something Something Something SomethingSomething",
+        "button_url": "shopify:\/\/collections",
+        "button_text": "Collections",
+        "button_url_2": "shopify:\/\/collections\/all",
+        "button_text_2": "Products",
+        "margin_top": 0,
+        "margin_bottom": 0,
+        "margin_top_mb": 0,
+        "margin_bottom_mb": 0
+      }
+    },
+    "product_list_3": {
+      "type": "product-list",
+      "settings": {
+        "border_bottom": true,
+        "heading": "",
+        "product_list": [
+          "t-shirt-2",
+          "t-shirt-4",
+          "t-shirt-3",
+          "t-shirt-1",
+          "166",
+          "142",
+          "145",
+          "103",
+          "151-1",
+          "150",
+          "147",
+          "149"
+        ],
+        "product_per_row": 4,
+        "product_per_row_tablet": 3,
+        "product_per_row_mobile": 2,
+        "limit": 12,
+        "background_color": "#FAFAFA",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_top_mb": 0,
+        "padding_bottom_mb": 0
+      }
+    },
+    "banner_text_button_4": {
+      "type": "banner-text-button",
+      "settings": {
+        "border_bottom": false,
+        "color_title": "#000000",
+        "color_subtitle": "#000000",
+        "background_color": "#ffffff",
+        "image": "shopify:\/\/shop_images\/Large-HP_DK_SOUVENIR_SHOP_15_STILL_LIFES_2600x1300_2x1_e91ad20c-32ec-4635-b189-3fddfdbdeb03.jpg",
+        "heading": "SOMETHING",
+        "heading_tag": "h2",
+        "description": "Something Something Something Something SomethingSomething",
+        "button_url": "shopify:\/\/collections",
+        "button_text": "Collections",
+        "button_url_2": "shopify:\/\/collections\/all",
+        "button_text_2": "Products",
+        "margin_top": 0,
+        "margin_bottom": 0,
+        "margin_top_mb": 0,
+        "margin_bottom_mb": 0
+      }
+    },
+    "product_list_4": {
+      "type": "product-list",
+      "settings": {
+        "border_bottom": true,
+        "heading": "",
+        "product_list": [
+          "177-1",
+          "176",
+          "178-1",
+          "180-1",
+          "179-1",
+          "181-1",
+          "183-1",
+          "hoodie-new",
+          "copy-of-blue-crop-zip-up-hoodie-440gsm-42",
+          "copy-of-stacked-and-flare-sweatpants-gray-wash-effect-440gsm-36",
+          "copy-of-black-wash-effect-crop-zip-up-hoodie-440gsm-37",
+          "copy-of-brown-wash-effect-crop-zip-up-hoodie-440gsm-38"
+        ],
+        "product_per_row": 4,
+        "product_per_row_tablet": 3,
+        "product_per_row_mobile": 2,
+        "limit": 12,
+        "background_color": "#FAFAFA",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_top_mb": 0,
+        "padding_bottom_mb": 0
+      }
+    },
+    "banner_text_button_5": {
+      "type": "banner-text-button",
+      "settings": {
+        "border_bottom": false,
+        "color_title": "#000000",
+        "color_subtitle": "#000000",
+        "background_color": "#ffffff",
+        "image": "shopify:\/\/shop_images\/Large-HP_DK_SOUVENIR_SHOP_15_STILL_LIFES_2600x1300_2x1_e91ad20c-32ec-4635-b189-3fddfdbdeb03.jpg",
+        "heading": "SOMETHING",
+        "heading_tag": "h2",
+        "description": "Something Something Something Something SomethingSomething",
+        "button_url": "shopify:\/\/collections",
+        "button_text": "Collections",
+        "button_url_2": "shopify:\/\/collections\/all",
+        "button_text_2": "Products",
+        "margin_top": 0,
+        "margin_bottom": 0,
+        "margin_top_mb": 0,
+        "margin_bottom_mb": 0
+      }
+    },
+    "product_list_5": {
+      "type": "product-list",
+      "settings": {
+        "border_bottom": true,
+        "heading": "",
+        "product_list": [
+          "copy-of-stacked-and-flare-sweatpants-black-wash-effect-440gsm-34",
+          "copy-of-stacked-and-flare-sweatpants-white-440gsm-5",
+          "copy-of-stacked-and-flare-sweatpants-gray-wash-effect-440gsm-35",
+          "copy-of-pants-new",
+          "56-30",
+          "59-25",
+          "copy-of-stacked-and-flare-sweatpants-navy-blue-met-440gsm",
+          "71-34",
+          "74-30",
+          "copy-of-stacked-and-flare-sweatpants-black-440gsm-1",
+          "pre-order-20-pack-14",
+          "copy-of-g-llery-dept-flare-sweatpants-440gsm"
+        ],
+        "product_per_row": 4,
+        "product_per_row_tablet": 3,
+        "product_per_row_mobile": 2,
+        "limit": 12,
+        "background_color": "#FAFAFA",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_top_mb": 0,
+        "padding_bottom_mb": 0
+      }
+    },
+    "banner_text_button_6": {
+      "type": "banner-text-button",
+      "settings": {
+        "border_bottom": false,
+        "color_title": "#000000",
+        "color_subtitle": "#000000",
+        "background_color": "#ffffff",
+        "image": "shopify:\/\/shop_images\/Large-HP_DK_SOUVENIR_SHOP_15_STILL_LIFES_2600x1300_2x1_e91ad20c-32ec-4635-b189-3fddfdbdeb03.jpg",
+        "heading": "SOMETHING",
+        "heading_tag": "h2",
+        "description": "Something Something Something Something SomethingSomething",
+        "button_url": "shopify:\/\/collections",
+        "button_text": "Collections",
+        "button_url_2": "shopify:\/\/collections\/all",
+        "button_text_2": "Products",
+        "margin_top": 0,
+        "margin_bottom": 0,
+        "margin_top_mb": 0,
+        "margin_bottom_mb": 0
+      }
+    },
+    "product_list_6": {
+      "type": "product-list",
+      "settings": {
+        "border_bottom": true,
+        "heading": "",
+        "product_list": [
+          "20-pack-32-per-piece-91",
+          "20-pack-32-per-piece-92",
+          "pre-order-20-pack-200-26-per-pcs",
+          "pre-order-15",
+          "20-pack-22-per-piece-109",
+          "20-pack-22-per-piece-112",
+          "20-pack-22-per-piece-113",
+          "20-pack-22-per-piece-114",
+          "3-pack-spring-tee-oversized-beige-250gsm-each-11",
+          "20-pack-spring-tee-oversized-black-250gsm-each-11",
+          "20-pack-balency-tee-white-250gsm-each-13",
+          "20-pack-balency-tee-black-250gsm-each-13"
+        ],
+        "product_per_row": 4,
+        "product_per_row_tablet": 3,
+        "product_per_row_mobile": 2,
+        "limit": 12,
+        "background_color": "#FAFAFA",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_top_mb": 0,
+        "padding_bottom_mb": 0
+      }
+    }
   },
   "order": [
-
+    "video_autoplay_1",
+    "banner_text_button_1",
+    "product_list_1",
+    "banner_text_button_2",
+    "product_list_2",
+    "banner_text_button_3",
+    "product_list_3",
+    "banner_text_button_4",
+    "product_list_4",
+    "banner_text_button_5",
+    "product_list_5",
+    "banner_text_button_6",
+    "product_list_6"
   ]
 }

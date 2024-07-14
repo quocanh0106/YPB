@@ -4,7 +4,7 @@
 </script>
 
 <script id="product-card" type="text/html">
-  <li class="slider-slide w-full">{% render 'product-card', product: product, use_variant: true %}</li>
+  <li class="slider-slide w-full">{% render 'product-card', product: product, use_variant: true, class: "border-r border-b border-primary" %}</li>
 </script>
 {% liquid
   assign variants_available_arr = product.variants | map: 'available'
@@ -32,12 +32,11 @@
           {%- when 'price' -%}
             <div id="price-{{ section.id }}" role="status" {{ block.shopify_attributes }}>
               {%- render 'price' , product: product , use_variant: true , show_badges: true , show: true, class: 'text-center justify-center !mb-4' -%}
-            </div>
-            {%- if product.quantity_price_breaks_configured? -%}
-              <div class="volume-pricing-note" id="Volume-Note-{{ section.id }}">
-                <span>{{ 'products.product.volume_pricing.note' | t }}</span>
-              </div>
-            {%- endif -%}
+              {%- if product.quantity_price_breaks_configured? -%}
+                <div class="volume-pricing-note" id="Volume-Note-{{ section.id }}">
+                  <span>{{ 'products.product.volume_pricing.note' | t }}</span>
+                </div>
+              {%- endif -%}
               <div class="product__tax caption rte">
                 {%- if cart.taxes_included -%}
                   {{ 'products.product.include_taxes' | t }}
@@ -46,12 +45,13 @@
                   {{ 'products.product.shipping_policy_html' | t: link: shop.shipping_policy.url }}
                 {%- endif -%}
               </div>
-            <div {{ block.shopify_attributes }}>
-              {%- assign product_form_installment_id = 'product-form-installment-' | append: section.id -%}
-              {%- form 'product', product, id: product_form_installment_id, class: 'installment caption-large' -%}
-                <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
-                {{ form | payment_terms }}
-              {%- endform -%}
+              <div {{ block.shopify_attributes }} class="mb-4">
+                {%- assign product_form_installment_id = 'product-form-installment-' | append: section.id -%}
+                {%- form 'product', product, id: product_form_installment_id, class: 'installment caption-large' -%}
+                  <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                  {{ form | payment_terms }}
+                {%- endform -%}
+              </div>
             </div>
           {%- when 'popup' -%}
             <modal-opener class="product-popup-modal__opener no-js-hidden quick-add-hidden" data-id="#PopupModal-{{ block.id }}" {{ block.shopify_attributes }}>
@@ -206,20 +206,19 @@
               {%- endif -%}
             </div>
           {%- when 'buy_buttons' -%}
-            <product-form class="block">
-              <div class="product-form__error-message-wrapper" role="alert" hidden>
-                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-error"  viewBox="0 0 13 13">
-                  <circle cx="6.5" cy="6.50049" r="5.5" stroke="white" stroke-width="2"/>
-                  <circle cx="6.5" cy="6.5" r="5.5" fill="#EB001B" stroke="#EB001B" stroke-width="0.7" />
-                  <path d="M5.87413 3.52832L5.97439 7.57216H7.02713L7.12739 3.52832H5.87413ZM6.50076 9.66091C6.88091 9.66091 7.18169 9.37267 7.18169 9.00504C7.18169 8.63742 6.88091 8.34917 6.50076 8.34917C6.12061 8.34917 5.81982 8.63742 5.81982 9.00504C5.81982 9.37267 6.12061 9.66091 6.50076 9.66091Z" fill="white" />
-                  <path d="M5.87413 3.17832H5.51535L5.52424 3.537L5.6245 7.58083L5.63296 7.92216H5.97439H7.02713H7.36856L7.37702 7.58083L7.47728 3.537L7.48617 3.17832H7.12739H5.87413ZM6.50076 10.0109C7.06121 10.0109 7.5317 9.57872 7.5317 9.00504C7.5317 8.43137 7.06121 7.99918 6.50076 7.99918C5.94031 7.99918 5.46982 8.43137 5.46982 9.00504C5.46982 9.57872 5.94031 10.0109 6.50076 10.0109Z" fill="white" stroke="#EB001B" stroke-width="0.7">
-                </svg>
-                <span class="product-form__error-message"></span>
-              </div>
-
-              {%- form 'product', product, id: product_form_id, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+            <product-form class="block pb-6 border-b border-primary">
+              {%- form 'product', product, id: product_form_id, class: 'form mt-8', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
                 <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" disabled>
-                <sticky-add-to-cart class="block mt-2 lg:mt-6 mb-6 relative h-12.5">
+                <div class="product-form__error-message-wrapper flex gap-1 items-center text-base text-error px-3 py-1.5 fixed top-3 right-3 bg-background shadow-megamenu rounded transition-all" role="alert" hidden>
+                  <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-error w-4 h-4"  viewBox="0 0 13 13">
+                    <circle cx="6.5" cy="6.50049" r="5.5" stroke="white" stroke-width="2"/>
+                    <circle cx="6.5" cy="6.5" r="5.5" fill="#EB001B" stroke="#EB001B" stroke-width="0.7" />
+                    <path d="M5.87413 3.52832L5.97439 7.57216H7.02713L7.12739 3.52832H5.87413ZM6.50076 9.66091C6.88091 9.66091 7.18169 9.37267 7.18169 9.00504C7.18169 8.63742 6.88091 8.34917 6.50076 8.34917C6.12061 8.34917 5.81982 8.63742 5.81982 9.00504C5.81982 9.37267 6.12061 9.66091 6.50076 9.66091Z" fill="white" />
+                    <path d="M5.87413 3.17832H5.51535L5.52424 3.537L5.6245 7.58083L5.63296 7.92216H5.97439H7.02713H7.36856L7.37702 7.58083L7.47728 3.537L7.48617 3.17832H7.12739H5.87413ZM6.50076 10.0109C7.06121 10.0109 7.5317 9.57872 7.5317 9.00504C7.5317 8.43137 7.06121 7.99918 6.50076 7.99918C5.94031 7.99918 5.46982 8.43137 5.46982 9.00504C5.46982 9.57872 5.94031 10.0109 6.50076 10.0109Z" fill="white" stroke="#EB001B" stroke-width="0.7">
+                  </svg>
+                  <span class="product-form__error-message"></span>
+                </div>
+                <sticky-add-to-cart class="block relative h-12.5">
                   <div class="product-form__buttons flex gap-2">
                     <quantity-input class="flex items-center relative w-fit h-12.5 rounded border border-primary">
                       <button class="w-6 h-6 relative text-primary transition-all rounded-full before:content-empty before:w-full before:h-full before:z-[1] before:absolute before:left-0 before:top-0" name="minus" type="button">
@@ -260,9 +259,9 @@
             </product-form>
           {%- when 'collapsible_tab' -%}
             {% if block.settings.title != blank %}
-              <accordion-toggle class="block w-full relative cursor-pointer bg-background py-3 border-t border-primary">
+              <accordion-toggle class="block w-full relative cursor-pointer bg-background py-3 border-b border-primary">
                 <div class="summary flex items-center justify-between gap-3">
-                  <h3 class="inline-block text-base text-primary leading-4 font-heading uppercase">{{ block.settings.title }}</h3>
+                  <h3 class="inline-block text-sm text-primary leading-4 font-heading font-light uppercase">{{ block.settings.title }}</h3>
                   <span class="icon-add">{%- render 'icon-down', class: 'w-6 h-6 text-primary' -%}</span>
                   <span class="icon-minus">{%- render 'icon-up', class: 'w-6 h-6 text-primary' -%}</span>
                 </div>
