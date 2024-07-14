@@ -54,12 +54,9 @@ input:checked + label.color {
   @apply hidden lg:block;
 }
 
-.product-form__buttons.btn-wrapper-sticky #customily-preview-button {
-  @apply !flex-[0_0_calc(36%_-_4px)] lg:!flex-none !mb-0 lg:!mb-4;
-}
 
 .product-form__buttons.btn-wrapper-sticky .product-form__submit {
-  @apply !flex-[0_0_calc(64%_-_4px)] lg:!flex-none !mb-0;
+  @apply lg:!flex-none !mb-0;
 }
 
 accordion-toggle:not(.active) .icon-text::before {
@@ -214,4 +211,7 @@ button#customily-cart-btn:disabled ~ .button-unavailable {
     right: auto;
     flex: 0 0 100%;
   }
+}
+product-infor accordion-toggle .details * {
+  @apply !text-left !text-sm;
 }

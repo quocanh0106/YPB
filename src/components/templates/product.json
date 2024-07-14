@@ -12,42 +12,49 @@
     "template": {
       "type": "template-product",
       "blocks": {
-        "title_fCDLzw": {
+        "title": {
           "type": "title",
           "settings": {
           }
         },
-        "price_eNgQnY": {
+        "price": {
           "type": "price",
           "settings": {
           }
         },
-        "quantity_selector_XbPAY9": {
-          "type": "quantity_selector",
-          "settings": {
-          }
-        },
-        "variant_picker_XbtYkp": {
+        "variant_picker": {
           "type": "variant_picker",
           "settings": {
           }
         },
-        "buy_buttons_MGmgVE": {
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": {
+          }
+        },
+        "buy_buttons": {
           "type": "buy_buttons",
           "settings": {
-            "show_shipping": true
+          }
+        },
+        "collapsible_tab_product_details": {
+          "type": "collapsible_tab",
+          "settings": {
+            "title": "Product details",
+            "product_description": true,
+            "description": ""
           }
         }
       },
       "block_order": [
-        "title_fCDLzw",
-        "price_eNgQnY",
-        "variant_picker_XbtYkp",
-        "quantity_selector_XbPAY9",
-        "buy_buttons_MGmgVE"
+        "title",
+        "price",
+        "variant_picker",
+        "quantity_selector",
+        "buy_buttons",
+        "collapsible_tab_product_details"
       ],
       "settings": {
-        "shipping_description": ""
       }
     }
   },

@@ -219,7 +219,7 @@
 
               {%- form 'product', product, id: product_form_id, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
                 <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" disabled>
-                <sticky-add-to-cart class="block mt-2 lg:mt-6 mb-4 relative h-27 lg:h-29">
+                <sticky-add-to-cart class="block mt-2 lg:mt-6 mb-6 relative h-12.5">
                   <div class="product-form__buttons flex gap-2">
                     <quantity-input class="flex items-center relative w-fit h-12.5 rounded border border-primary">
                       <button class="w-6 h-6 relative text-primary transition-all rounded-full before:content-empty before:w-full before:h-full before:z-[1] before:absolute before:left-0 before:top-0" name="minus" type="button">
@@ -259,16 +259,23 @@
               {%- endform -%}
             </product-form>
           {%- when 'collapsible_tab' -%}
-            <accordion-toggle class="inline-block relative cursor-pointer bg-background rounded shadow-megamenu p-4 lg:p-6">
-              <div class="summary flex items-start justify-between gap-3 before:content-empty before:absolute before:top-0 before:left-0 before:w-full before:h-full before:block before:p-4 before:lg:p-6 before:lg:z-10">
-                <h3 class="inline-block text-base text-primary leading-4 font-heading font-semibold lg:text-lg lg:leading-4">{{ block.settings.summary }}</h3>
-                <span class="icon-add">{%- render 'icon-down', class: 'w-6 h-6 text-primary' -%}</span>
-                <span class="icon-minus">{%- render 'icon-up', class: 'w-6 h-6 text-primary' -%}</span>
-              </div>
-              <div class="details p-0">
-                {{ block.settings.description }}
-              </div>
-            </accordion-toggle>
+            {% if block.settings.title != blank %}
+              <accordion-toggle class="block w-full relative cursor-pointer bg-background py-3 border-t border-primary">
+                <div class="summary flex items-center justify-between gap-3">
+                  <h3 class="inline-block text-base text-primary leading-4 font-heading uppercase">{{ block.settings.title }}</h3>
+                  <span class="icon-add">{%- render 'icon-down', class: 'w-6 h-6 text-primary' -%}</span>
+                  <span class="icon-minus">{%- render 'icon-up', class: 'w-6 h-6 text-primary' -%}</span>
+                </div>
+                <div class="details p-0">
+                  {% if block.settings.product_description %}
+                    {{ product.description }}
+                  {% else %}
+                    {{ block.settings.description }}
+                  {% endif %}
+                </div>
+              </accordion-toggle>
+            {% endif %}
+
         {%- endcase -%}
       {%- endfor -%}
     </product-infor>
@@ -354,17 +361,20 @@
             "id": "text",
             "default": "Text block",
             "label": "t:sections.main-product.blocks.text.settings.text.label"
-          }, {
+          },
+          {
             "type": "select",
             "id": "text_style",
             "options": [
               {
                 "value": "body",
                 "label": "t:sections.main-product.blocks.text.settings.text_style.options__1.label"
-              }, {
+              },
+              {
                 "value": "subtitle",
                 "label": "t:sections.main-product.blocks.text.settings.text_style.options__2.label"
-              }, {
+              },
+              {
                 "value": "uppercase",
                 "label": "t:sections.main-product.blocks.text.settings.text_style.options__3.label"
               }
@@ -405,59 +415,81 @@
             "id": "text-1",
             "default": "Text block",
             "label": "Text"
-          }, {
+          },
+          {
             "type": "image_picker",
             "id": "image-2",
             "label": "Image"
-          }, {
+          },
+          {
             "type": "text",
             "id": "text-2",
             "default": "Text block",
             "label": "Text"
-          }, {
+          },
+          {
             "type": "image_picker",
             "id": "image-3",
             "label": "Image"
-          }, {
+          },
+          {
             "type": "text",
             "id": "text-3",
             "default": "Text block",
             "label": "Text"
           }
         ]
-      }, {
+      },
+      {
         "type": "title",
         "name": "Title",
         "limit": 1
-      }, {
+      },
+      {
         "type": "price",
         "name": "Price",
         "limit": 1
-      }, {
+      },
+      {
         "type": "quantity_selector",
         "name": "Quantity",
         "limit": 1
-      }, {
+      },
+      {
         "type": "variant_picker",
         "name": "Variant picker",
         "limit": 1,
         "settings": []
-      }, {
+      },
+      {
         "type": "buy_buttons",
         "name": "Buy button",
         "limit": 1,
         "settings": []
+      },
+      {
+        "type": "collapsible_tab",
+        "name": "Collapsible tab",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "checkbox",
+            "id": "product_description",
+            "label": "Use product description"
+          },
+          {
+            "type": "text",
+            "id": "description",
+            "label": "Description"
+          }
+        ]
       }
     ],
     "settings": [
-      {
-        "type": "header",
-        "content": "Shipping Information"
-      }, {
-        "type": "richtext",
-        "id": "shipping_description",
-        "label": "Shipping description"
-      }
     ]
   }
 {% endschema %}
