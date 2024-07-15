@@ -165,7 +165,7 @@
             {% else %}
               {% assign lazy_load = 'eager' %}
             {% endif %}
-            {%- render 'product-card', product: product, lazy_load: lazy_load, class: 'border-r border-b border-primary' -%}
+            {%- render 'product-card', product: product, lazy_load: lazy_load, class: 'h-full border-r border-b border-primary' -%}
 
           {% endfor %}
         {% else %}
