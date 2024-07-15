@@ -8,7 +8,7 @@
 <div class="disclosure relative flex items-center">
   <button
     type="button"
-    class="flex items-center gap-2 disclosure__button localization-form__select localization-selector"
+    class="flex items-center gap-2 disclosure__button localization-form__select localization-selector !outline-none !shadow-none !border-none"
     aria-expanded="false"
     aria-controls="{{ localPosition }}List"
     aria-describedby="{{ localPosition }}Label"
@@ -19,7 +19,7 @@
     </span>
     {% render 'icon-caret', class: 'w-4 h-4' %}
   </button>
-  <div class="disclosure__list-wrapper absolute left-0 bottom-full bg-background p-3 rounded overflow-auto max-h-19" hidden>
+  <div class="disclosure__list-wrapper absolute left-0 bottom-full bg-background p-3 rounded overflow-auto max-h-25 border border-primary" hidden>
     <ul id="{{ localPosition }}List" role="list" class="disclosure__list list-unstyled flex flex-col">
       {%- for country in localization.available_countries -%}
         <li class="disclosure__item text-sm py-1" tabindex="-1">

@@ -49,7 +49,7 @@
     class="w-full{% if section.settings.image %} block md:hidden{% else %} block{% endif %}"
     width="{{ section.settings.image_mobile.width }}"
     height="{{ section.settings.image_mobile.height }}">
-    <div class="absolute left-1/2 bottom-5 -translate-x-1/2 max-w-[388px] text-center lg:text-left mx-auto lg:mx-0 ">
+    <div class="absolute left-1/2  -translate-x-1/2 max-w-[388px] text-center lg:text-left mx-auto lg:mx-0{% if section.settings.content_align == "middle" %} top-1/2 -translate-y-1/2{% elsif section.settings.content_align == "top" %} top-5{% else %} bottom-5{% endif %}">
       {% if section.settings.heading != blank %}
         <{{ section.settings.heading_tag }} class="heading text-lg leading-2 font-bold font-heading mb-4 text-center" style="color: {{ section.settings.color_title }};">{{ section.settings.heading }}</{{ section.settings.heading_tag }}>
       {% endif %}
@@ -166,6 +166,26 @@
         "type": "text",
         "id": "button_text_2",
         "label": "Button text 2"
+      },
+      {
+        "type": "select",
+        "id": "content_align",
+        "label": "Content alignment",
+        "default": "middle",
+        "options": [
+          {
+            "value": "top",
+            "label": "Top"
+          },
+          {
+            "value": "middle",
+            "label": "Middle"
+          },
+          {
+            "value": "bottom",
+            "label": "Bottom"
+          }
+        ]
       },
       {
         "type": "header",

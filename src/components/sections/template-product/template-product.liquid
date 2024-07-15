@@ -88,7 +88,7 @@
                             <span class="message-option capitalize font-light text-red-500 font-heading text-sm lg:text-base !leading-[20px] hidden">{{ 'products.product.message_option' | t: option: option1 }}</span>
                           {% endif %}
                         </legend>
-                        <modal-opener data-id="#PopupModal-Sizeguide" data-active="{{ activeType }}" class="size-popup flex gap-2 text-sm items-center capitalize underline underline-offset-2 cursor-pointer font-semibold font-heading text-secondary hover:text-primary">{% render 'icon-ruler' %}{{ 'products.product.size_guide' | t }}</modal-opener>
+                        <modal-opener data-id="#PopupModal-Sizeguide" data-active="{{ activeType }}" class="size-popup flex gap-2 text-sm items-center capitalize cursor-pointer font-semibold font-heading text-primary">{% render 'icon-ruler' %}{{ 'products.product.size_guide' | t }}</modal-opener>
                       </div>
                       <div class="title-option-size-bt flex flex-wrap gap-2">
                         {%- for value in option.values -%}

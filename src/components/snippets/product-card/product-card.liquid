@@ -6,10 +6,10 @@
 {% endunless %}
 {% for variant in product.variants %}
   {% if variant.options contains '3 Pack' or variant.options contains '3 pack'  %}
-    {% assign threePack = variant.price | divided_by: 3 | money_without_trailing_zeros | prepend: '3 Pack - <span class="text-xs pl-1 lg:pl-0 lg:text-sm text-hot">' | append: '</span>/PER'  %}
+    {% assign threePack = variant.price | divided_by: 3 | money_without_trailing_zeros | prepend: '3 Pack - <span class="text-xs pl-0.5 lg:pl-0 lg:text-sm text-hot">' | append: '</span>/PER'  %}
   {% endif %}
   {% if variant.options contains '20 Pack' or variant.options contains '20 pack'  %}
-    {% assign twentyPack = variant.price | divided_by: 20 | money_without_trailing_zeros | prepend: '20 Pack - <span class="text-xs pl-1 lg:pl-0 lg:text-sm text-hot">' | append: '</span>/PER'  %}
+    {% assign twentyPack = variant.price | divided_by: 20 | money_without_trailing_zeros | prepend: '20 Pack - <span class="text-xs pl-0.5 lg:pl-0 lg:text-sm text-hot">' | append: '</span>/PER'  %}
   {% endif %}
 {% endfor %}
 {%- if product and product != empty -%}
