@@ -69,7 +69,7 @@
         </slider-component>
       </a>
     {%- endif -%}
-    <a href="{{ product.url | split: '?' | first }}" class="block relative text-center py-4 px-3 overflow-hidden no-underline">
+    <a href="{{ product.url | split: '?' | first }}" class="block bg-background relative text-center py-4 px-3 overflow-hidden no-underline">
       <{{ heading }} class="text-primary font-body font-light text-sm lg:text-lg leading-4 mb-1 tracking-[0] truncate-line one-line overflow-hidden break-all no-underline ">{{ product.title | escape }}</{{ heading }}>
       {% render 'price', product: product, use_variant: true, class: 'text-center justify-center' %}
       {% liquid
