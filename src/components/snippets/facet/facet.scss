@@ -2,10 +2,10 @@ input:checked ~ .icon-checkmark {
   @apply opacity-100 visible text-primary;
 }
 input:checked ~ .icon-box {
-  @apply fill-secondary text-secondary;
+  @apply text-primary;
 }
 input:checked ~ div {
-  @apply text-secondary;
+  @apply text-primary;
 }
 .clickout-accordion ul.details {
   @apply opacity-0 invisible;

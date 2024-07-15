@@ -3,23 +3,23 @@
 {% paginate collection.products by section.settings.products_per_page %}
   <div class="flex flex-wrap pb-8 lg:pb-20" data-id="{{ section.id }}" id="ProductGridContainer">
     {% render 'facet', results: collection %}
-    <toggle-filter class="fixed bottom-10 left-1/2 -translate-x-1/2 block transition-all duration-500 z-10">
-      <button class="flex items-center px-4 py-3 border border-primary bg-primary text-background hover:bg-background hover:text-primary transition-all capitalize whitespace-nowrap lg:normal-case text-base leading-none rounded-md cursor-pointer gap-2">
-        <span class="block">{{- 'products.facets.filter' | t -}}</span>
-        {% render 'icon-filter', class: 'w-4 h-4' %}
-      </button>
-    </toggle-filter>
     <div class="w-full transition-all duration-500 max-w-full overflow-hidden" data-total-pages="{{ paginate.pages }}" data-pagination="{{ products_per_page }}" data-current-page="{{ paginate.current_page }}" id="product-grid">
       <div class="px-3 py-2 facet-mobile border-b border-primary flex items-center justify-between lg:mx-0 lg:mt-0 transition-all duration-200 bg-background">
-        <div id="ProductCount" class="viewing-currently-product text-sm text-primary whitespace-nowrap">
-          {% liquid
-            assign products_count = paginate.current_page | times: section.settings.products_per_page
-            if products_count > paginate.items
-              assign products_count = paginate.items
-            endif
-          %}
-          {{ 'sections.collection_template.current_view_count_html' | t: all_products_count: paginate.items, products_count: products_count }}
-        </div>
+        <toggle-filter class="flex items-center gap-2 transition-all duration-500 z-10">
+          <button class="flex items-center text-primary transition-all capitalize whitespace-nowrap lg:normal-case text-base leading-none cursor-pointer gap-2 pr-2 border-r border-primary">
+            {% render 'icon-filter', class: 'w-4 h-4' %}
+            <span class="block">{{- 'products.facets.filter' | t -}}</span>
+          </button>
+          <div id="ProductCount" class="viewing-currently-product text-sm text-primary whitespace-nowrap">
+            {% liquid
+              assign products_count = paginate.current_page | times: section.settings.products_per_page
+              if products_count > paginate.items
+                assign products_count = paginate.items
+              endif
+            %}
+            {{ 'sections.collection_template.current_view_count_html' | t: all_products_count: paginate.items, products_count: products_count }}
+          </div>
+        </toggle-filter>
         <facet-filters-form class="flex items-center justify-end gap-4 sort-by" id="sortby-wrapper">
           <form id="FacetSortForm">
             <div class="flex items-center gap-2 js-filter" data-index="sort-by">

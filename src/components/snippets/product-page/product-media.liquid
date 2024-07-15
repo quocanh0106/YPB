@@ -15,26 +15,15 @@
 {% endcomment %}
 
 {%- if media.media_type == 'image' -%}
-  <div class="relative w-full h-full">
+  <div class="relative w-full h-auto product-aspect-ratio">
     <img
-      srcset="{%- if width >= 330 -%}
-        {{ media.preview_image | image_url: width: 330 }} 165w,{%- endif -%}
-      {%- if width >= 720 -%}
-        {{ media.preview_image | image_url: width: 720 }} 360w,{%- endif -%}
-      {%- if width >= 1066 -%}
-        {{ media.preview_image | image_url: width: 1066 }} 533w,{%- endif -%}
-      {%- if width >= 1440 -%}
-        {{ media.preview_image | image_url: width: 1440 }} 720w,{%- endif -%}
-      {%- if width >= 1880 -%}
-        {{ media.preview_image | image_url: width: 1880 }} 940w,{%- endif -%}
-      {%- if width >= 2500 -%}
-        {{ media.preview_image | image_url: width: 2500 }} 1066w,{%- endif -%}"
-      sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 130 | divided_by: 4 }}px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
-      src="{{ media.preview_image | image_url }}"
+      src="{{ media.preview_image | image_url: width: media.width }}"
       {% if lazy_load %}
-      loading="lazy"
+        loading="lazy"
+      {% else %}
+        loading="eager"
       {% endif %}
-      class="product-aspect-ratio block w-full h-auto object-cover bg-image-placeholder bg-no-repeat bg-cover bg-center text-transparent"
+      class="block w-full h-full object-cover bg-image-placeholder bg-no-repeat bg-cover bg-center text-transparent"
       width="{{ media.width }}"
       height="{{ media.height }}"
       data-media-id="{{ media.id }}"

@@ -221,7 +221,7 @@
                 <sticky-add-to-cart class="block relative h-12.5">
                   <div class="product-form__buttons flex gap-2">
                     <quantity-input class="flex items-center relative w-fit h-12.5 rounded border border-primary">
-                      <button class="w-6 h-6 relative text-primary transition-all rounded-full before:content-empty before:w-full before:h-full before:z-[1] before:absolute before:left-0 before:top-0" name="minus" type="button">
+                      <button class="w-6 h-12.5 relative text-primary transition-all rounded-full before:content-empty before:w-full before:h-full before:z-[1] before:absolute before:left-0 before:top-0" name="minus" type="button" role="button" aria-label="minus">
                         {% render 'icon-minus', class: 'w-4 h-4 mx-auto' %}
                       </button>
                       <input class="appearance-none border-none bg-transparent text-primary text-xs leading-4 lg:text-base lg:leading-2 p-0.5 w-6 lg:w-8 h-full font-medium text-center !ring-0 shadow-none focus:border-none" 
@@ -237,8 +237,9 @@
                         {% endif %}
                         step="{{ product.selected_or_first_available_variant.quantity_rule.increment }}"
                         value="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
-                        form="{{ product_form_id }}">
-                      <button class="w-6 h-6 relative text-primary transition-all rounded-full before:content-empty before:w-full before:h-full before:z-[1] before:absolute before:left-0 before:top-0" name="plus" type="button">
+                        form="{{ product_form_id }}"
+                        aria-label="quantity">
+                      <button class="w-6 h-12.5 relative text-primary transition-all rounded-full before:content-empty before:w-full before:h-full before:z-[1] before:absolute before:left-0 before:top-0" name="plus" type="button" role="button" aria-label="plus">
                         {% render 'icon-plus', class: 'w-4 h-4 mx-auto' %}
                       </button>
                     </quantity-input>
@@ -261,7 +262,7 @@
             {% if block.settings.title != blank %}
               <accordion-toggle class="block w-full relative cursor-pointer bg-background py-3 border-b border-primary">
                 <div class="summary flex items-center justify-between gap-3">
-                  <h3 class="inline-block text-sm text-primary leading-4 font-heading font-light uppercase">{{ block.settings.title }}</h3>
+                  <h2 class="inline-block text-sm text-primary leading-4 font-heading font-light uppercase">{{ block.settings.title }}</h2>
                   <span class="icon-add">{%- render 'icon-down', class: 'w-6 h-6 text-primary' -%}</span>
                   <span class="icon-minus">{%- render 'icon-up', class: 'w-6 h-6 text-primary' -%}</span>
                 </div>
