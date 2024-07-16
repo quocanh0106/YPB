@@ -142,7 +142,7 @@
         <div id="main-collection-product" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 transition-all duration-500 w-[calc(100%_+_1px)] overflow-hidden">
           {% if search.results.size > 0 %}
             {% for product in search.results %}
-              {%- render 'product-card', product: product, lazy_load: lazy_load, class: 'h-full border-r border-b border-primary' -%}
+              {%- render 'product-card', product: product, lazy_load: lazy_load, heading: 'h2', class: 'h-full border-r border-b border-primary' -%}
             {% endfor %}
           {% endif %}
         </div>
@@ -204,7 +204,7 @@
         "max": 50,
         "step": 1,
         "default": 20,
-        "label": "t:sections.main-collection-product-grid.settings.products_per_page.label"
+        "label": "Product per page"
       }
     ]
   }

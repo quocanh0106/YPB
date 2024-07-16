@@ -116,13 +116,9 @@
   {% render 'atom_script', src: bitlogin, priority: 'normal', type: "defer" %}
 {% schema %}
   {
-    "name": "t:sections.main-register.name",
+    "name": "Register",
     "class": "main-register-wrapper",
     "settings": [
-      {
-        "type": "header",
-        "content": "t:sections.all.padding.section_padding_heading"
-      },
       {
         "type": "header",
         "content": "Padding mobile"
@@ -134,7 +130,7 @@
         "max": 200,
         "step": 2,
         "unit": "px",
-        "label": "t:sections.all.padding.padding_top",
+        "label": "Padding top",
         "default": 36
       },
       {
@@ -144,7 +140,7 @@
         "max": 200,
         "step": 2,
         "unit": "px",
-        "label": "t:sections.all.padding.padding_bottom",
+        "label": "Padding bottom",
         "default": 36
       }, {
         "type": "header",
@@ -156,7 +152,7 @@
         "max": 200,
         "step": 2,
         "unit": "px",
-        "label": "t:sections.all.padding.padding_top",
+        "label": "Padding top",
         "default": 36
       }, {
         "type": "range",
@@ -165,7 +161,7 @@
         "max": 200,
         "step": 2,
         "unit": "px",
-        "label": "t:sections.all.padding.padding_bottom",
+        "label": "Padding bottom",
         "default": 36
       }
     ]
