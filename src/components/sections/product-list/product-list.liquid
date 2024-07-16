@@ -15,7 +15,9 @@
   {%- endstyle -%}
   <div data-section-id="{{ section.id }}">
     <div class="block relative max-w-full overflow-hidden{% if section.settings.border_bottom %} border-b border-primary{% endif %}">
-      <h2 class="p-3 m-0 text-lg font-semibold lg:text-2xl border-t border-primary">{{ section.settings.heading | escape }}</h2>
+      {% if section.settings.heading %}
+        <h2 class="p-3 m-0 text-lg font-semibold lg:text-2xl border-t border-primary">{{ section.settings.heading | escape }}</h2>
+      {% endif %}
 
       <div class="grid grid-cols-{{ section.settings.product_per_row_mobile }} md:grid-cols-{{ section.settings.product_per_row_tablet }} lg:grid-cols-{{ section.settings.product_per_row }} transition-all duration-500 w-[calc(100%_+_1px)] overflow-hidden border-t border-primary mb-[-1px]">
         {%- for product in section.settings.product_list limit: section.settings.limit -%}

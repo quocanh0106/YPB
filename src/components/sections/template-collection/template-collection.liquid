@@ -5,7 +5,7 @@
     {% render 'facet', results: collection %}
     <div class="w-full transition-all duration-500 max-w-full overflow-hidden" data-total-pages="{{ paginate.pages }}" data-pagination="{{ products_per_page }}" data-current-page="{{ paginate.current_page }}" id="product-grid">
       <div class="px-3 py-2 facet-mobile border-b border-primary flex items-center justify-between lg:mx-0 lg:mt-0 transition-all duration-200 bg-background">
-        <toggle-filter class="flex items-center gap-2 transition-all duration-500 z-10">
+        <toggle-filter class="!flex items-center gap-2 transition-all duration-500 z-10">
           <button class="flex items-center text-primary transition-all capitalize whitespace-nowrap lg:normal-case text-base leading-none cursor-pointer gap-2 pr-2 border-r border-primary">
             {% render 'icon-filter', class: 'w-4 h-4' %}
             <span class="block">{{- 'products.facets.filter' | t -}}</span>
@@ -195,7 +195,13 @@
           </div>
         </div>
         <collection-loadmore data-click-loadmore="false" class="block text-center cursor-pointer">
-          <span data-href="{{ paginate.next.url }}" class="flex items-center justify-center btn btn-2 border !text-sm !leading-none load-more_btn py-3.5 px-6">{{- 'sections.collection_template.load_more' | t -}}</span>
+          <span data-href="{{ paginate.next.url }}" class="load-more_btn">
+          </span>
+          <div class="loading-animation">
+            {% for i in (1..10) %}
+              <div class="animation-wave"></div>
+            {% endfor %}
+          </div>
         </collection-loadmore>
       </div>
     </div>

@@ -16,7 +16,7 @@
             assign megamenu = megamenu | append: link_handle | append: " "
           %}
           {% if link.links != blank %}
-            <div class="opacity-0 invisible absolute px-3 py-6 group-hover:opacity-100 group-hover:visible top-full left-0 grid lg:grid-cols-4 gap-5 w-full h-fit overflow-auto lg:overflow-unset z-20 bg-background border-y border-primary">
+            <div class="opacity-0 invisible absolute px-3 py-6 group-hover:opacity-100 group-hover:visible top-full left-0 grid lg:grid-cols-4 gap-5 w-full h-fit overflow-auto lg:overflow-unset z-20 bg-background border-y border-primary auto-rows-min">
               {% for child_link in link.links %}
                 <div class="flex lg:block w-full menu-group hover:!opacity-100 transition-all">
                   {% liquid
@@ -154,7 +154,9 @@
         alt="{{ logo_mb_alt }}">
       </a>
     {%- endif -%}
-
+    {% if template contains 'index' %}
+      <h1 class="hidden opacity-0 invisible">{{ shop.name }}</h1>
+    {% endif %}
   </div>
   <ul class="w-full flex justify-end" style="max-width: calc((100% - {{ settings.logo_width }}px)/2)">
     {% for block in section.blocks %}
@@ -168,7 +170,7 @@
             assign megamenu = megamenu | append: link_handle | append: " "
           %}
           {% if link.links != blank %}
-            <div class="opacity-0 invisible absolute px-3 py-6 group-hover:opacity-100 group-hover:visible top-full left-0 grid lg:grid-cols-4 gap-5 w-full h-fit overflow-auto lg:overflow-unset z-20 bg-background border-y border-primary">
+            <div class="opacity-0 invisible absolute px-3 py-6 group-hover:opacity-100 group-hover:visible top-full left-0 grid lg:grid-cols-4 gap-5 w-full h-fit overflow-auto lg:overflow-unset z-20 bg-background border-y border-primary auto-rows-min">
               {% for child_link in link.links %}
                 <div class="flex lg:block w-full menu-group hover:!opacity-100 transition-all">
                   {% liquid
@@ -365,6 +367,7 @@
   {
     "name": "Header",
     "tag": "header",
+    "class": "sticky transition-all duration-200 z-10",
     "settings": [
       {
         "type": "checkbox",

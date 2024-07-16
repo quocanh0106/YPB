@@ -69,7 +69,6 @@ class FacetFiltersForm extends HTMLElement {
   static renderPage(searchParams, event, updateURLHash = true, loadmore = false) {
     FacetFiltersForm.searchParamsPrev = searchParams;
     const sections = FacetFiltersForm.getSections();
-    document.getElementById('ProductGridContainer').classList.add('loading');
 
     sections.forEach((section) => {
       const url = `${window.location.pathname}?section_id=${section.section}&${searchParams}`;
@@ -99,7 +98,6 @@ class FacetFiltersForm extends HTMLElement {
         FacetFiltersForm.renderLoadmore(html);
         if (typeof initializeScrollAnimationTrigger === 'function') initializeScrollAnimationTrigger(html.innerHTML);
       }).finally(() => {
-        document.getElementById('ProductGridContainer').classList.remove('loading');
       });
   }
 
@@ -109,7 +107,6 @@ class FacetFiltersForm extends HTMLElement {
     FacetFiltersForm.renderProductGridContainer(html, loadmore);
     FacetFiltersForm.renderProductCount(html);
     FacetFiltersForm.renderLoadmore(html);
-    document.getElementById('ProductGridContainer').classList.remove('loading')
     if (typeof initializeScrollAnimationTrigger === 'function') initializeScrollAnimationTrigger(html.innerHTML);
   }
 
@@ -322,24 +319,26 @@ customElements.define('facet-remove', FacetRemove);
 class Loadmore extends HTMLElement {
   constructor() {
     super();
-    this.attachEvents();
     this.currentPage = document.querySelector('#product-grid').dataset.currentPage;
     this.productPerPage = document.querySelector('#product-grid').dataset.pagination;
     this.collectionGrid = document.querySelector('#main-collection-product');
     this.buttonLoadmore = this.querySelector('.load-more_btn');
-  }
-
-  attachEvents() {
-    this.addEventListener('click', this.handleLoadmore.bind(this));
+    this.observer = new IntersectionObserver(this.handleIntersect.bind(this), { threshold: 0.5 });
+    this.observer.observe(this);
   }
 
   updateCurrentPageToFirst(currentPage) {
     this.querySelector('.load-more_btn').dataset.href = this.buttonLoadmore.dataset.href.replace(`page=${currentPage}`, 'page=2');
     document.querySelector('#product-grid').dataset.currentPage = 1;
   }
-
-  handleLoadmore(e) {
-    e.preventDefault();
+  handleIntersect(entries) {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        this.handleLoadmore();
+      }
+    });
+  }
+  handleLoadmore() {
     this.currentPage = document.querySelector('#product-grid').dataset.currentPage;
     let params = this.getAllUrlParams();
     if (params.page) {
@@ -386,8 +385,6 @@ class ToggleFilter extends HTMLElement {
     document.querySelector('.facet').classList.toggle('active');
     document.querySelector('#product-grid').classList.toggle('active');
     document.body.classList.toggle('overflow-hidden');
-    document.body.classList.toggle('lg:overflow-auto');
-
   }
 }
 

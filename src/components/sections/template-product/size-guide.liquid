@@ -1,14 +1,11 @@
-{%- for option in product.options_with_values -%}
-  {% if option.name == 'Product' %}
-    {% assign type = option.selected_value %}
-  {% endif %}
-{% endfor %}
+
+{% assign type = product.type | downcase %}
+
 {% for block in section.blocks %}
   {% if block.settings.title %}
-    {% if type %}
-      {% if block.settings.title == type %}
-        {% assign activeElement = block.settings.title %}
-      {% endif %}
+    {% assign sizeGuideTitle = block.settings.title | downcase %}
+    {% if sizeGuideTitle == type %}
+      {% assign activeElement = block.settings.title %}
     {% else %}
       {% if forloop.first %}
         {% assign activeElement = block.settings.title %}
@@ -94,11 +91,6 @@
                 {{ newTable }}
               </div>
             </caculator-size>
-            <ul class="list-inside list-disc grid gap-2">
-              <li class="text-xs lg:text-sm font-light leading-5 lg:leading-5 text-primary">{{ 'products.product.size_guide_popup.calculate_inch_html' | t }}</li>
-              <li class="text-xs lg:text-sm font-light leading-5 lg:leading-5 text-primary"><strong>{{ 'products.product.size_guide_popup.chest' | t }}: </strong>{{ 'products.product.size_guide_popup.chest_description' | t }}</li>
-              <li class="text-xs lg:text-sm font-light leading-5 lg:leading-5 text-primary"><strong>{{ 'products.product.size_guide_popup.length' | t }}: </strong>{{ 'products.product.size_guide_popup.length_description' | t }}</li>
-            </ul>
           </div>
         {% endfor %}
       </div>

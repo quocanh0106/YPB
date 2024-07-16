@@ -112,9 +112,9 @@ tabs-component.product-infortab .tab-detail.lg\:hidden {
     tbody {
       @apply w-full lg:flex;
       tr {
-        @apply w-full text-center lg:flex lg:flex-col odd:bg-background;
+        @apply w-full text-center lg:flex lg:flex-col odd:bg-[#FAFAFA];
         th {
-          @apply lg:w-full lg:h-full lg:text-left uppercase text-xs leading-2 font-semibold font-heading text-primary lg:text-base lg:leading-4 p-2.5 lg:px-6;
+          @apply lg:w-full lg:h-full lg:text-left uppercase text-xs leading-2 font-semibold font-heading text-primary lg:text-base lg:leading-4 p-2.5 lg:px-6 lg:whitespace-nowrap;
         }
         td {
           @apply text-xs leading-5 font-light text-primary lg:text-base lg:leading-6 py-2 lg:py-2.5 px-1 !border-none;
@@ -213,4 +213,7 @@ button.product-form__submit:disabled ~ .button-unavailable {
 }
 product-infor accordion-toggle .details * {
   @apply !text-left !text-sm;
+}
+.installment shopify-payment-terms {
+  @apply w-fit block mx-auto;
 }

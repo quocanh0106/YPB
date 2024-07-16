@@ -4,14 +4,6 @@
 {% unless lazy_load %}
   {% assign lazy_load = 'lazy' %}
 {% endunless %}
-{% for variant in product.variants %}
-  {% if variant.options contains '3 Pack' or variant.options contains '3 pack'  %}
-    {% assign threePack = variant.price | divided_by: 3 | money_without_trailing_zeros | prepend: '3 Pack - <span class="text-xs pl-0.5 lg:pl-0 lg:text-sm text-hot">' | append: '</span>/PER'  %}
-  {% endif %}
-  {% if variant.options contains '20 Pack' or variant.options contains '20 pack'  %}
-    {% assign twentyPack = variant.price | divided_by: 20 | money_without_trailing_zeros | prepend: '20 Pack - <span class="text-xs pl-0.5 lg:pl-0 lg:text-sm text-hot">' | append: '</span>/PER'  %}
-  {% endif %}
-{% endfor %}
 {%- if product and product != empty -%}
   {% assign averageRating = product.metafields.judgeme.badge | split: "data-average-rating='" | last | split: "'" | first | plus: 0 %}
   {% assign numberRating = product.metafields.judgeme.badge | split: "data-number-of-reviews='" | last | split: "'" | first | plus: 0 %}
@@ -19,7 +11,10 @@
     {%- if product.featured_media -%}
       <a href="{{ product.url | split: '?' | first }}" class="relative block  overflow-hidden no-underline" title="{{ product.title }}">
         <slider-component class="relative ">
-          <button type="button" name="previous" aria-label="previous" 
+          <button 
+            type="button" 
+            name="previous" 
+            aria-label="previous" 
             class="prev-{{ section.id }} opacity-0 group-hover:opacity-100 z-10 absolute top-1/2 -translate-y-1/2 left-0 w-10 h-10 bg-transparent shadow-button leading-none cursor-pointer transition-all hidden lg:flex items-center justify-center p-0 rounded-full border-0 text-primary">
             {%- render 'icon-prev', class: "w-7 h-7" -%}
           </button>
@@ -54,7 +49,10 @@
 
             {% endfor %}
           </ul>
-          <button type="button" name="next" aria-label="next"
+          <button 
+            type="button" 
+            name="next" 
+            aria-label="next"
             class="next-{{ section.id }} opacity-0 group-hover:opacity-100 z-10 absolute top-1/2 -translate-y-1/2 right-0 w-10 h-10 bg-transparent shadow-button leading-none cursor-pointer transition-all hidden lg:flex items-center justify-center p-0 rounded-full border-0 text-primary">
             {%- render 'icon-next', class: "w-7 h-7" -%}
           </button>
@@ -70,37 +68,51 @@
               {% endif %}
             {% endfor %}
           </div>
-          <wishlist-button class="opacity-0 group-hover:opacity-100 z-10 transition-all absolute top-2 right-2 lg:top-4 lg:right-4 flex justify-center items-center bg-background w-7 h-7 lg:w-9 lg:h-9 rounded-full overflow-hidden shadow-card cursor-pointer" data-product-handle="{{ product.handle }}">
+          <wishlist-button class="lg:opacity-0 group-hover:lg:opacity-100 z-10 transition-all absolute top-2 right-2 lg:top-4 lg:right-4 flex justify-center items-center bg-background w-7 h-7 lg:w-9 lg:h-9 rounded-full overflow-hidden shadow-card cursor-pointer" data-product-handle="{{ product.handle }}">
             {% render 'icon-wishlist', class: "w-4 h-4 lg:w-6 lg:h-6" %}
             {% render 'icon-wishlist-2', class: "active w-4 h-4 lg:w-6 lg:h-6" %}
           </wishlist-button>
         </slider-component>
       </a>
     {%- endif -%}
-    <a href="{{ product.url | split: '?' | first }}" class="block bg-background relative text-center py-4 px-3 overflow-hidden no-underline">
-      <div class="flex items-center w-full justify-center gap-1 mb-2 lg:mb-0 lg:min-h-[90px]">
-        <{{ heading }} class="text-primary font-body font-light text-sm lg:text-lg !leading-5 tracking-[0] truncate-line one-line overflow-hidden break-all no-underline ">{{ product.title | escape }} - </{{ heading }}>
-        {% render 'price', product: product, use_variant: true, class: 'text-center justify-center flex-none leading-none' %}
-      </div>
+    <a href="{{ product.url | split: '?' | first }}" class="block relative text-center py-4 px-3 overflow-hidden no-underline bg-background">
+      <{{ heading }} class="text-primary font-body font-light text-sm lg:text-lg leading-4 mb-1 tracking-[0] truncate-line one-line overflow-hidden break-all no-underline ">{{ product.title | escape }}</{{ heading }}>
+      {% render 'price', product: product, use_variant: true, class: 'text-center justify-center' %}
       {% liquid
         assign variants_available_arr = product.variants | map: 'available'
         assign variants_option1_arr = product.variants | map: 'option1'
         assign variants_option2_arr = product.variants | map: 'option2'
         assign variants_option3_arr = product.variants | map: 'option3'
-        assign product_form_id = 'product-form-' | append: section.id
       %}
-      <div class="flex flex-col bg-background top-0 left-0 z-10 items-center justify-center text-center gap-3 lg:absolute w-full h-full lg:opacity-0 lg:invisible group-hover:lg:opacity-100 group-hover:lg:visible">
+      <div class="hidden lg:flex flex-col bg-background top-0 left-0 z-10 items-center justify-center text-center gap-3 absolute w-full h-full opacity-0 invisible group-hover:opacity-100 group-hover:visible">
         {% for option in product.options_with_values %}
           {% if option.name contains 'of sale' %}
-            <div class="flex flex-wrap justify-center items-center gap-2">
-              {% if threePack != '' or twentyPack != '' %}
-                {% if threePack != '' %}
-                  <span class="flex items-center text-primary font-body font-light text-xxs lg:text-sm truncate-line one-line overflow-hidden break-all no-underline lg:px-2 lg:py-1 lg:rounded lg:border border-primary leading-2 lowercase">{{ threePack }}</span>
-                {% endif %}
-                {% if twentyPack != '' %}
-                  <span class="flex items-center text-primary font-body font-light text-xxs lg:text-sm truncate-line one-line overflow-hidden break-all no-underline lg:px-2 lg:py-1 lg:rounded lg:border border-primary leading-2 lowercase">{{ twentyPack }}</span>
-                {% endif %}
-              {% endif %}
+            <div class="flex flex-wrap gap-2">
+              {% for value in option.values %}
+                {%- liquid
+                  assign option_disabled = true
+              
+                  for option1_name in variants_option1_arr
+                    case option.position
+                      when 1
+                        if variants_option1_arr[forloop.index0] == value and variants_available_arr[forloop.index0]
+                          assign option_disabled = false
+                        endif
+                      when 2
+                        if option1_name == product.selected_or_first_available_variant.option1 and variants_option2_arr[forloop.index0] == value and variants_available_arr[forloop.index0]
+                          assign option_disabled = false
+                        endif
+                      when 3
+                        if option1_name == product.selected_or_first_available_variant.option1 and variants_option2_arr[forloop.index0] == product.selected_or_first_available_variant.option2 and variants_option3_arr[forloop.index0] == value and variants_available_arr[forloop.index0]
+                          assign option_disabled = false
+                        endif
+                    endcase
+                  endfor
+                -%}
+                {% unless value contains 'etail' %}
+                  <span class="px-2 py-1 rounded border border-primary text-sm leading-2 uppercase{% if option_disabled %} line-through{% endif %}">{{ value }}</span>
+                {% endunless %}
+              {% endfor %}
             </div>
           {% else %}
             <div class="flex flex-wrap gap-2">
