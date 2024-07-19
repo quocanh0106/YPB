@@ -5,7 +5,7 @@
     {% render 'facet', results: collection %}
     <div class="w-full transition-all duration-500 max-w-full overflow-hidden" data-total-pages="{{ paginate.pages }}" data-pagination="{{ products_per_page }}" data-current-page="{{ paginate.current_page }}" id="product-grid">
       <div class="px-3 py-2 facet-mobile border-b border-primary flex items-center justify-between lg:mx-0 lg:mt-0 transition-all duration-200 bg-background">
-        <toggle-filter class="!flex items-center gap-2 transition-all duration-500 z-10">
+        <toggle-filter class="!flex items-center gap-2 transition-all duration-500 z-[9]">
           <button class="flex items-center text-primary transition-all capitalize whitespace-nowrap lg:normal-case text-base leading-none cursor-pointer gap-2 pr-2 border-r border-primary">
             {% render 'icon-filter', class: 'w-4 h-4' %}
             <span class="block">{{- 'products.facets.filter' | t -}}</span>

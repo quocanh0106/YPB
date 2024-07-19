@@ -13,13 +13,17 @@
     aria-controls="{{ localPosition }}List"
     aria-describedby="{{ localPosition }}Label"
   >
-    <span class="text-sm">
-      {{- localization.country.currency.iso_code }}
-      {{ localization.country.currency.symbol }} | {{ localization.country.name -}}
-    </span>
-    {% render 'icon-caret', class: 'w-4 h-4' %}
+    {% if small %}
+      {% render 'icon-world', class: "w-5 h-5 text-primary" %}
+    {% else %}
+      <span class="text-sm">
+        {{- localization.country.currency.iso_code }}
+        {{ localization.country.currency.symbol }} | {{ localization.country.name -}}
+      </span>
+      {% render 'icon-caret', class: 'w-4 h-4' %}
+    {% endif %}
   </button>
-  <div class="disclosure__list-wrapper absolute left-0 bottom-full bg-background p-3 rounded overflow-auto max-h-25 border border-primary" hidden>
+  <div class="disclosure__list-wrapper absolute left-0{% if small %} top-full{% else %} bottom-full{% endif %} z-[11] bg-background p-3 rounded overflow-auto max-h-25 border border-primary" hidden>
     <ul id="{{ localPosition }}List" role="list" class="disclosure__list list-unstyled flex flex-col">
       {%- for country in localization.available_countries -%}
         <li class="disclosure__item text-sm py-1" tabindex="-1">

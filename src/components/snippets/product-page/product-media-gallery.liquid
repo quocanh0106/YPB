@@ -52,7 +52,7 @@
     </ul>
     {% if template.suffix != 'ajax' %}
       <wishlist-button
-        class="absolute top-4 right-4 z-10 flex justify-center border-primary items-center bg-background w-7 h-7 lg:w-11 lg:h-11 rounded-full overflow-hidden cursor-pointer 
+        class="absolute top-4 right-4 z-[1] flex justify-center border-primary items-center bg-background w-7 h-7 lg:w-11 lg:h-11 rounded-full overflow-hidden cursor-pointer 
         before:content-empty before:absolute before:w-10 before:h-10 before:block before:-top-1.5 before:-left-1.5 transition-all" 
         data-product-handle="{{ product.handle }}">
         {% render 'icon-wishlist', class: "w-4 h-4 lg:w-6 lg:h-6" %}
@@ -60,13 +60,13 @@
       </wishlist-button>
       <button
         type="button"
-        class="prev-main-{{ section.id }} absolute top-1/2 -translate-y-1/2 left-2.5 z-10 w-8 h-8 lg:h-10 lg:w-10 lg:hidden leading-none cursor-pointer transition-all flex items-center justify-center p-0 rounded-full bg-background text-primary hover:text-primary disabled:text-primary-opacity-40"
+        class="prev-main-{{ section.id }} absolute top-1/2 -translate-y-1/2 left-2.5 z-[1] w-8 h-8 lg:h-10 lg:w-10 lg:hidden leading-none cursor-pointer transition-all flex items-center justify-center p-0 rounded-full bg-background text-primary hover:text-primary disabled:text-primary-opacity-40"
         name="previous"
         aria-label="previous">
         {%- render 'icon-prev', class: 'w-6 h-6 lg:w-7 lg:h-7' -%}</button>
       <button
         type="button"
-        class="next-main-{{ section.id }} absolute top-1/2 -translate-y-1/2 right-2.5 z-10 w-8 h-8 lg:h-10 lg:w-10 lg:hidden leading-none cursor-pointer transition-all flex items-center justify-center p-0 rounded-full bg-background text-primary hover:text-primary disabled:text-primary-opacity-40"
+        class="next-main-{{ section.id }} absolute top-1/2 -translate-y-1/2 right-2.5 z-[1] w-8 h-8 lg:h-10 lg:w-10 lg:hidden leading-none cursor-pointer transition-all flex items-center justify-center p-0 rounded-full bg-background text-primary hover:text-primary disabled:text-primary-opacity-40"
         name="next"
         aria-label="next">{%- render 'icon-next', class: 'w-6 h-6 lg:w-7 lg:h-7' -%}</button>
     {% endif %}
@@ -75,7 +75,7 @@
       <span aria-hidden="true"> / </span>
       <span class="slider-counter--total">{{ product.media.size }}</span>
     </div>
-    <div class="slider-dots absolute bottom-13 left-1/2 gap-2 -translate-x-1/2 flex z-20 lg:!hidden">
+    <div class="slider-dots absolute bottom-13 left-1/2 gap-2 -translate-x-1/2 flex z-[1] lg:!hidden">
       {% for media in product.media %}
         <span class="slider-dot{% if forloop.first %} active{% endif %}" data-position="{{ forloop.index }}"></span>
       {% endfor %}

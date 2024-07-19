@@ -5,6 +5,13 @@
         {% render 'icon-hamburger' %}
       </modal-opener>
     </li>
+    <li class="block lg:hidden py-0.5 px-3.5">
+      <localization-form class="block">
+        {%- form 'localization', id: 'FooterCountryForm', class: 'localization-form' -%}
+          {%- render 'country-localization', localPosition: 'FooterCountry', small: true -%}
+        {%- endform -%}
+      </localization-form>
+    </li>
     {% for block in section.blocks %}
       {% if block.settings.menu_alignment == "left" %}
         <li class="group">
@@ -267,6 +274,13 @@
         </li>
       {% endif %}
     {% endfor %}
+    <li class="lg:block hidden py-0.5 px-2">
+      <localization-form class="block">
+        {%- form 'localization', id: 'FooterCountryForm', class: 'localization-form' -%}
+          {%- render 'country-localization', localPosition: 'FooterCountry', small: true -%}
+        {%- endform -%}
+      </localization-form>
+    </li>
     <li class="px-2">
       <a href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}" title="account" class="no-underline flex items-center justify-center relative w-6 h-6 hover:text-primary text-primary{% if customer %} border border-primary rounded-full{% endif %}">
         {%- if customer -%}

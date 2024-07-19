@@ -57,7 +57,8 @@
               <variant-radios class="block border-t border-primary pt-6 scroll-m-14 lg:scroll-m-31" id="variant-radios-{{ section.id }}" data-section="{{ section.id }}" data-url="{{ product.url }}" {% if update_url == false %} data-update-url="false" {% endif %}>
                 {%- for option in product.options_with_values -%}
                   {% assign fatherIndex = forloop.index0 %}
-                  {% if option.name == 'Size' or option.name == 'Taille' or option.name == 'Taglia' or option.name == 'Größe' %}
+                  {% assign optionName = option.name | downcase %}
+                  {% if optionName == 'size' or optionName == 'taille' or optionName == 'taglia' or optionName == 'größe' %}
                     <fieldset class="js product-form__input block mb-8 {% if forloop.last %}!mb-0{% endif %} option-size-wrapper data-layer-{{ fatherIndex }}" data-name="Size">
                       <div class="title-option-size mb-3 flex justify-between items-center">
                         <legend class="form__label flex gap-2 text-sm text-primary uppercase font-bold font-heading leading-5">{{ 'products.product.size' | t }}:
@@ -276,7 +277,6 @@
       {% assign collectionList = '"' | append: collection.title | append: '"'  %}
     {% endunless %}
   {% endfor %}
-  {% assign numReview = product.metafields.judgeme.badge | split: "data-number-of-reviews='" | last | split: "'" | first | plus: 0 %}
   <script type="application/ld+json">
     {
       "@context": "http://schema.org/",
@@ -285,39 +285,42 @@
       "url": {{ request.origin | append: product.url | json }},
       {% if seo_media -%}
         "image" : [{{ seo_media | image_url: width: seo_media.preview_image.width | prepend: "https:" | json }}],
-        {%- endif %}
+      {%- endif %}
+      {% if product.description != "blank" %}
         "description": {{ product.description | strip_html | json }},
-        {% if product.selected_or_first_available_variant.sku != blank -%}
-          "sku": {{ product.selected_or_first_available_variant.sku | json }},
-          {%- endif %}
-          "brand": {
-            "@type": "Brand",
-            "name": {{ product.type | json }}
-          },
-          "offers": [
-                    {%- for variant in product.variants -%}
-              {
-                        "@type": "Offer",
-                        {%- if variant.sku != blank -%}
-                  "sku": {{ variant.sku | json }},
-                        {%- endif -%}
-                  {%- if variant.barcode.size == 12 -%}
-                    "gtin12": {{ variant.barcode }},
-                        {%- endif -%}
-                    {%- if variant.barcode.size == 13 -%}
-                      "gtin13": {{ variant.barcode }},
-                        {%- endif -%}
-                      {%- if variant.barcode.size == 14 -%}
-                        "gtin14": {{ variant.barcode }},
-                        {%- endif -%}
-                        "availability": "http://schema.org/{% if variant.available %} InStock{% else %}OutOfStock{% endif %}",
-                        "price": "{{ variant.price | money_without_currency | replace: ",", "." }}",
-                        "priceCurrency": {{ cart.currency.iso_code | json }},
-                        "url": {{ request.origin | append: variant.url | json }}
-                      }{% unless forloop.last %},{% endunless %}
-                    {%- endfor -%}
-                  ]
-                }
+      {% endif %}
+      {% if product.selected_or_first_available_variant.sku != blank -%}
+        "sku": {{ product.selected_or_first_available_variant.sku | json }},
+      {%- endif %}
+      "brand": {
+        "@type": "Brand",
+        "name": {{ product.type | json }}
+      }{% if product.variants.size > 1 %},
+        "offers": [
+          {%- for variant in product.variants -%}
+            {
+              "@type": "Offer",
+              {%- if variant.sku != blank -%}
+                "sku": {{ variant.sku | json }},
+              {%- endif -%}
+              {%- if variant.barcode.size == 12 -%}
+                "gtin12": {{ variant.barcode }},
+              {%- endif -%}
+              {%- if variant.barcode.size == 13 -%}
+                "gtin13": {{ variant.barcode }},
+              {%- endif -%}
+              {%- if variant.barcode.size == 14 -%}
+                "gtin14": {{ variant.barcode }},
+              {%- endif -%}
+                "availability": "http://schema.org/{% if variant.available %} InStock{% else %}OutOfStock{% endif %}",
+                "price": "{{ variant.price | money_without_currency | replace: ",", "" | replace: ".", "" | replace: " ", "" }}",
+                "priceCurrency": {{ cart.currency.iso_code | json }},
+                "url": {{ request.origin | append: variant.url | json }}
+            }{% unless forloop.last %},{% endunless %}
+          {%- endfor -%}
+        ]
+      {% endif %}
+    }
   </script>
 </section>
 

@@ -15,7 +15,7 @@
             type="button" 
             name="previous" 
             aria-label="previous" 
-            class="prev-{{ section.id }} opacity-0 group-hover:opacity-100 z-10 absolute top-1/2 -translate-y-1/2 left-0 w-10 h-10 bg-transparent shadow-button leading-none cursor-pointer transition-all hidden lg:flex items-center justify-center p-0 rounded-full border-0 text-primary">
+            class="prev-{{ section.id }} opacity-0 group-hover:opacity-100 z-[1] absolute top-1/2 -translate-y-1/2 left-0 w-10 h-10 bg-transparent shadow-button leading-none cursor-pointer transition-all hidden lg:flex items-center justify-center p-0 rounded-full border-0 text-primary">
             {%- render 'icon-prev', class: "w-7 h-7" -%}
           </button>
           <ul class="slider-wrapper slider-on-mobile slider-on-tablet slider-on-desktop">
@@ -53,7 +53,7 @@
             type="button" 
             name="next" 
             aria-label="next"
-            class="next-{{ section.id }} opacity-0 group-hover:opacity-100 z-10 absolute top-1/2 -translate-y-1/2 right-0 w-10 h-10 bg-transparent shadow-button leading-none cursor-pointer transition-all hidden lg:flex items-center justify-center p-0 rounded-full border-0 text-primary">
+            class="next-{{ section.id }} opacity-0 group-hover:opacity-100 z-[1] absolute top-1/2 -translate-y-1/2 right-0 w-10 h-10 bg-transparent shadow-button leading-none cursor-pointer transition-all hidden lg:flex items-center justify-center p-0 rounded-full border-0 text-primary">
             {%- render 'icon-next', class: "w-7 h-7" -%}
           </button>
           <div class="slider-counter caption !hidden">
@@ -68,7 +68,7 @@
               {% endif %}
             {% endfor %}
           </div>
-          <wishlist-button class="lg:opacity-0 group-hover:lg:opacity-100 z-10 transition-all absolute top-2 right-2 lg:top-4 lg:right-4 flex justify-center items-center bg-background w-7 h-7 lg:w-9 lg:h-9 rounded-full overflow-hidden shadow-card cursor-pointer" data-product-handle="{{ product.handle }}">
+          <wishlist-button class="lg:opacity-0 group-hover:lg:opacity-100 z-[1] transition-all absolute top-2 right-2 lg:top-4 lg:right-4 flex justify-center items-center bg-background w-7 h-7 lg:w-9 lg:h-9 rounded-full overflow-hidden shadow-card cursor-pointer" data-product-handle="{{ product.handle }}">
             {% render 'icon-wishlist', class: "w-4 h-4 lg:w-6 lg:h-6" %}
             {% render 'icon-wishlist-2', class: "active w-4 h-4 lg:w-6 lg:h-6" %}
           </wishlist-button>
@@ -84,7 +84,7 @@
         assign variants_option2_arr = product.variants | map: 'option2'
         assign variants_option3_arr = product.variants | map: 'option3'
       %}
-      <div class="hidden lg:flex flex-col bg-background top-0 left-0 z-10 items-center justify-center text-center gap-3 absolute w-full h-full opacity-0 invisible group-hover:opacity-100 group-hover:visible">
+      <div class="hidden lg:flex flex-col bg-background top-0 left-0 z-[1] items-center justify-center text-center gap-3 absolute w-full h-full opacity-0 invisible group-hover:opacity-100 group-hover:visible">
         {% for option in product.options_with_values %}
           {% if option.name contains 'of sale' %}
             <div class="flex flex-wrap gap-2">
