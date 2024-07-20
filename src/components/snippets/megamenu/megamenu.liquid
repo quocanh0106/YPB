@@ -6,7 +6,7 @@
       <span class="close-menu bg-background absolute top-1 -right-9 w-10 h-10 flex justify-center items-center rounded-full translate-x-full z-30 cursor-pointer">
         {% render 'icon-close', class: "w-6 h-6" %}
       </span>
-      <li class="flex h-fit w-full lg:w-fit mb-4 lg:mb-0">
+      <li class="flex h-fit w-full lg:w-fit mb-10 lg:mb-0">
         {%- if settings.logo != blank -%}
           <a href="{{ routes.root_url }}" class="hidden lg:inline-block no-underline" title="{{ shop.name }}" style="max-width: {{ settings.logo_width_mb }}px;">
             {%- assign logo_alt = settings.logo.alt | default: shop.name | escape -%}

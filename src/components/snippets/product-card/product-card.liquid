@@ -10,7 +10,7 @@
   <div class="group card-wrapper product-card-wrapper {{ class }}" data-handle="{{ product.handle }}">
     {%- if product.featured_media -%}
       <a href="{{ product.url | split: '?' | first }}" class="relative block  overflow-hidden no-underline" title="{{ product.title }}">
-        <slider-component class="relative ">
+        <slider-component class="relative gallery">
           <button 
             type="button" 
             name="previous" 
@@ -19,34 +19,37 @@
             {%- render 'icon-prev', class: "w-7 h-7" -%}
           </button>
           <ul class="slider-wrapper slider-on-mobile slider-on-tablet slider-on-desktop">
+            {% assign count = 0 %}
             {% for media in product.media %}
               {% if media.media_type == 'image' %}
-                
-                <li class="slider-slide w-full !h-auto !transition-all">
-                  <img
-                    srcset="
-                    {%- if media.width >= 165 -%}
-                      {{ media | image_url: width: 165 }} 165w,{%- endif -%}
-                    {%- if media.width >= 360 -%}
-                      {{ media | image_url: width: 360 }} 360w,{%- endif -%}
-                    {%- if media.width >= 533 -%}
-                      {{ media | image_url: width: 533 }} 533w,{%- endif -%}
-                    {%- if media.width >= 720 -%}
-                      {{ media | image_url: width: 720 }} 720w,{%- endif -%}
-                    {%- if media.width >= 940 -%}
-                      {{ media | image_url: width: 940 }} 940w,{%- endif -%}
-                    {%- if media.width >= 1066 -%}
-                      {{ media | image_url: width: 1066 }} 1066w,{%- endif -%}"
-                    src="{{ media | image_url: width: 533 }}"
-                    sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 130 | divided_by: 4 }}px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
-                    alt="{{ media | split: "/" | last | replace: "-", " " | split: "." | first }}"
-                    class="block w-full h-full object-cover transition-all duration-300 bg-image-placeholder bg-no-repeat bg-cover bg-center text-transparent aspect-[512/640]"
-                    loading="{{ lazy_load }}"
-                    width="512"
-                    height="{{ 512 | divided_by: media.aspect_ratio }}">
-                </li>
+                {% assign alt = media.alt | downcase | strip %}
+                {% if alt contains 'pick' %}
+                  {% assign count = count | plus: 1 %}
+                  <li class="slider-slide w-full !h-auto !transition-all">
+                    <img
+                      srcset="
+                      {%- if media.width >= 165 -%}
+                        {{ media | image_url: width: 165 }} 165w,{%- endif -%}
+                      {%- if media.width >= 360 -%}
+                        {{ media | image_url: width: 360 }} 360w,{%- endif -%}
+                      {%- if media.width >= 533 -%}
+                        {{ media | image_url: width: 533 }} 533w,{%- endif -%}
+                      {%- if media.width >= 720 -%}
+                        {{ media | image_url: width: 720 }} 720w,{%- endif -%}
+                      {%- if media.width >= 940 -%}
+                        {{ media | image_url: width: 940 }} 940w,{%- endif -%}
+                      {%- if media.width >= 1066 -%}
+                        {{ media | image_url: width: 1066 }} 1066w,{%- endif -%}"
+                      src="{{ media | image_url: width: 533 }}"
+                      sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 130 | divided_by: 4 }}px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
+                      alt="{{ media | split: "/" | last | replace: "-", " " | split: "." | first }}"
+                      class="block w-full h-full object-cover transition-all duration-300 bg-image-placeholder bg-no-repeat bg-cover bg-center text-transparent aspect-[512/640]"
+                      loading="{{ lazy_load }}"
+                      width="512"
+                      height="{{ 512 | divided_by: media.aspect_ratio }}">
+                  </li>
+                {% endif %}
               {% endif %}
-
             {% endfor %}
           </ul>
           <button 
@@ -59,13 +62,11 @@
           <div class="slider-counter caption !hidden">
             <span class="slider-counter--current">1</span>
             <span aria-hidden="true"> / </span>
-            <span class="slider-counter--total">{{ product.media.size }}</span>
+            <span class="slider-counter--total">{{ count }}</span>
           </div>
           <div class="lg:opacity-0 group-hover:lg:opacity-100 transition-all slider-dots !flex absolute bottom-3 lg:bottom-4 left-1/2 -translate-x-1/2">
-            {% for media in product.media %}
-              {% if media.media_type == 'image' %}
-                <span class="slider-dot{% if forloop.first %} active{% endif %}" data-position="{{ forloop.index }}"></span>
-              {% endif %}
+            {% for i in (1..count) %}
+              <span class="slider-dot{% if forloop.first %} active{% endif %}" data-position="{{ forloop.index }}"></span>
             {% endfor %}
           </div>
           <wishlist-button class="lg:opacity-0 group-hover:lg:opacity-100 z-[1] transition-all absolute top-2 right-2 lg:top-4 lg:right-4 flex justify-center items-center bg-background w-7 h-7 lg:w-9 lg:h-9 rounded-full overflow-hidden shadow-card cursor-pointer" data-product-handle="{{ product.handle }}">
