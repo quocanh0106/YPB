@@ -165,7 +165,11 @@
             {% else %}
               {% assign lazy_load = 'eager' %}
             {% endif %}
-            {%- render 'product-card', product: product, lazy_load: lazy_load, heading: 'h2', class: 'h-full border-r border-b border-primary' -%}
+            {% if collection.handle == 'new-arrivals' %}
+              {%- render 'product-card', product: product, lazy_load: lazy_load, heading: 'h2', class: 'h-full border-r border-b border-primary', spectial: true -%}
+            {% else %}
+              {%- render 'product-card', product: product, lazy_load: lazy_load, heading: 'h2', class: 'h-full border-r border-b border-primary' -%}
+            {% endif %}
 
           {% endfor %}
         {% else %}
