@@ -30,7 +30,7 @@
             {%- if cart != empty -%}
               <table class="cart-items w-full border-none">
                 {%- for item in cart.items -%}
-                  <tr id="CartItem-{{ item.index | plus: 1 }}" class="{% unless forloop.last %}border-primary border-b{% endunless %}" data-key="{{ item.key }}">
+                  <tr id="CartItem-{{ item.index | plus: 1 }}" class="{% unless forloop.last %}border-primary border-b{% endunless %}" data-index="{{ item.index | plus: 1 }}">
                     <td class="table-cell border-none w-full items-center{% if forloop.first %} pb-4{% else %} py-4{% endif %} px-4" colspan="2" scope="col">
                       <div class="flex items-start">
   
@@ -89,7 +89,7 @@
                                 <cart-remove-button
                                   class="w-full min-w-[124px] block leading-none close"
                                   id="Remove-{{ item.index | plus: 1 }}"
-                                  data-key="{{ item.key }}">
+                                  data-index="{{ item.index | plus: 1 }}">
                                   <a href="{{ item.url_to_remove }}" class="btn border w-full font-heading font-bold text-sm leading-none !uppercase py-3.5 px-4 close">
                                     {{ 'sections.cart.remove' | t }}
                                   </a>
@@ -102,17 +102,17 @@
                           </modal-dialog>
                           <div class="flex items-center gap-2 justify-between mt-auto">
                             {% render 'lineitem-cart-drawer-price', product: item.variant %}
-                            <quantity-input class="flex items-center relative w-fit h-6" data-lineitem="{{ forloop.index }}">
+                            <quantity-input class="flex items-center relative w-fit h-6" data-index="{{ item.index | plus: 1 }}">
                               <button class="w-6 h-6 relative bg-background hover:bg-primary text-primary hover:text-background transition-all rounded-full before:content-empty before:w-full before:h-full before:z-[1] before:absolute before:left-0 before:top-0" name="minus" type="button">
                                 {% render 'icon-minus', class: 'w-4 h-4 mx-auto' %}
                               </button>
-                              <input class="appearance-none border-none bg-transparent text-primary text-xs leading-4 lg:text-base lg:leading-2 p-0.5 w-6 lg:w-8 h-full font-medium text-center !ring-0 shadow-none focus:border-none" inputmode="numeric" pattern="[0-9]*" type="number" name="updates[]" value="{{ item.quantity }}" min="0" id="Quantity-{{ item.index | plus: 1 }}" data-key="{{ item.key }}">
+                              <input class="appearance-none border-none bg-transparent text-primary text-xs leading-4 lg:text-base lg:leading-2 p-0.5 w-6 lg:w-8 h-full font-medium text-center !ring-0 shadow-none focus:border-none" inputmode="numeric" pattern="[0-9]*" type="number" name="updates[]" value="{{ item.quantity }}" min="0" id="Quantity-{{ item.index | plus: 1 }}" data-index="{{ item.index | plus: 1 }}">
                               <button class="w-6 h-6 relative bg-background hover:bg-primary text-primary hover:text-background transition-all rounded-full before:content-empty before:w-full before:h-full before:z-[1] before:absolute before:left-0 before:top-0" name="plus" type="button">
                                 {% render 'icon-plus', class: 'w-4 h-4 mx-auto' %}
                               </button>
                             </quantity-input>
                           </div>
-                          <div class="cart-item__error-text text-error text-xs mt-1 empty:hidden" data-key="{{ item.key }}"></div>
+                          <div class="cart-item__error-text text-error text-xs mt-1 empty:hidden" data-index="{{ item.index | plus: 1 }}"></div>
                           {% assign lineItemOriginalPrice = item.variant.compare_at_price | times: item.quantity %}
                           {% assign original_price = original_price | plus: lineItemOriginalPrice %}
                         </div>

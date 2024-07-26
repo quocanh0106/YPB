@@ -15,7 +15,7 @@
               <tr
                 id="CartItem-{{ item.index | plus: 1 }}"
                 class="{% unless forloop.last %}border-primary border-b{% endunless %}"
-                data-key="{{ item.key }}">
+                data-index="{{ item.index | plus: 1 }}">
                 <td
                   class="table-cell border-none w-full items-center{% if forloop.first %} pb-4 lg:pb-5{% else %} py-4{% if forloop.last %} pb-5{% endif %} lg:py-5{% endif %}"
                   colspan="2"
@@ -78,7 +78,7 @@
                               <cart-remove-button
                                 class="w-full min-w-[124px] block leading-none close"
                                 id="Remove-{{ item.index | plus: 1 }}"
-                                data-key="{{ item.key }}">
+                                data-index="{{ item.index | plus: 1 }}">
                                 <a href="{{ item.url_to_remove }}" class="btn border w-full font-heading font-bold text-sm leading-none !uppercase py-3.5 px-4 close">
                                   {{ 'sections.cart.remove' | t }}
                                 </a>
@@ -117,7 +117,7 @@
                             value="{{ item.quantity }}"
                             min="0"
                             id="Quantity-{{ item.index | plus: 1 }}"
-                            data-key="{{ item.key }}">
+                            data-index="{{ item.index | plus: 1 }}">
                           <button class="w-5 lg:w-10 h-5 lg:h-10 relative bg-transparent text-primary transition-all rounded-full before:content-empty before:w-full before:h-full before:z-[1] before:absolute before:left-0 before:top-0"
                             name="plus"
                             type="button">
@@ -125,7 +125,7 @@
                           </button>
                         </quantity-input>
                       </div>
-                      <div class="cart-item__error-text text-error text-xs mt-1 empty:hidden" data-key="{{ item.key }}"></div>
+                      <div class="cart-item__error-text text-error text-xs mt-1 empty:hidden" data-index="{{ item.index | plus: 1 }}"></div>
                       {% assign lineItemOriginalPrice = item.variant.compare_at_price | times: item.quantity %}
                       {% assign original_price = original_price | plus: lineItemOriginalPrice %}
                     <!-- end quick view update -->
