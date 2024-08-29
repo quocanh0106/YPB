@@ -107,7 +107,7 @@ if (!customElements.get('cart-remove-button')) {
       this.addEventListener('click', event => {
         event.preventDefault();
         const cartItems = this.closest('cart-items');
-        cartItems.updateQuantity(this.dataset.key, 0);
+        cartItems.updateQuantity(this.dataset.index, 0);
       });
     }
   }
@@ -136,7 +136,7 @@ if (!customElements.get('cart-items')) {
     }
   
     onChange(event) {
-      this.updateQuantity(event.target.dataset.key, event.target.value);
+      this.updateQuantity(event.target.dataset.index, event.target.value);
     }
   
     getSectionsToRender() {
@@ -159,9 +159,9 @@ if (!customElements.get('cart-items')) {
       ];
     }
   
-    updateQuantity(key, quantity) {
+    updateQuantity(line, quantity) {
       const body = JSON.stringify({
-        id: key,
+        line,
         sections: this.getSectionsToRender().map(section => section.section),
         sections_url: window.location.pathname,
         quantity,
@@ -189,7 +189,7 @@ if (!customElements.get('cart-items')) {
               document.querySelector('.cart-empty').classList.remove('hidden');
             }
           }
-          const lineItem = document.querySelector(`[data-key="${key}"]`);
+          const lineItem = document.querySelector(`[data-index="${line}"]`);
   
           if (parseInt(quantity) == 0) {
             lineItem.remove();
