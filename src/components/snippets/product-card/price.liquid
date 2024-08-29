@@ -27,7 +27,7 @@
   {% if product %}
     {% if compare_at_price > price %}
       {% if template.name contains 'product' and show  %}
-        <div class="relative text-secondary {% if template.name contains 'product' and show %}{% if template.suffix == 'ajax' %} text-base font-bold lg:text-h4 lg:font-semibold leading-2 before:h-5{% else %} text-h4 before:h-5{% endif %}{% endif %} before:content-none before:lg:content-empty before:w-0.25 before:-translate-y-1/2 before:bg-primary before:absolute before:top-1/2 before:-right-1.5 before:lg:-right-2.5">{{ price | money }}</div>
+        <div class="relative text-primary {% if template.name contains 'product' and show %}{% if template.suffix == 'ajax' %} text-base font-bold lg:text-h4 lg:font-semibold leading-2 before:h-5{% else %} text-h4 before:h-5{% endif %}{% endif %} before:content-none before:lg:content-empty before:w-0.25 before:-translate-y-1/2 before:bg-primary before:absolute before:top-1/2 before:-right-1.5 before:lg:-right-2.5">{{ price | money }}</div>
         <div class="relative text-primary line-through{% if template.name contains 'product' and show %} {% if template.suffix == 'ajax' %} text-sm lg:text-base leading-6 before:h-5{% else %} text-base leading-6 before:h-5{% endif %}{% endif %} font-light before:content-none before:lg:content-empty before:w-0.25 before:-translate-y-1/2 before:bg-primary before:absolute before:top-1/2 before:-right-1.5 before:lg:-right-2.5">{{ compare_at_price | money }}</div>
         <div class="text-sale 
                     {% if template.name contains 'product' and show %} 

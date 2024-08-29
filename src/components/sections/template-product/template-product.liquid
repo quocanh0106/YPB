@@ -54,6 +54,14 @@
             </div>
           {%- when 'variant_picker' -%}
             {%- unless product.has_only_default_variant -%}
+              {% for variant in product.variants %}
+                {% if variant.options contains '3 Pack' or variant.options contains '3 pack'  %}
+                  {% assign threePack = variant.price | divided_by: 3 | money_without_trailing_zeros | prepend: '3 pack / ' | append: ' each'  %}
+                {% endif %}
+                {% if variant.options contains '20 Pack' or variant.options contains '20 pack'  %}
+                  {% assign twentyPack = variant.price | divided_by: 20 | money_without_trailing_zeros | prepend: '20 pack / ' | append: ' each'  %}
+                {% endif %}
+              {% endfor %}
               <variant-radios class="block border-t border-primary pt-6 scroll-m-14 lg:scroll-m-31" id="variant-radios-{{ section.id }}" data-section="{{ section.id }}" data-url="{{ product.url }}" {% if update_url == false %} data-update-url="false" {% endif %}>
                 {%- for option in product.options_with_values -%}
                   {% assign fatherIndex = forloop.index0 %}
@@ -135,7 +143,13 @@
 
                           <input class="absolute opacity-0 invisible option-item{% if option.selected_value == value %} selected{% endif %}{% if option_disabled %} disabled{% endif %}" type="radio" id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" name="{{ option.name }}" data-index="{{ fatherIndex }}" value="{{ value | escape }}" form="{{ product_form_id }}" {% if option.selected_value == value %} checked{% endif %}>
                           <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" class="cursor-pointer option-item font-light text-xs lg:text-base leading-none lg:leading-none min-h-[35px] lg:min-h-[41px] bg-background text-primary border border-primary p-2 flex text-center rounded items-center justify-center min-w-12 max-w-3-col-variant w-full option-label">
-                            {{ value }}
+                            {% if value contains '3 pack' or value contains '3 Pack' %}
+                              {{ threePack }}
+                            {% elsif value contains '20 pack' or value contains '20 Pack' %}
+                              {{ twentyPack }}
+                            {% else %}
+                              {{ value }}
+                            {% endif %}
                           </label>
                         {%- endfor -%}
                       </div>
@@ -189,6 +203,81 @@
           {%- when 'buy_buttons' -%}
             <product-form class="block pb-6 border-b border-primary">
               {%- form 'product', product, id: product_form_id, class: 'form mt-8', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+                {% for group in product.selling_plan_groups %}
+                  <fieldset class="block mb-6 border border-primary rounded p-4">
+                    <legend class="block">{{ group.name }}</legend>
+                    {% unless product.requires_selling_plan %}
+                      <div class="flex gap-2 items-center mb-2 last:mb-0">
+                        <label for="selling_plan_onetime" class="relative">
+                          <input class="opacity-0 invisible absolute" type="radio" checked="checked" name="selling_plan" value="" id="selling_plan_onetime">
+                          <svg
+                            aria-hidden="true"
+                            class="icon icon-checkmark absolute w-2.5 h-2.5 top-1/2 left-2.5 -translate-x-1/2 -translate-y-1/2 opacity-0 invisible"
+                            width="0.625rem"
+                            height="0.625rem"
+                            viewBox="0 0 11 7"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                              d="M1.5 3.5L2.83333 4.75L4.16667 6L9.5 1"
+                              stroke="currentColor"
+                              stroke-width="1.75"
+                              stroke-linecap="round"
+                              stroke-linejoin="round" />
+                          </svg>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="18"
+                            height="18"
+                            class="icon-box w-5 h-5 flex-none"
+                            viewBox="0 0 18 18"
+                            fill="none">
+                            <path
+                              d="M16.625 2.75C16.625 1.99061 16.0094 1.375 15.25 1.375H2.75C1.99061 1.375 1.375 1.99061 1.375 2.75V15.25C1.375 16.0094 1.99061 16.625 2.75 16.625H15.25C16.0094 16.625 16.625 16.0094 16.625 15.25V2.75Z"
+                              stroke="currentColor"
+                              stroke-linejoin="round" />
+                          </svg>
+                        </label>
+                        <label class="block cursor-pointer select-none text-sm leading-5 font-light text-primary" for="selling_plan_onetime">One-time purchase</label>
+                      </div>
+                    {% endunless %}
+                    {% for selling_plan in group.selling_plans %}
+                      <div class="flex gap-2 items-center mb-2 last:mb-0">
+                        <label for="selling_plan_{{ selling_plan.id }}" class="relative">
+                          <input class="opacity-0 invisible absolute" type="radio" name="selling_plan" value="{{ selling_plan.id }}" id="selling_plan_{{ selling_plan.id }}">
+                          <svg
+                            aria-hidden="true"
+                            class="icon icon-checkmark absolute w-2.5 h-2.5 top-1/2 left-2.5 -translate-x-1/2 -translate-y-1/2 opacity-0 invisible"
+                            width="0.625rem"
+                            height="0.625rem"
+                            viewBox="0 0 11 7"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                              d="M1.5 3.5L2.83333 4.75L4.16667 6L9.5 1"
+                              stroke="currentColor"
+                              stroke-width="1.75"
+                              stroke-linecap="round"
+                              stroke-linejoin="round" />
+                          </svg>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="18"
+                            height="18"
+                            class="icon-box w-5 h-5 flex-none"
+                            viewBox="0 0 18 18"
+                            fill="none">
+                            <path
+                              d="M16.625 2.75C16.625 1.99061 16.0094 1.375 15.25 1.375H2.75C1.99061 1.375 1.375 1.99061 1.375 2.75V15.25C1.375 16.0094 1.99061 16.625 2.75 16.625H15.25C16.0094 16.625 16.625 16.0094 16.625 15.25V2.75Z"
+                              stroke="currentColor"
+                              stroke-linejoin="round" />
+                          </svg>
+                        </label>
+                        <label class="block cursor-pointer select-none text-sm leading-5 font-light text-primary" for="selling_plan_{{ selling_plan.id }}">{{ selling_plan.name }}</label>
+                      </div>
+                    {% endfor %}
+                  </fieldset>
+                {% endfor %}
                 <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" disabled>
                 <div class="product-form__error-message-wrapper flex gap-1 items-center text-base text-error px-3 py-1.5 fixed top-3 right-3 bg-background shadow-megamenu rounded transition-all" role="alert" hidden>
                   <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-error w-4 h-4"  viewBox="0 0 13 13">

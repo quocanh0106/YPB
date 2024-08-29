@@ -100,6 +100,11 @@
                               </div>
                             {%- endfor -%}
                           {%- endif -%}
+                          {% if item.selling_plan_allocation != nil %}
+                            <div class="product-option flex text-primary text-xs leading-5 gap-0.5 font-light">
+                              <dd>{{ item.selling_plan_allocation.selling_plan.name }}</dd>
+                            </div>
+                          {% endif %}
                         </dl>
                       {%- endif -%}
                       <div class="flex items-center gap-2 justify-between mt-auto">
