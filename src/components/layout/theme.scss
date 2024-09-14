@@ -142,6 +142,13 @@ input[type='number']::-webkit-inner-spin-button {
   @apply border border-primary text-primary rounded h-10 px-3 text-sm;
 }
 
+input:checked ~ .icon-checkmark {
+  @apply opacity-100 visible text-primary;
+}
+input:checked ~ .icon-box {
+  @apply text-primary;
+}
+
 /***** Truncate ******/
 .truncate-line {
   display: -webkit-box;
