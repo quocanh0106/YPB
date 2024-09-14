@@ -533,11 +533,11 @@ class CaculatorSize extends HTMLElement {
     this.dataset.unit = item.dataset.unit;
     if(item.dataset.unit == 'cm') {
       this.querySelectorAll('td').forEach((num) => {
-        num.textContent = parseFloat(2.54 * parseFloat(num.textContent)).toFixed(0);
+        num.textContent = num.dataset.cm;
       })
     } else {
       this.querySelectorAll('td').forEach((num) => {
-        num.textContent = num.dataset.in;
+        num.textContent = parseFloat(parseFloat(num.textContent)/2.54).toFixed(0);
       })
     }
   }

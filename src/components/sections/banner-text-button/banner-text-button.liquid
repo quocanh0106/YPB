@@ -51,7 +51,7 @@
     height="{{ section.settings.image_mobile.height }}">
     <div class="absolute left-1/2  -translate-x-1/2 max-w-[388px] text-center lg:text-left mx-auto lg:mx-0{% if section.settings.content_align == "middle" %} top-1/2 -translate-y-1/2{% elsif section.settings.content_align == "top" %} top-5{% else %} bottom-5{% endif %}">
       {% if section.settings.heading != blank %}
-        <{{ section.settings.heading_tag }} class="heading text-lg leading-2 font-bold font-heading mb-4 text-center" style="color: {{ section.settings.color_title }};">{{ section.settings.heading }}</{{ section.settings.heading_tag }}>
+        <{{ section.settings.heading_tag }} class="heading text-lg lg:text-h2 leading-2 font-bold font-heading mb-4 text-center" style="color: {{ section.settings.color_title }};">{{ section.settings.heading }}</{{ section.settings.heading_tag }}>
       {% endif %}
       {% if section.settings.description != blank %}
         <p class="text-sm leading-4 mb-4 text-center" style="color: {{ section.settings.color_subtitle }};">{{ section.settings.description }}</p>

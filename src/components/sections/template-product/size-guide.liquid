@@ -84,7 +84,7 @@
                 {% assign table = block.settings.page.content | split: '</td>' %}
                 {% assign newTable = '' %}
                 {% for item in table %}
-                  {% assign tag = item | split: '>' | last | prepend: '<td data-in="' | append: '"' %}
+                  {% assign tag = item | split: '>' | last | prepend: '<td data-cm="' | append: '"' %}
                   {% assign tableCol = item | replace: '<td', tag | append: '</td>' %}
                   {% assign newTable = newTable | append: tableCol %}
                 {% endfor %}

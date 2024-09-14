@@ -2,7 +2,7 @@ input:checked + label:not(.color) {
   @apply bg-primary text-background border-primary;
 }
 input.disabled + label {
-  @apply cursor-not-allowed line-through bg-gray-400 border-gray-400 pointer-events-none;
+  @apply line-through bg-gray-400 border-gray-400;
 }
 
 input:checked + label.color {

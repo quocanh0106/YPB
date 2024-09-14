@@ -68,6 +68,11 @@
                                   </div>
                                 {%- endfor -%}
                               {%- endif -%}
+                              {% if item.selling_plan_allocation != nil %}
+                                <div class="product-option flex text-primary text-xs leading-5 gap-0.5 font-light">
+                                  <dd>{{ item.selling_plan_allocation.selling_plan.name | replace: 'Delivery ', '' }}</dd>
+                                </div>
+                              {% endif %}
                             </dl>
                           {%- endif -%}
                           <modal-dialog class="hidden fixed w-full h-full bg-black bg-opacity-20 top-0 left-0 z-20" id="Popup-Remove-{{ item.index | plus: 1 }}">

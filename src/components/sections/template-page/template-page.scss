@@ -134,22 +134,21 @@ h1.article-template__title {
     @apply text-center mb-3;
   }
   table {
-    @apply w-full rounded-lg overflow-hidden mb-8 last:mb-0;
+    @apply w-full rounded-lg overflow-hidden mb-6;
     tbody {
       @apply w-full lg:flex;
       tr {
-        @apply w-full text-center lg:flex lg:flex-col odd:bg-background;
+        @apply w-full text-center lg:flex lg:flex-col odd:bg-[#FAFAFA];
         th {
-          @apply lg:w-full lg:h-full lg:text-left uppercase text-xs leading-2 font-semibold font-heading text-primary lg:text-base lg:leading-4 p-2.5 lg:px-6;
+          @apply lg:w-full lg:h-full lg:text-left uppercase text-xs leading-2 font-semibold font-heading text-primary lg:text-base lg:leading-4 p-2.5 lg:px-6 lg:whitespace-nowrap;
         }
         td {
-          @apply text-xs leading-5 font-light text-primary lg:text-base lg:leading-6 py-2 lg:py-2.5 px-1;
+          @apply text-xs leading-5 font-light text-primary lg:text-base lg:leading-6 py-2 lg:py-2.5 px-1 !border-none;
         }
         &:not(:first-child) th {
           @apply mx-auto lg:text-center font-light text-xs leading-5 text-primary lg:text-base lg:leading-6 font-body py-2 lg:py-2.5 lg:px-1;
         }
       }
     }
-
   }
 }
